@@ -1,0 +1,66 @@
+data_ingestion:
+  raw_data_path: "data/raw/customer_data.csv"
+  processed_data_path: "data/processed/raw_data.csv"
+
+data_validation:
+  validation_rules:
+    required_columns: ["customerID", "gender", "SeniorCitizen", "Partner", "Dependents", 
+                      "tenure", "PhoneService", "MultipleLines", "InternetService", 
+                      "OnlineSecurity", "OnlineBackup", "DeviceProtection", "TechSupport", 
+                      "StreamingTV", "StreamingMovies", "Contract", "PaperlessBilling", 
+                      "PaymentMethod", "MonthlyCharges", "TotalCharges", "Churn"]
+    numerical_columns: ["tenure", "MonthlyCharges", "TotalCharges"]
+    categorical_columns: ["gender", "Partner", "Dependents", "PhoneService", "MultipleLines", 
+                         "InternetService", "OnlineSecurity", "OnlineBackup", "DeviceProtection", 
+                         "TechSupport", "StreamingTV", "StreamingMovies", "Contract", 
+                         "PaperlessBilling", "PaymentMethod"]
+    target_column: "Churn"
+
+feature_engineering:
+  categorical_features: ["gender", "Partner", "Dependents", "PhoneService", "MultipleLines", 
+                        "InternetService", "OnlineSecurity", "OnlineBackup", "DeviceProtection", 
+                        "TechSupport", "StreamingTV", "StreamingMovies", "Contract", 
+                        "PaperlessBilling", "PaymentMethod"]
+  numerical_features: ["tenure", "MonthlyCharges", "TotalCharges"]
+  binary_features: ["SeniorCitizen"]
+  target_column: "Churn"
+  encoding_method: "label_encoding"  # or "one_hot_encoding"
+  scaling_method: "standard"  # or "minmax"
+
+model_training:
+  model_type: "xgboost"  # or "lightgbm", "random_forest", "logistic_regression"
+  test_size: 0.2
+  random_state: 42
+  hyperparameters:
+    xgboost:
+      n_estimators: 100
+      max_depth: 5
+      learning_rate: 0.1
+      subsample: 0.8
+      colsample_bytree: 0.8
+    lightgbm:
+      n_estimators: 100
+      max_depth: 5
+      learning_rate: 0.1
+      subsample: 0.8
+      colsample_bytree: 0.8
+    random_forest:
+      n_estimators: 100
+      max_depth: 10
+      min_samples_split: 2
+      min_samples_leaf: 1
+
+mlflow:
+  tracking_uri: "mlruns"
+  experiment_name: "customer_churn_prediction"
+  model_registry_name: "churn_model"
+
+optuna:
+  n_trials: 100
+  direction: "maximize"
+  metric: "f1_score"
+  
+monitoring:
+  data_drift_threshold: 0.1
+  model_performance_threshold: 0.8
+  alert_email: "admin@company.com"

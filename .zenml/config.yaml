@@ -1,0 +1,432 @@
+# ZenML Configuration for Churn Prediction MLOps Project
+# This file contains the configuration for ZenML stacks, components, and integrations
+
+# Active stack configuration
+active_stack_id: "churn_prediction_stack"
+
+# Global settings
+version: "0.50.0"
+analytics_opt_in: false
+user_id: "churn_prediction_user"
+
+# Repository configuration
+repository:
+  name: "mlops_churn_prediction"
+  description: "MLOps pipeline for customer churn prediction"
+  
+# Store configuration
+store:
+  type: "local"
+  path: ".zenml/local_store"
+
+# Active workspace
+active_workspace: "default"
+
+# Stacks configuration
+stacks:
+  churn_prediction_stack:
+    name: "churn_prediction_stack"
+    description: "Production stack for churn prediction model"
+    components:
+      orchestrator: "local_orchestrator"
+      artifact_store: "local_artifact_store"
+      model_deployer: "mlflow_model_deployer"
+      experiment_tracker: "mlflow_experiment_tracker"
+      data_validator: "evidently_data_validator"
+      model_registry: "mlflow_model_registry"
+      alerter: "slack_alerter"
+      feature_store: "feast_feature_store"
+      secrets_manager: "local_secrets_manager"
+      
+  development_stack:
+    name: "development_stack"
+    description: "Development stack for experimentation"
+    components:
+      orchestrator: "local_orchestrator"
+      artifact_store: "local_artifact_store"
+      experiment_tracker: "mlflow_experiment_tracker"
+      data_validator: "evidently_data_validator"
+
+# Components configuration
+components:
+  # Orchestrators
+  local_orchestrator:
+    type: "local"
+    flavor: "local"
+    configuration:
+      name: "local_orchestrator"
+      description: "Local orchestrator for pipeline execution"
+      
+  kubeflow_orchestrator:
+    type: "orchestrator"
+    flavor: "kubeflow"
+    configuration:
+      name: "kubeflow_orchestrator"
+      description: "Kubeflow orchestrator for production"
+      kubernetes_context: "default"
+      kubernetes_namespace: "zenml"
+      
+  # Artifact Stores
+  local_artifact_store:
+    type: "artifact_store"
+    flavor: "local"
+    configuration:
+      name: "local_artifact_store"
+      description: "Local filesystem artifact store"
+      path: "./artifacts"
+      
+  s3_artifact_store:
+    type: "artifact_store"
+    flavor: "s3"
+    configuration:
+      name: "s3_artifact_store"
+      description: "S3 artifact store for production"
+      path: "s3://churn-prediction-artifacts"
+      
+  # Model Deployers
+  mlflow_model_deployer:
+    type: "model_deployer"
+    flavor: "mlflow"
+    configuration:
+      name: "mlflow_model_deployer"
+      description: "MLflow model deployer"
+      
+  seldon_model_deployer:
+    type: "model_deployer"
+    flavor: "seldon"
+    configuration:
+      name: "seldon_model_deployer"
+      description: "Seldon Core model deployer"
+      kubernetes_context: "default"
+      kubernetes_namespace: "seldon-system"
+      
+  # Experiment Trackers
+  mlflow_experiment_tracker:
+    type: "experiment_tracker"
+    flavor: "mlflow"
+    configuration:
+      name: "mlflow_experiment_tracker"
+      description: "MLflow experiment tracker"
+      tracking_uri: "http://localhost:5000"
+      tracking_username: ""
+      tracking_password: ""
+      
+  wandb_experiment_tracker:
+    type: "experiment_tracker"
+    flavor: "wandb"
+    configuration:
+      name: "wandb_experiment_tracker"
+      description: "Weights & Biases experiment tracker"
+      project_name: "churn-prediction"
+      entity: "your-wandb-entity"
+      
+  # Data Validators
+  evidently_data_validator:
+    type: "data_validator"
+    flavor: "evidently"
+    configuration:
+      name: "evidently_data_validator"
+      description: "Evidently data validation and monitoring"
+      
+  great_expectations_data_validator:
+    type: "data_validator"
+    flavor: "great_expectations"
+    configuration:
+      name: "great_expectations_data_validator"
+      description: "Great Expectations data validator"
+      
+  # Model Registries
+  mlflow_model_registry:
+    type: "model_registry"
+    flavor: "mlflow"
+    configuration:
+      name: "mlflow_model_registry"
+      description: "MLflow model registry"
+      
+  # Alerters
+  slack_alerter:
+    type: "alerter"
+    flavor: "slack"
+    configuration:
+      name: "slack_alerter"
+      description: "Slack alerter for notifications"
+      slack_token: "{{ slack_token }}"
+      default_slack_channel_id: "#ml-alerts"
+      
+  email_alerter:
+    type: "alerter"
+    flavor: "email"
+    configuration:
+      name: "email_alerter"
+      description: "Email alerter for notifications"
+      smtp_server: "smtp.gmail.com"
+      smtp_port: 587
+      sender_email: "alerts@company.com"
+      sender_password: "{{ email_password }}"
+      
+  # Feature Stores
+  feast_feature_store:
+    type: "feature_store"
+    flavor: "feast"
+    configuration:
+      name: "feast_feature_store"
+      description: "Feast feature store"
+      feast_repo_path: "./feast_repo"
+      
+  # Secrets Managers
+  local_secrets_manager:
+    type: "secrets_manager"
+    flavor: "local"
+    configuration:
+      name: "local_secrets_manager"
+      description: "Local secrets manager"
+      
+  aws_secrets_manager:
+    type: "secrets_manager"
+    flavor: "aws"
+    configuration:
+      name: "aws_secrets_manager"
+      description: "AWS Secrets Manager"
+      region_name: "us-east-1"
+
+# Pipeline configurations
+pipelines:
+  training_pipeline:
+    name: "churn_prediction_training"
+    description: "Training pipeline for churn prediction model"
+    settings:
+      docker:
+        requirements: "requirements.txt"
+        dockerfile: "deployment/docker/Dockerfile"
+      resources:
+        cpu_count: 2
+        memory: "4GB"
+        gpu_count: 0
+        
+  inference_pipeline:
+    name: "churn_prediction_inference"
+    description: "Inference pipeline for churn prediction"
+    settings:
+      docker:
+        requirements: "requirements.txt"
+      resources:
+        cpu_count: 1
+        memory: "2GB"
+        
+  monitoring_pipeline:
+    name: "churn_prediction_monitoring"
+    description: "Monitoring pipeline for model drift and performance"
+    settings:
+      schedule:
+        cron_expression: "0 2 * * *"  # Run daily at 2 AM
+      resources:
+        cpu_count: 1
+        memory: "2GB"
+
+# Integration configurations
+integrations:
+  mlflow:
+    enabled: true
+    configuration:
+      tracking_uri: "http://localhost:5000"
+      registry_uri: "http://localhost:5000"
+      
+  evidently:
+    enabled: true
+    configuration:
+      enable_data_drift_detection: true
+      enable_data_quality_monitoring: true
+      
+  feast:
+    enabled: true
+    configuration:
+      feast_repo_path: "./feast_repo"
+      
+  slack:
+    enabled: true
+    configuration:
+      webhook_url: "{{ slack_webhook_url }}"
+      
+  aws:
+    enabled: false
+    configuration:
+      region: "us-east-1"
+      
+  gcp:
+    enabled: false
+    configuration:
+      project_id: "your-gcp-project"
+      
+  azure:
+    enabled: false
+    configuration:
+      subscription_id: "your-azure-subscription"
+
+# Model deployment configurations
+model_deployment:
+  staging:
+    environment: "staging"
+    resources:
+      cpu_count: 1
+      memory: "1GB"
+    replicas: 1
+    
+  production:
+    environment: "production"
+    resources:
+      cpu_count: 2
+      memory: "2GB"
+    replicas: 3
+    auto_scaling:
+      enabled: true
+      min_replicas: 2
+      max_replicas: 10
+      target_cpu_utilization: 70
+
+# Monitoring configurations
+monitoring:
+  data_drift:
+    enabled: true
+    threshold: 0.1
+    features_to_monitor:
+      - "tenure"
+      - "monthly_charges"
+      - "total_charges"
+      - "contract_type"
+      - "payment_method"
+      
+  model_performance:
+    enabled: true
+    thresholds:
+      accuracy: 0.80
+      precision: 0.75
+      recall: 0.70
+      f1_score: 0.72
+      roc_auc: 0.85
+      
+  data_quality:
+    enabled: true
+    checks:
+      missing_values: true
+      duplicate_rows: true
+      outlier_detection: true
+      schema_validation: true
+
+# Alerting configurations
+alerting:
+  channels:
+    - type: "slack"
+      name: "ml-alerts"
+      severity_levels: ["high", "medium", "low"]
+      
+    - type: "email"
+      name: "ml-team"
+      recipients: ["ml-team@company.com"]
+      severity_levels: ["high", "medium"]
+      
+  rules:
+    - name: "data_drift_alert"
+      condition: "data_drift_detected"
+      severity: "high"
+      message: "Data drift detected in production data"
+      
+    - name: "performance_degradation"
+      condition: "accuracy < 0.80"
+      severity: "medium"
+      message: "Model accuracy dropped below threshold"
+      
+    - name: "data_quality_issue"
+      condition: "missing_values > 0"
+      severity: "low"
+      message: "Data quality issues detected"
+
+# Feature store configurations
+feature_store:
+  entities:
+    - name: "customer"
+      description: "Customer entity"
+      value_type: "STRING"
+      
+  feature_views:
+    - name: "customer_features"
+      description: "Customer demographic and behavioral features"
+      entities: ["customer"]
+      ttl: "30d"
+      
+  feature_services:
+    - name: "churn_prediction_features"
+      description: "Features for churn prediction model"
+      feature_views: ["customer_features"]
+
+# Data validation configurations
+data_validation:
+  evidently:
+    reports:
+      - type: "data_drift"
+        reference_data_path: "data/processed/train.csv"
+        
+      - type: "data_quality"
+        checks:
+          - "missing_values"
+          - "duplicate_rows"
+          - "column_types"
+          
+      - type: "model_performance"
+        target_column: "churn"
+        prediction_column: "prediction"
+        
+  great_expectations:
+    expectations:
+      - expectation_type: "expect_column_values_to_not_be_null"
+        column: "customer_id"
+        
+      - expectation_type: "expect_column_values_to_be_in_set"
+        column: "contract_type"
+        value_set: ["Month-to-month", "One year", "Two year"]
+        
+      - expectation_type: "expect_column_values_to_be_between"
+        column: "monthly_charges"
+        min_value: 0
+        max_value: 200
+
+# Security configurations
+security:
+  secrets:
+    - name: "mlflow_tracking_token"
+      description: "MLflow tracking server token"
+      
+    - name: "slack_webhook_url"
+      description: "Slack webhook URL for alerts"
+      
+    - name: "aws_access_key_id"
+      description: "AWS access key for S3 artifact store"
+      
+    - name: "aws_secret_access_key"
+      description: "AWS secret access key for S3 artifact store"
+
+# Logging configurations
+logging:
+  level: "INFO"
+  format: "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+  handlers:
+    - type: "file"
+      filename: "logs/zenml.log"
+      
+    - type: "console"
+      stream: "stdout"
+
+# Environment-specific configurations
+environments:
+  development:
+    active_stack: "development_stack"
+    experiment_tracker: "mlflow_experiment_tracker"
+    
+  staging:
+    active_stack: "churn_prediction_stack"
+    model_deployer: "mlflow_model_deployer"
+    
+  production:
+    active_stack: "churn_prediction_stack"
+    model_deployer: "seldon_model_deployer"
+    artifact_store: "s3_artifact_store"
+    secrets_manager: "aws_secrets_manager"

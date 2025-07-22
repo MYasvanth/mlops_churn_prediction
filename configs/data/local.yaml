@@ -1,0 +1,21 @@
+# @package _global_
+data:
+  source_type: "local"
+  raw_data_path: "data/raw/Customer_Churn.csv"
+  processed_data_path: "data/processed"
+  
+  # Data validation
+  validation:
+    schema_path: "configs/schemas/data_schema.yaml"
+    quality_checks:
+      - missing_values
+      - duplicate_records
+      - outliers
+      
+  # Data splitting
+  split:
+    train_size: 0.7
+    val_size: 0.15
+    test_size: 0.15
+    stratify: true
+    target_column: "churned"

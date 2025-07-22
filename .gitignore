@@ -1,0 +1,20 @@
+# Create .gitignore file
+echo "__pycache__/
+*.py[cod]
+*.log
+*.csv
+*.parquet
+*.pkl
+*.joblib
+.ipynb_checkpoints/
+.DS_Store
+.env
+.venv/
+venv/
+.mypy_cache/
+.pytest_cache/
+mlruns/
+dvc_remote/
+artifacts/
+data/processed/
+models/" > .gitignore
