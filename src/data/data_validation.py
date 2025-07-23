@@ -209,17 +209,17 @@ class DataValidator:
                     
                     # Check range violations
                     out_of_range = ((numeric_col < rules['min']) | 
-                                   (numeric_col > rules['max'])) & numeric_col.notna()
+                                (numeric_col > rules['max'])) & numeric_col.notna()
                     
                     if out_of_range.any():
                         count = out_of_range.sum()
                         percentage = (count / len(df)) * 100
                         if percentage > 5:  # More than 5% out of range
                             errors.append(f"Column {col}: {count} values out of range "
-                                         f"[{rules['min']}, {rules['max']}]")
+                                        f"[{rules['min']}, {rules['max']}]")
                         else:
                             warnings.append(f"Column {col}: {count} values out of range "
-                                          f"[{rules['min']}, {rules['max']}]")
+                                        f"[{rules['min']}, {rules['max']}]")
                         
                         metrics[f'{col}_out_of_range_count'] = count
                         metrics[f'{col}_out_of_range_percentage'] = percentage
@@ -347,7 +347,7 @@ class DataValidator:
         return ValidationResult(is_valid, all_errors, all_warnings, all_metrics)
     
     def generate_validation_report(self, validation_result: ValidationResult, 
-                                 output_path: str = "reports/data_quality/validation_report.txt"):
+                                output_path: str = "reports/data_quality/validation_report.txt"):
         """Generate a validation report."""
         Path(output_path).parent.mkdir(parents=True, exist_ok=True)
         
@@ -383,7 +383,7 @@ def main():
     
     # Load sample data (you would load your actual dataset here)
     try:
-        df = pd.read_csv("data/raw/Customer_Churn.csv")
+        df = pd.read_csv("data/raw/Customer_data.csv")
         
         # Perform validation
         result = validator.validate_full_dataset(df)
@@ -397,7 +397,7 @@ def main():
         print(f"Warnings: {len(result.warnings)}")
         
     except FileNotFoundError:
-        print("Sample data file not found. Please ensure data/raw/Customer_Churn.csv exists.")
+        print("Sample data file not found. Please ensure data/raw/Customer_data.csv exists.")
 
 if __name__ == "__main__":
     main()
