@@ -143,7 +143,7 @@ class DataLoader:
         return df_cleaned
     
     def encode_categorical_variables(self, df: pd.DataFrame, 
-                                   fit_encoders: bool = True) -> pd.DataFrame:
+                                fit_encoders: bool = True) -> pd.DataFrame:
         """Encode categorical variables."""
         logger.info("Encoding categorical variables")
         df_encoded = df.copy()
@@ -232,7 +232,7 @@ class DataLoader:
         return df_features
     
     def split_data(self, df: pd.DataFrame, 
-                   save_splits: bool = True) -> Tuple[pd.DataFrame, pd.DataFrame, pd.DataFrame]:
+                save_splits: bool = True) -> Tuple[pd.DataFrame, pd.DataFrame, pd.DataFrame]:
         """Split data into train, validation, and test sets."""
         logger.info("Splitting data into train/validation/test sets")
         
@@ -297,8 +297,8 @@ class DataLoader:
         return train_df, val_df, test_df
     
     def save_splits(self, train_df: pd.DataFrame, 
-                   val_df: pd.DataFrame, 
-                   test_df: pd.DataFrame):
+                val_df: pd.DataFrame, 
+                test_df: pd.DataFrame):
         """Save train, validation, and test sets to files."""
         processed_path = Path(self.config['data_paths']['processed_data'])
         processed_path.mkdir(parents=True, exist_ok=True)
