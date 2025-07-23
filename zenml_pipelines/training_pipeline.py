@@ -424,7 +424,7 @@ def run_training_pipeline():
     
     # Create step configurations
     data_ingestion_config = DataIngestionStepConfig(
-        data_path=config.get('data_path', 'data/raw/Customer_Churn.csv'),
+        data_path=config.get('data_path', 'data/raw/Customer_data.csv'),
         test_size=config.get('test_size', 0.2)
     )
     
