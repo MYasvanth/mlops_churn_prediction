@@ -220,105 +220,110 @@ class DataIngestion:
         return True
     
     def generate_data_report(self, df: pd.DataFrame) -> Dict[str, Any]:
-    """
-    Generate comprehensive data report with JSON serializable types.
-    
-    Args:
-        df: Input dataframe
-        
-    Returns:
-        Dictionary containing data report
-    """
-    def serialize_value(value):
-        """Convert values to JSON serializable format"""
-        if isinstance(value, (np.integer, np.int64)):
-            return int(value)
-        elif isinstance(value, (np.floating, np.float64)):
-            return float(value)
-        elif isinstance(value, np.ndarray):
-            return serialize_value(value.tolist())
-        elif isinstance(value, dict):
-            return {str(k): serialize_value(v) for k, v in value.items()}
-        elif isinstance(value, (list, tuple)):
-            return [serialize_value(item) for item in value]
-        return value
+        """
+        Generate comprehensive data report with JSON serializable types.
 
-    # Basic statistics
-    report = {
-        'total_rows': serialize_value(len(df)),
-        'total_columns': serialize_value(len(df.columns)),
-        'memory_usage_mb': serialize_value(df.memory_usage(deep=True).sum() / (1024 ** 2)),
-        'duplicate_rows': serialize_value(df.duplicated().sum()),
-        'missing_values': serialize_value(df.isnull().sum().to_dict()),
-        'data_types': {str(k): str(v) for k, v in df.dtypes.to_dict().items()}
-    }
+        Args:
+            df: Input dataframe
 
-    # Target distribution
-    if 'Churn' in df.columns:
-        report['churn_distribution'] = serialize_value(df['Churn'].value_counts().to_dict())
+        Returns:
+            Dictionary containing data report
+        """
+        def serialize_value(value):
+            """Convert values to JSON serializable format"""
+            is_int = isinstance(value, (np.integer, np.int64))
+            is_float = isinstance(value, (np.floating, np.float64))
+            is_ndarray = isinstance(value, np.ndarray)
+            is_dict = isinstance(value, dict)
+            is_list_or_tuple = isinstance(value, (list, tuple))
 
-    # Numerical statistics
-    numerical_columns = df.select_dtypes(include=[np.number]).columns
-    if len(numerical_columns) > 0:
-        report['numerical_stats'] = serialize_value(df[numerical_columns].describe().to_dict())
+            if is_int:
+                return int(value)
+            elif is_float:
+                return float(value)
+            elif is_ndarray:
+                return serialize_value(value.tolist())
+            elif is_dict:
+                return {str(k): serialize_value(v) for k, v in value.items()}
+            elif is_list_or_tuple:
+                return [serialize_value(item) for item in value]
+            return value
 
-    # Categorical statistics
-    categorical_columns = df.select_dtypes(include=['object']).columns
-    if len(categorical_columns) > 0:
-        report['categorical_stats'] = {}
-        for col in categorical_columns:
-            if col != 'customerID':
-                report['categorical_stats'][col] = serialize_value(df[col].value_counts().to_dict())
+        # Basic statistics
+        report = {
+            'total_rows': serialize_value(len(df)),
+            'total_columns': serialize_value(len(df.columns)),
+            'memory_usage_mb': serialize_value(df.memory_usage(deep=True).sum() / (1024 ** 2)),
+            'duplicate_rows': serialize_value(df.duplicated().sum()),
+            'missing_values': serialize_value(df.isnull().sum().to_dict()),
+            'data_types': {str(k): str(v) for k, v in df.dtypes.to_dict().items()}
+        }
 
-    return report
-    
+        # Target distribution
+        if 'Churn' in df.columns:
+            report['churn_distribution'] = serialize_value(df['Churn'].value_counts().to_dict())
+
+        # Numerical statistics
+        numerical_columns = df.select_dtypes(include=[np.number]).columns
+        if len(numerical_columns) > 0:
+            report['numerical_stats'] = serialize_value(df[numerical_columns].describe().to_dict())
+
+        # Categorical statistics
+        categorical_columns = df.select_dtypes(include=['object']).columns
+        if len(categorical_columns) > 0:
+            report['categorical_stats'] = {}
+            for col in categorical_columns:
+                if col != 'customerID':
+                    report['categorical_stats'][col] = serialize_value(df[col].value_counts().to_dict())
+
+        return report
+
     def run_data_ingestion(self) -> pd.DataFrame:
         """
         Main method to run the complete data ingestion pipeline.
-        
+
         Returns:
             Processed dataframe
         """
         self.logger.info("Starting data ingestion process")
-        
+
         # Load raw data
         df = self.load_csv_data(self.config.raw_data_path)
         log_data_quality_report(df, "raw")
-        
+
         # Clean column names
         df = self.clean_column_names(df)
-        
+
         # Handle data types
         df = self.handle_data_types(df)
-        
+
         # Remove duplicates
         df = self.remove_duplicates(df)
-        
+
         # Handle missing values
         df = self.handle_missing_values(df)
-        
+
         # Validate schema
         if not self.validate_data_schema(df):
             raise ValueError("Data schema validation failed")
-        
+
         # Generate and save data report
         report = self.generate_data_report(df)
         report_path = "reports/data_quality/ingestion_report.json"
         save_json(report, report_path)
-        
+
         # Save processed data
         output_dir = os.path.dirname(self.config.processed_data_path)
         create_directories([output_dir])
-        
+
         df.to_csv(self.config.processed_data_path, index=False)
         self.logger.info(f"Saved processed data to: {self.config.processed_data_path}")
-        
+
         log_data_quality_report(df, "processed")
         self.logger.info("Data ingestion process completed successfully")
-        
+
         return df
-
-
+    
 def main():
     """Main function to run data ingestion."""
     try:

@@ -2,4 +2,174 @@
   "total_rows": 7043,
   "total_columns": 21,
   "memory_usage_mb": 7.419560432434082,
-  "duplicate_rows": 
+  "duplicate_rows": 0,
+  "missing_values": {
+    "customerID": 0,
+    "gender": 0,
+    "SeniorCitizen": 0,
+    "Partner": 0,
+    "Dependents": 0,
+    "tenure": 0,
+    "PhoneService": 0,
+    "MultipleLines": 0,
+    "InternetService": 0,
+    "OnlineSecurity": 0,
+    "OnlineBackup": 0,
+    "DeviceProtection": 0,
+    "TechSupport": 0,
+    "StreamingTV": 0,
+    "StreamingMovies": 0,
+    "Contract": 0,
+    "PaperlessBilling": 0,
+    "PaymentMethod": 0,
+    "MonthlyCharges": 0,
+    "TotalCharges": 0,
+    "Churn": 0
+  },
+  "data_types": {
+    "customerID": "object",
+    "gender": "object",
+    "SeniorCitizen": "int64",
+    "Partner": "object",
+    "Dependents": "object",
+    "tenure": "int64",
+    "PhoneService": "object",
+    "MultipleLines": "object",
+    "InternetService": "object",
+    "OnlineSecurity": "object",
+    "OnlineBackup": "object",
+    "DeviceProtection": "object",
+    "TechSupport": "object",
+    "StreamingTV": "object",
+    "StreamingMovies": "object",
+    "Contract": "object",
+    "PaperlessBilling": "object",
+    "PaymentMethod": "object",
+    "MonthlyCharges": "float64",
+    "TotalCharges": "float64",
+    "Churn": "object"
+  },
+  "churn_distribution": {
+    "No": 5174,
+    "Yes": 1869
+  },
+  "numerical_stats": {
+    "SeniorCitizen": {
+      "count": 7043.0,
+      "mean": 0.1621468124378816,
+      "std": 0.3686116056100131,
+      "min": 0.0,
+      "25%": 0.0,
+      "50%": 0.0,
+      "75%": 0.0,
+      "max": 1.0
+    },
+    "tenure": {
+      "count": 7043.0,
+      "mean": 32.37114865824223,
+      "std": 24.55948102309446,
+      "min": 0.0,
+      "25%": 9.0,
+      "50%": 29.0,
+      "75%": 55.0,
+      "max": 72.0
+    },
+    "MonthlyCharges": {
+      "count": 7043.0,
+      "mean": 64.76169246059918,
+      "std": 30.090047097678493,
+      "min": 18.25,
+      "25%": 35.5,
+      "50%": 70.35,
+      "75%": 89.85,
+      "max": 118.75
+    },
+    "TotalCharges": {
+      "count": 7043.0,
+      "mean": 2279.7343035638223,
+      "std": 2266.7944696890213,
+      "min": 0.0,
+      "25%": 398.55,
+      "50%": 1394.55,
+      "75%": 3786.6,
+      "max": 8684.8
+    }
+  },
+  "categorical_stats": {
+    "gender": {
+      "Male": 3555,
+      "Female": 3488
+    },
+    "Partner": {
+      "No": 3641,
+      "Yes": 3402
+    },
+    "Dependents": {
+      "No": 4933,
+      "Yes": 2110
+    },
+    "PhoneService": {
+      "Yes": 6361,
+      "No": 682
+    },
+    "MultipleLines": {
+      "No": 3390,
+      "Yes": 2971,
+      "No phone service": 682
+    },
+    "InternetService": {
+      "Fiber optic": 3096,
+      "DSL": 2421,
+      "No": 1526
+    },
+    "OnlineSecurity": {
+      "No": 3498,
+      "Yes": 2019,
+      "No internet service": 1526
+    },
+    "OnlineBackup": {
+      "No": 3088,
+      "Yes": 2429,
+      "No internet service": 1526
+    },
+    "DeviceProtection": {
+      "No": 3095,
+      "Yes": 2422,
+      "No internet service": 1526
+    },
+    "TechSupport": {
+      "No": 3473,
+      "Yes": 2044,
+      "No internet service": 1526
+    },
+    "StreamingTV": {
+      "No": 2810,
+      "Yes": 2707,
+      "No internet service": 1526
+    },
+    "StreamingMovies": {
+      "No": 2785,
+      "Yes": 2732,
+      "No internet service": 1526
+    },
+    "Contract": {
+      "Month-to-month": 3875,
+      "Two year": 1695,
+      "One year": 1473
+    },
+    "PaperlessBilling": {
+      "Yes": 4171,
+      "No": 2872
+    },
+    "PaymentMethod": {
+      "Electronic check": 2365,
+      "Mailed check": 1612,
+      "Bank transfer (automatic)": 1544,
+      "Credit card (automatic)": 1522
+    },
+    "Churn": {
+      "No": 5174,
+      "Yes": 1869
+    }
+  }
+}
