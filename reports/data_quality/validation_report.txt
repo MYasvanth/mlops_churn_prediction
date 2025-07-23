@@ -1,0 +1,37 @@
+DATA VALIDATION REPORT
+==================================================
+
+Validation Status: PASSED
+Report Generated: 2025-07-23 15:42:23
+
+METRICS:
+  total_columns: 21
+  missing_columns: 0
+  unexpected_columns: 0
+  total_missing_values: 0
+  missing_percentage: 0.0
+  duplicate_count: 0
+  duplicate_percentage: 0.0
+  gender_unique_count: 2
+  Partner_unique_count: 2
+  Dependents_unique_count: 2
+  PhoneService_unique_count: 2
+  MultipleLines_unique_count: 3
+  InternetService_unique_count: 3
+  OnlineSecurity_unique_count: 3
+  OnlineBackup_unique_count: 3
+  DeviceProtection_unique_count: 3
+  TechSupport_unique_count: 3
+  StreamingTV_unique_count: 3
+  StreamingMovies_unique_count: 3
+  Contract_unique_count: 3
+  PaperlessBilling_unique_count: 2
+  PaymentMethod_unique_count: 4
+  Churn_unique_count: 2
+  churn_rate: 0.2653698707936959
+  tenure_outlier_percentage: 0.0
+  MonthlyCharges_outlier_percentage: 0.0
+  TotalCharges_outlier_percentage: 0.0
+  dataset_size: 7043
+  feature_count: 21
+  validation_timestamp: 2025-07-23T15:42:23.209046

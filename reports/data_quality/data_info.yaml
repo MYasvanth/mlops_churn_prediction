@@ -1,0 +1,140 @@
+cleaned_data:
+  cleaned_at: '2025-07-23T15:43:12.495469'
+  duplicates_removed: !!python/object/apply:numpy._core.multiarray.scalar
+  - &id001 !!python/object/apply:numpy.dtype
+    args:
+    - i8
+    - false
+    - true
+    state: !!python/tuple
+    - 3
+    - <
+    - null
+    - null
+    - null
+    - -1
+    - -1
+    - 0
+  - !!binary |
+    AAAAAAAAAAA=
+  missing_values_handled: !!python/object/apply:numpy._core.multiarray.scalar
+  - *id001
+  - !!binary |
+    CwAAAAAAAAA=
+  shape: !!python/tuple
+  - 7043
+  - 21
+raw_data:
+  columns:
+  - customerID
+  - gender
+  - SeniorCitizen
+  - Partner
+  - Dependents
+  - tenure
+  - PhoneService
+  - MultipleLines
+  - InternetService
+  - OnlineSecurity
+  - OnlineBackup
+  - DeviceProtection
+  - TechSupport
+  - StreamingTV
+  - StreamingMovies
+  - Contract
+  - PaperlessBilling
+  - PaymentMethod
+  - MonthlyCharges
+  - TotalCharges
+  - Churn
+  dtypes:
+    Churn: &id002 !!python/object/apply:numpy.dtype
+      args:
+      - O8
+      - false
+      - true
+      state: !!python/tuple
+      - 3
+      - '|'
+      - null
+      - null
+      - null
+      - -1
+      - -1
+      - 63
+    Contract: *id002
+    Dependents: *id002
+    DeviceProtection: *id002
+    InternetService: *id002
+    MonthlyCharges: &id003 !!python/object/apply:numpy.dtype
+      args:
+      - f8
+      - false
+      - true
+      state: !!python/tuple
+      - 3
+      - <
+      - null
+      - null
+      - null
+      - -1
+      - -1
+      - 0
+    MultipleLines: *id002
+    OnlineBackup: *id002
+    OnlineSecurity: *id002
+    PaperlessBilling: *id002
+    Partner: *id002
+    PaymentMethod: *id002
+    PhoneService: *id002
+    SeniorCitizen: *id001
+    StreamingMovies: *id002
+    StreamingTV: *id002
+    TechSupport: *id002
+    TotalCharges: *id002
+    customerID: *id002
+    gender: *id002
+    tenure: *id001
+  loaded_at: '2025-07-23T15:43:12.370624'
+  missing_values:
+    Churn: 0
+    Contract: 0
+    Dependents: 0
+    DeviceProtection: 0
+    InternetService: 0
+    MonthlyCharges: 0
+    MultipleLines: 0
+    OnlineBackup: 0
+    OnlineSecurity: 0
+    PaperlessBilling: 0
+    Partner: 0
+    PaymentMethod: 0
+    PhoneService: 0
+    SeniorCitizen: 0
+    StreamingMovies: 0
+    StreamingTV: 0
+    TechSupport: 0
+    TotalCharges: 0
+    customerID: 0
+    gender: 0
+    tenure: 0
+  shape: !!python/tuple
+  - 7043
+  - 21
+splits:
+  split_at: '2025-07-23T15:43:12.678586'
+  test_churn_rate: !!python/object/apply:numpy._core.multiarray.scalar
+  - *id003
+  - !!binary |
+    FY7ySen80D8=
+  test_size: 1409
+  train_churn_rate: !!python/object/apply:numpy._core.multiarray.scalar
+  - *id003
+  - !!binary |
+    5KETBsv70D8=
+  train_size: 4929
+  val_churn_rate: !!python/object/apply:numpy._core.multiarray.scalar
+  - *id003
+  - !!binary |
+    d7gEs9P50D8=
+  val_size: 705
