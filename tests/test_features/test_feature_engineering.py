@@ -1,1 +1,27 @@
-# test_feature_engineering.py
+import pytest
+import pandas as pd
+from src.features.feature_engineering import ChurnFeatureEngineer
+from src.data.data_loader import DataLoader
+
+@pytest.fixture
+def sample_data():
+    loader = DataLoader()
+    df = loader.load_processed_data("train")
+    X, y = loader.get_feature_target_split(df)
+    return X, y
+
+def test_fit_transform(sample_data):
+    X, y = sample_data
+    feature_engineer = ChurnFeatureEngineer()
+    feature_engineer.fit(X, y)
+    X_transformed = feature_engineer.transform(X)
+    assert X_transformed.shape[0] == X.shape[0]
+    assert X_transformed.shape[1] > 0
+
+def test_get_feature_importance(sample_data):
+    X, y = sample_data
+    feature_engineer = ChurnFeatureEngineer()
+    feature_engineer.fit(X, y)
+    importance = feature_engineer.get_feature_importance()
+    assert isinstance(importance, dict)
+    assert len(importance) > 0
