@@ -361,16 +361,19 @@ class ChurnFeatureEngineer(BaseEstimator, TransformerMixin):
         if 'main' not in self.feature_selectors:
             return X
         
+        # Drop rows with NaN values before feature selection
+        X_clean = X.dropna()
+        
         selector = self.feature_selectors['main']
-        X_selected = selector.transform(X)
+        X_selected = selector.transform(X_clean)
         
         # Get selected feature names
-        selected_features = X.columns[selector.get_support()].tolist()
+        selected_features = X_clean.columns[selector.get_support()].tolist()
         
         # Create dataframe with selected features
-        X_selected_df = pd.DataFrame(X_selected, columns=selected_features, index=X.index)
+        X_selected_df = pd.DataFrame(X_selected, columns=selected_features, index=X_clean.index)
         
-        logger.info(f"Selected {len(selected_features)} features from {len(X.columns)}")
+        logger.info(f"Selected {len(selected_features)} features from {len(X_clean.columns)}")
         return X_selected_df
     
     def _fit_dimensionality_reduction(self, X: pd.DataFrame, y: pd.Series = None):
