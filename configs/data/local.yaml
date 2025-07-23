@@ -1,7 +1,7 @@
 # @package _global_
 data:
   source_type: "local"
-  raw_data_path: "data/raw/Customer_Churn.csv"
+  raw_data_path: "data/raw/Customer_data.csv"
   processed_data_path: "data/processed"
   
   # Data validation
