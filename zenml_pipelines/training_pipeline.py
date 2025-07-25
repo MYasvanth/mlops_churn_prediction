@@ -413,34 +413,51 @@ def training_pipeline(
     return deployment_service
 
 # Pipeline runner function
+from src.utils.config_loader import config_loader
+
 def run_training_pipeline():
     """
     Run the training pipeline with default configurations.
     """
     
-    # Load configurations
-    config_path = "configs/train_config.yaml"
-    config = load_config(config_path) if os.path.exists(config_path) else {}
+    # Load parameters from params.yaml using config_loader
+    try:
+        params = config_loader.load_params("params.yaml")
+    except FileNotFoundError:
+        params = {}
     
-    # Create step configurations
+    # Create step configurations using params with fallback defaults
+    data_ingestion_params = params.get("data_ingestion", {})
+    feature_engineering_params = params.get("feature_engineering", {})
+    model_training_params = params.get("model_training", {})
+    model_evaluation_params = params.get("model_evaluation", {})
+    
     data_ingestion_config = DataIngestionStepConfig(
-        data_path=config.get('data_path', 'data/raw/Customer_data.csv'),
-        test_size=config.get('test_size', 0.2)
+        data_path=data_ingestion_params.get('raw_data_path', 'data/raw/Customer_data.csv'),
+        test_size=data_ingestion_params.get('test_size', 0.2)
     )
     
     feature_engineering_config = FeatureEngineeringStepConfig(
-        target_column=config.get('target_column', 'churn'),
-        k_features=config.get('k_features', 15)
+        target_column=feature_engineering_params.get('target_column', 'churn'),
+        categorical_features=feature_engineering_params.get('categorical_features', ["gender", "contract_type", "payment_method"]),
+        numerical_features=feature_engineering_params.get('numerical_features', ["tenure", "monthly_charges", "total_charges"]),
+        feature_selection_method=feature_engineering_params.get('feature_selection_method', "selectkbest"),
+        k_features=feature_engineering_params.get('k_features', 15)
     )
     
     model_training_config = ModelTrainingStepConfig(
-        model_type=config.get('model_type', 'random_forest'),
-        n_estimators=config.get('n_estimators', 100)
+        model_type=model_training_params.get('model_type', 'random_forest'),
+        n_estimators=model_training_params.get('n_estimators', 100),
+        max_depth=model_training_params.get('max_depth', 10),
+        random_state=model_training_params.get('random_state', 42),
+        use_hyperparameter_tuning=model_training_params.get('use_hyperparameter_tuning', True)
     )
     
     model_evaluation_config = ModelEvaluationStepConfig(
-        min_accuracy=config.get('min_accuracy', 0.75),
-        min_roc_auc=config.get('min_roc_auc', 0.80)
+        threshold=model_evaluation_params.get('threshold', 0.5),
+        metrics=model_evaluation_params.get('metrics', ["accuracy", "precision", "recall", "f1", "roc_auc"]),
+        min_accuracy=model_evaluation_params.get('min_accuracy', 0.75),
+        min_roc_auc=model_evaluation_params.get('min_roc_auc', 0.80)
     )
     
     # Run pipeline

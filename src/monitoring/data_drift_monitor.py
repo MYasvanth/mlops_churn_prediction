@@ -13,7 +13,11 @@ import logging
 from dataclasses import dataclass, asdict
 
 # Evidently imports
-from evidently import ColumnMapping
+try:
+    from evidently.model_profile.column_mapping import ColumnMapping
+except ModuleNotFoundError:
+    # fallback import for older versions of evidently
+    from evidently.model_profile import ColumnMapping
 from evidently.report import Report
 from evidently.metrics import (
     DataDriftTable, DatasetDriftMetric, DatasetMissingValuesMetric,
@@ -188,5 +192,16 @@ class DataDriftMonitor:
         except Exception as e:
             logger.error(f"Error in drift detection: {str(e)}")
             raise
-    
-    def _create_column
+
+    def _create_column_mapping(self) -> ColumnMapping:
+        """
+        Create column mapping for Evidently report.
+        """
+        column_mapping = ColumnMapping()
+        if self.target_column in self.reference_data.columns:
+            column_mapping.target = self.target_column
+        if self.prediction_column in self.reference_data.columns:
+            column_mapping.prediction = self.prediction_column
+        if self.feature_columns:
+            column_mapping.numerical_features = self.feature_columns
+        return column_mapping

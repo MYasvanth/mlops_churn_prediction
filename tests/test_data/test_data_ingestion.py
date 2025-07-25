@@ -45,3 +45,24 @@ def test_validate_data_schema(data_config):
     df = ingestion.load_csv_data(data_config.raw_data_path)
     df_processed = ingestion.handle_data_types(df)
     assert ingestion.validate_data_schema(df_processed)
+
+def test_load_csv_data_file_not_found(data_config):
+    ingestion = DataIngestion(data_config)
+    with pytest.raises(FileNotFoundError):
+        ingestion.load_csv_data("non_existent_file.csv")
+
+def test_handle_missing_values_all_missing(data_config):
+    ingestion = DataIngestion(data_config)
+    df = ingestion.load_csv_data(data_config.raw_data_path)
+    df_missing = df.copy()
+    df_missing.loc[:, :] = None
+    df_processed = ingestion.handle_missing_values(df_missing)
+    # After handling missing values, no missing values should remain
+    assert df_processed.isnull().sum().sum() == 0
+
+def test_remove_duplicates_no_duplicates(data_config):
+    ingestion = DataIngestion(data_config)
+    df = ingestion.load_csv_data(data_config.raw_data_path)
+    df_no_dup = ingestion.remove_duplicates(df)
+    # If no duplicates, length should remain the same
+    assert len(df_no_dup) == len(df)

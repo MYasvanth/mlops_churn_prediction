@@ -15,3 +15,21 @@ def test_train_model(sample_data):
     model = trainer.train(X, y)
     assert model is not None
     assert hasattr(model, "predict")
+
+def test_train_model_empty_data():
+    from src.models.model_trainer import ModelTrainer
+    trainer = ModelTrainer()
+    import pandas as pd
+    X_empty = pd.DataFrame()
+    y_empty = pd.Series(dtype='int')
+    with pytest.raises(ValueError):
+        trainer.train(X_empty, y_empty)
+
+def test_train_model_invalid_data():
+    from src.models.model_trainer import ModelTrainer
+    trainer = ModelTrainer()
+    import pandas as pd
+    X_invalid = pd.DataFrame({"feature": ["a", "b", "c"]})
+    y_invalid = pd.Series([1, 0, 1])
+    with pytest.raises(ValueError):
+        trainer.train(X_invalid, y_invalid)
