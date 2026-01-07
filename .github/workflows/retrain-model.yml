@@ -1,0 +1,51 @@
+name: Model Retraining
+
+on:
+  schedule:
+    - cron: '0 2 * * 0'  # Weekly on Sunday at 2 AM UTC
+  workflow_dispatch:
+    inputs:
+      force_retrain:
+        description: 'Force retraining even if performance is good'
+        required: false
+        default: 'false'
+        type: boolean
+
+jobs:
+  retrain:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.8'
+    
+    - name: Check model performance
+      id: performance_check
+      run: |
+        python scripts/ci_cd/quality_check.py
+        echo "performance_ok=$?" >> $GITHUB_OUTPUT
+    
+    - name: Run model retraining
+      if: steps.performance_check.outputs.performance_ok != '0' || github.event.inputs.force_retrain == 'true'
+      run: |
+        python scripts/ci_cd/retrain_model.py
+    
+    - name: Validate new model
+      if: steps.performance_check.outputs.performance_ok != '0' || github.event.inputs.force_retrain == 'true'
+      run: |
+        python scripts/ci_cd/validate_retrained_model.py
+    
+    - name: Deploy to staging
+      if: steps.performance_check.outputs.performance_ok != '0' || github.event.inputs.force_retrain == 'true'
+      run: |
+        python scripts/ci_cd/demo_pipeline.py
+    
+    - name: Retraining summary
+      run: |
+        echo "Model Retraining Complete"
+        echo "Triggered: ${{ github.event_name }}"
+        echo "Force retrain: ${{ github.event.inputs.force_retrain }}"
