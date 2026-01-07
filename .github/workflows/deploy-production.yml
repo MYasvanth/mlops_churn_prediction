@@ -4,39 +4,27 @@ on:
   workflow_dispatch:
     inputs:
       model_id:
-        description: 'Model ID to promote to production'
+        description: 'Model ID to promote'
         required: true
-        type: string
+        default: 'test_model_123'
 
 jobs:
-  deploy-production:
+  deploy:
     runs-on: ubuntu-latest
-
+    
     steps:
     - uses: actions/checkout@v4
-
+    
     - name: Set up Python
       uses: actions/setup-python@v4
       with:
         python-version: '3.8'
-
+    
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
         pip install -r requirements.txt
-
-    - name: Promote model to production
-      env:
-        MODEL_ID: ${{ inputs.model_id }}
-      run: python scripts/ci_cd/promote_production.py $MODEL_ID
-
-    - name: Run final verification
-      run: python scripts/deployment/final_deployment_verification.py
-
-    - name: Create deployment summary
+    
+    - name: Promote to production
       run: |
-        echo "## Production Deployment Summary" > deployment_summary.md
-        echo "- **Model ID**: ${{ inputs.model_id }}" >> deployment_summary.md
-        echo "- **Deployed at**: $(date)" >> deployment_summary.md
-        echo "- **Status**: ✅ Success" >> deployment_summary.md
-        cat deployment_summary.md
+        python scripts/ci_cd/promote_production.py ${{ github.event.inputs.model_id }}
