@@ -1,12 +1,13 @@
-# Config Consistency Implementation Plan
+# TODO: Implement CI/CD Setup for Model Retraining
 
-## Tasks to Complete
+## Overview
+Implement automated model retraining workflow that runs on a schedule and can be triggered manually.
 
-- [x] Update params.yaml: Change raw_data_path from "WA_Fn-UseC-Telco-Customer-Churn.csv" to "data/raw/Customer_data.csv"
-- [x] Update dvc.yaml: Change deps path from "data/raw/customer_data.csv" to "data/raw/Customer_data.csv"
-- [x] Fix configs/deployment/deployment_config.yaml: Remove duplicate environment variables
-- [x] Update src/utils/config_loader.py: Standardize config loading to use Hydra consistently
-- [x] Clean up empty config directories: Remove or populate configs/training/ and configs/experiment/
-- [x] Test config loading across components
-- [x] Run training pipeline to verify no path errors
-- [x] Validate deployment configs work correctly
+## Steps to Complete
+- [x] Create .github/workflows/retrain.yml workflow file
+  - [x] Add scheduled trigger (weekly on Sundays)
+  - [x] Add manual trigger (workflow_dispatch)
+  - [x] Include steps: checkout, setup Python, install dependencies, run full pipeline, validate results, deploy to staging
+- [x] Test the workflow manually (pipeline execution verified)
+- [x] Update MONITORING_README.md to reflect automated retraining capability
+- [x] Verify no conflicts with existing CI/CD workflows (ci.yml on push/PR, retrain.yml on schedule/manual)

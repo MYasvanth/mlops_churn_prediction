@@ -31,6 +31,3 @@ jobs:
 
     - name: Run smoke tests
       run: python scripts/ci_cd/smoke_test.py
-
-    - name: Run pipeline demo
-      run: python scripts/ci_cd/demo_pipeline.py

@@ -29,9 +29,9 @@ def main():
     print("Starting Manual CI/CD Pipeline...")
     
     steps = [
-        ("Demo Pipeline", "python scripts/ci_cd/demo_pipeline.py"),
         ("Quality Check", "python scripts/ci_cd/quality_check.py"),
-        ("Smoke Test", "python scripts/ci_cd/smoke_test.py")
+        ("Smoke Test", "python scripts/ci_cd/smoke_test.py"),
+        ("Model Retraining", "python scripts/ci_cd/retrain_model.py")
     ]
     
     passed = 0

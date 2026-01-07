@@ -27,9 +27,9 @@ jobs:
         python -m pip install --upgrade pip
         pip install -r requirements.txt
     
-    - name: Run demo deployment
+    - name: Deploy to staging (Real)
       run: |
-        python scripts/ci_cd/demo_pipeline.py
+        python scripts/ci_cd/retrain_model.py
     
     - name: Run smoke tests
       run: |
