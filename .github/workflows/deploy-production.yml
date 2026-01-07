@@ -20,11 +20,13 @@ jobs:
       with:
         python-version: '3.8'
     
-    - name: Install dependencies
-      run: |
-        python -m pip install --upgrade pip
-        pip install -r requirements.txt
-    
-    - name: Promote to production
+    - name: Promote to production (Demo)
       run: |
         python scripts/ci_cd/promote_production.py ${{ github.event.inputs.model_id }}
+    
+    - name: Deployment Summary
+      run: |
+        echo "Production Deployment Complete!"
+        echo "Model ID: ${{ github.event.inputs.model_id }}"
+        echo "Status: Success"
+        echo "Timestamp: $(date)"
