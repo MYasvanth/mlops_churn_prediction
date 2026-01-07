@@ -1,0 +1,40 @@
+{
+  "model_id": "logistic_regression_20251010_141234",
+  "model_path": "models\\staging\\logistic_regression_20251010_141234\\model.pkl",
+  "stage": "staging",
+  "registered_at": "2025-10-10T14:12:34.746083",
+  "model_name": "churn_logistic_regression",
+  "model_type": "logistic_regression",
+  "performance_metrics": {
+    "accuracy": 0.7970191625266146,
+    "precision": 0.7891091214095924,
+    "recall": 0.7970191625266146,
+    "f1_score": 0.7917024784014203,
+    "roc_auc": 0.8402180371489834
+  },
+  "hyperparameters": {},
+  "feature_columns": [
+    "customerID",
+    "gender",
+    "SeniorCitizen",
+    "Partner",
+    "Dependents",
+    "tenure",
+    "PhoneService",
+    "MultipleLines",
+    "InternetService",
+    "OnlineSecurity",
+    "OnlineBackup",
+    "DeviceProtection",
+    "TechSupport",
+    "StreamingTV",
+    "StreamingMovies",
+    "Contract",
+    "PaperlessBilling",
+    "PaymentMethod",
+    "MonthlyCharges",
+    "TotalCharges"
+  ],
+  "created_by": "unified_pipeline",
+  "description": "Churn prediction model using logistic_regression"
+}

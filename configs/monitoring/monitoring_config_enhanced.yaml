@@ -1,0 +1,164 @@
+# Enhanced Monitoring Configuration
+# Configuration for data drift, performance monitoring, and alert system
+
+# Data Drift Monitoring Configuration
+data_drift_monitoring:
+  enabled: true
+  check_interval_minutes: 60
+  drift_threshold: 0.15
+  significant_drift_threshold: 0.25
+  confidence_level: 0.95
+  reference_data_path: "data/processed/raw_data.csv"
+  current_data_path: "data/processed/raw_data.csv"
+  
+  # Evidently-specific configuration
+  evidently:
+    # Column mapping
+    target_column: "churn"
+    prediction_column: "prediction"
+    datetime_column: null  # Set to column name if available
+    
+    # Feature types (auto-detected if not specified)
+    numerical_features: []  # e.g., ["age", "balance", "duration"]
+    categorical_features: []  # e.g., ["job", "marital", "education"]
+    
+    # Task type for monitoring
+    task_type: "classification"  # classification or regression
+    
+    # Drift detection methods
+    drift_detection_method: "auto"  # auto, ks, chi2, etc.
+    stattest_threshold: 0.05
+    
+    # Metrics to include in reports
+    metrics:
+      - DatasetDriftMetric
+      - DataDriftTable
+      - DatasetSummaryMetric
+      - DatasetMissingValuesMetric
+      - TargetDriftMetric
+      - NewMetric1  # Added new metric
+      - NewMetric2  # Added new metric
+    
+  # Legacy metrics (for backward compatibility)
+  metrics:
+    - ks_test
+    - psi
+    - wasserstein_distance
+  
+  column_thresholds:
+    numerical:
+      drift_threshold: 0.2
+      significant_drift_threshold: 0.3
+    categorical:
+      drift_threshold: 0.15
+      significant_drift_threshold: 0.25
+
+# Performance Monitoring Configuration
+performance_monitoring:
+  enabled: true
+  check_interval_minutes: 30
+  thresholds:
+    min_accuracy: 0.8
+    min_precision: 0.75
+    min_recall: 0.7
+    min_f1_score: 0.75
+    min_roc_auc: 0.8
+    degradation_threshold: 0.05  # 5% degradation from average
+  comparison_window: 5  # Number of previous runs to compare against
+  evaluation_data_path: "data/processed/test.csv"
+
+# Alert System Configuration
+alerts:
+  enabled: true
+  
+  # Email Configuration
+  email:
+    enabled: true
+    smtp_server: "smtp.gmail.com"
+    smtp_port: 587
+    username: "your-email@gmail.com"
+    password: "your-app-password"
+    from_email: "ml-monitor@yourcompany.com"
+    recipients:
+      - "admin@yourcompany.com"
+      - "ml-team@yourcompany.com"
+    use_tls: true
+  
+  # Slack Configuration
+  slack:
+    enabled: false
+    webhook_url: "https://hooks.slack.com/services/your/webhook/url"
+    channel: "#ml-alerts"
+    username: "ML Monitor Bot"
+    icon_emoji: ":warning:"
+  
+  # Alert Rules
+  rules:
+    min_severity: "MEDIUM"  # Only send alerts of this severity or higher
+    business_hours_only: false  # Only send alerts during business hours (9 AM - 5 PM)
+    disabled_types: []  # List of alert types to disable
+  
+  # Rate Limiting (minutes)
+  rate_limits:
+    default: 15  # Default rate limit in minutes
+    DATA_DRIFT: 30  # Data drift alerts every 30 minutes max
+    MODEL_DEGRADATION: 60  # Performance alerts every hour max
+    THRESHOLD_BREACH: 15  # Threshold breaches every 15 minutes
+    SYSTEM_ERROR: 5  # System errors can be more frequent
+
+# MLflow Configuration for Monitoring
+mlflow:
+  tracking_uri: "http://localhost:5000"
+  experiment_name: "churn_monitoring"
+  artifact_location: "./mlruns"
+
+# Optuna Configuration
+optuna:
+  storage_url: "sqlite:///optuna_studies.db"
+  study_name: "churn_optimization"
+  n_trials: 100
+  timeout_hours: 24
+
+# Monitoring Storage
+storage:
+  alerts_database: "monitoring/alerts.db"
+  performance_reports: "reports/performance_reports/"
+  drift_reports: "reports/drift_reports/"
+  retention_days: 30  # Keep reports for 30 days
+
+# Feature Importance Monitoring
+feature_importance:
+  enabled: true
+  top_n_features: 10
+  stability_threshold: 0.8  # Minimum correlation for feature importance stability
+
+# Model Registry Integration
+model_registry:
+  production_stage: "production"
+  staging_stage: "staging"
+  archive_stage: "archived"
+  auto_promote: false
+  promotion_threshold: 0.02  # 2% improvement required for auto-promotion
+
+# Logging Configuration
+logging:
+  level: "INFO"
+  file: "logs/monitoring.log"
+  max_size_mb: 10
+  backup_count: 5
+
+# Health Check Configuration
+health_checks:
+  enabled: true
+  check_interval_minutes: 5
+  endpoints:
+    - name: "mlflow_tracking"
+      url: "http://localhost:5000"
+      timeout: 5
+    - name: "model_server"
+      url: "http://localhost:8000/health"
+      timeout: 10
+    - name: "database"
+      check_type: "file"
+      path: "data/processed/train.csv"
+      max_age_hours: 24

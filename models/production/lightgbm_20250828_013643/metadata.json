@@ -1,0 +1,16 @@
+{
+  "model_id": "lightgbm_20250828_013643",
+  "model_path": "models\\production\\lightgbm_20250828_013643\\model.pkl",
+  "stage": "production",
+  "registered_at": "2025-08-28T01:36:45.496300",
+  "model_type": "lightgbm",
+  "metrics": {
+    "accuracy": 0.8502058781769133,
+    "precision": 0.8450969987346553,
+    "recall": 0.8502058781769133,
+    "f1_score": 0.845388965824634,
+    "roc_auc": 0.9193577675594502
+  },
+  "promoted_from": "staging",
+  "original_registered_at": "2025-08-28T01:36:43.774137"
+}

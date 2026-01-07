@@ -246,22 +246,146 @@ class HyperparameterTuner:
         logger.info(f"SVM tuning completed. Best score: {result.best_score:.4f}")
         return result
     
-    def tune_model(self, model_name: str, X_train: pd.DataFrame, 
+    def tune_xgboost(self, X_train: pd.DataFrame, y_train: pd.Series) -> TuningResult:
+        """
+        Tune XGBoost hyperparameters.
+
+        Args:
+            X_train (pd.DataFrame): Training features
+            y_train (pd.Series): Training target
+
+        Returns:
+            TuningResult: Tuning results
+        """
+        logger.info("Starting XGBoost hyperparameter tuning")
+
+        def objective(trial):
+            # Define hyperparameter search space
+            params = {
+                'n_estimators': trial.suggest_int('n_estimators', 50, 300),
+                'max_depth': trial.suggest_int('max_depth', 3, 10),
+                'learning_rate': trial.suggest_float('learning_rate', 0.01, 0.3, log=True),
+                'subsample': trial.suggest_float('subsample', 0.6, 1.0),
+                'colsample_bytree': trial.suggest_float('colsample_bytree', 0.6, 1.0),
+                'min_child_weight': trial.suggest_int('min_child_weight', 1, 10),
+                'gamma': trial.suggest_float('gamma', 0.0, 1.0),
+                'reg_alpha': trial.suggest_float('reg_alpha', 1e-8, 1.0, log=True),
+                'reg_lambda': trial.suggest_float('reg_lambda', 1e-8, 1.0, log=True),
+                'random_state': self.random_state
+            }
+
+            # Create model
+            from xgboost import XGBClassifier
+            model = XGBClassifier(**params)
+
+            # Perform cross-validation
+            scores = cross_val_score(model, X_train, y_train,
+                                   cv=self.cv, scoring=self.scorer, n_jobs=-1)
+
+            return scores.mean()
+
+        # Create study
+        study = optuna.create_study(direction='maximize',
+                                   sampler=optuna.samplers.TPESampler(seed=self.random_state))
+
+        # Optimize
+        study.optimize(objective, n_trials=self.n_trials, timeout=self.timeout)
+
+        # Create result
+        result = TuningResult(
+            best_params=study.best_params,
+            best_score=study.best_value,
+            best_trial=study.best_trial,
+            study=study,
+            model_name="XGBoost"
+        )
+
+        # Log results
+        self._log_tuning_results(result)
+
+        logger.info(f"XGBoost tuning completed. Best score: {result.best_score:.4f}")
+        return result
+
+    def tune_lightgbm(self, X_train: pd.DataFrame, y_train: pd.Series) -> TuningResult:
+        """
+        Tune LightGBM hyperparameters.
+
+        Args:
+            X_train (pd.DataFrame): Training features
+            y_train (pd.Series): Training target
+
+        Returns:
+            TuningResult: Tuning results
+        """
+        logger.info("Starting LightGBM hyperparameter tuning")
+
+        def objective(trial):
+            # Define hyperparameter search space
+            params = {
+                'n_estimators': trial.suggest_int('n_estimators', 50, 300),
+                'max_depth': trial.suggest_int('max_depth', 3, 10),
+                'learning_rate': trial.suggest_float('learning_rate', 0.01, 0.3, log=True),
+                'num_leaves': trial.suggest_int('num_leaves', 20, 100),
+                'min_child_samples': trial.suggest_int('min_child_samples', 10, 50),
+                'subsample': trial.suggest_float('subsample', 0.6, 1.0),
+                'colsample_bytree': trial.suggest_float('colsample_bytree', 0.6, 1.0),
+                'reg_alpha': trial.suggest_float('reg_alpha', 1e-8, 1.0, log=True),
+                'reg_lambda': trial.suggest_float('reg_lambda', 1e-8, 1.0, log=True),
+                'random_state': self.random_state
+            }
+
+            # Create model
+            from lightgbm import LGBMClassifier
+            model = LGBMClassifier(**params)
+
+            # Perform cross-validation
+            scores = cross_val_score(model, X_train, y_train,
+                                   cv=self.cv, scoring=self.scorer, n_jobs=-1)
+
+            return scores.mean()
+
+        # Create study
+        study = optuna.create_study(direction='maximize',
+                                   sampler=optuna.samplers.TPESampler(seed=self.random_state))
+
+        # Optimize
+        study.optimize(objective, n_trials=self.n_trials, timeout=self.timeout)
+
+        # Create result
+        result = TuningResult(
+            best_params=study.best_params,
+            best_score=study.best_value,
+            best_trial=study.best_trial,
+            study=study,
+            model_name="LightGBM"
+        )
+
+        # Log results
+        self._log_tuning_results(result)
+
+        logger.info(f"LightGBM tuning completed. Best score: {result.best_score:.4f}")
+        return result
+
+    def tune_model(self, model_name: str, X_train: pd.DataFrame,
                    y_train: pd.Series) -> TuningResult:
         """
         Tune hyperparameters for a specific model.
-        
+
         Args:
             model_name (str): Name of the model to tune
             X_train (pd.DataFrame): Training features
             y_train (pd.Series): Training target
-            
+
         Returns:
             TuningResult: Tuning results
         """
         model_name = model_name.lower()
-        
-        if model_name == 'randomforest':
+
+        if model_name == 'xgboost':
+            return self.tune_xgboost(X_train, y_train)
+        elif model_name == 'lightgbm':
+            return self.tune_lightgbm(X_train, y_train)
+        elif model_name == 'randomforest':
             return self.tune_random_forest(X_train, y_train)
         elif model_name == 'logisticregression':
             return self.tune_logistic_regression(X_train, y_train)
@@ -389,16 +513,22 @@ class HyperparameterTuner:
     def create_tuned_model(self, result: TuningResult) -> Any:
         """
         Create a model with the best hyperparameters.
-        
+
         Args:
             result (TuningResult): Tuning result
-            
+
         Returns:
             Any: Model with best hyperparameters
         """
         model_name = result.model_name.lower()
-        
-        if model_name == 'randomforest':
+
+        if model_name == 'xgboost':
+            from xgboost import XGBClassifier
+            return XGBClassifier(**result.best_params)
+        elif model_name == 'lightgbm':
+            from lightgbm import LGBMClassifier
+            return LGBMClassifier(**result.best_params)
+        elif model_name == 'randomforest':
             return RandomForestClassifier(**result.best_params)
         elif model_name == 'logisticregression':
             return LogisticRegression(**result.best_params)

@@ -1,0 +1,16 @@
+{
+  "model_id": "xgboost_20250825_011921",
+  "run_id": "f41a1e597120443ca48cad05ec1709fd",
+  "experiment_id": "693994179577957190",
+  "promotion_timestamp": "2025-08-25T01:23:31.459280",
+  "performance_metrics": {
+    "f1_score": 0.7974372950582949,
+    "accuracy": 0.8041163946061036,
+    "precision": 0.7952396711751641,
+    "recall": 0.8041163946061036,
+    "roc_auc": 0.8393732723655997
+  },
+  "model_type": "xgboost",
+  "mlflow_artifact_uri": "mlflow-artifacts:/693994179577957190/f41a1e597120443ca48cad05ec1709fd/artifacts",
+  "training_timestamp": "2025-08-24T19:43:14.660000+00:00"
+}

@@ -1,0 +1,149 @@
+# Enhanced Deployment Configuration for Churn Prediction
+# Comprehensive deployment configuration for staging and production
+
+deployment:
+  stages:
+    staging:
+      name: "staging"
+      description: "Staging environment for testing"
+      environment: "staging"
+      url: "https://staging.churn-prediction.example.com"
+      replicas: 2
+      resources:
+        cpu: "500m"
+        memory: "1Gi"
+        storage: "5Gi"
+      scaling:
+        min_replicas: 1
+        max_replicas: 5
+        cpu_threshold: 70
+        memory_threshold: 80
+      
+    production:
+      name: "production"
+      description: "Production environment"
+      environment: "production"
+      url: "https://churn-prediction.example.com"
+      replicas: 3
+      resources:
+        cpu: "2"
+        memory: "4Gi"
+        storage: "10Gi"
+      scaling:
+        min_replicas: 2
+        max_replicas: 10
+        cpu_threshold: 60
+        memory_threshold: 70
+      
+  deployment:
+    type: "kubernetes"
+    strategy: "rolling_update"
+    readiness_probe:
+      http_get:
+        path: "/health"
+        port: 8080
+      initial_delay_seconds: 30
+      period_seconds: 10
+    liveness_probe:
+      http_get:
+        path: "/health"
+        port: 8080
+      initial_delay_seconds: 60
+      period_seconds: 30
+      
+  monitoring:
+    enabled: true
+    type: "prometheus"
+    metrics:
+      - "accuracy"
+      - "precision"
+      - "recall"
+      - "f1_score"
+      - "roc_auc"
+    alerts:
+      - name: "accuracy_drop"
+        condition: "accuracy < 0.75"
+        severity: "warning"
+      - name: "latency_high"
+        condition: "latency > 1000ms"
+        severity: "critical"
+      
+  security:
+    enabled: true
+    tls: true
+    authentication: "jwt"
+    authorization: "rbac"
+    
+  ci_cd:
+    enabled: true
+    pipeline: "github_actions"
+    triggers:
+      - "push"
+      - "pull_request"
+    stages:
+      - "test"
+      - "build"
+      - "deploy"
+      
+  backup:
+    enabled: true
+    schedule: "daily"
+    retention: "30_days"
+    location: "s3://churn-prediction-backups"
+    
+  rollback:
+    enabled: true
+    strategy: "blue_green"
+    timeout: "5_minutes"
+    max_rollback_attempts: 3
+      
+  environment_variables:
+    - name: "MODEL_VERSION"
+      value: "latest"
+    - name: "MODEL_PATH"
+      value: "/app/models"
+    - name: "MLFLOW_TRACKING_URI"
+      value: "file:./mlruns"
+    - name: "EXPERIMENT_NAME"
+      value: "churn_prediction"
+    - name: "DEPLOYMENT_STAGE"
+      value: "production"
+    - name: "LOG_LEVEL"
+      value: "INFO"
+    - name: "HEALTH_CHECK_ENDPOINT"
+      value: "/health"
+    - name: "METRICS_ENDPOINT"
+      value: "/metrics"
+    - name: "PROMETHEUS_PORT"
+      value: "9090"
+    - name: "GRAFANA_PORT"
+      value: "3000"
+    - name: "JAEGER_PORT"
+      value: "6831"
+    - name: "JAEGER_AGENT_HOST"
+      value: "localhost"
+    - name: "JAEGER_AGENT_PORT"
+      value: "6831"
+    - name: "JAEGER_SAMPLER_TYPE"
+      value: "const"
+    - name: "JAEGER_SAMPLER_PARAM"
+      value: "1"
+    - name: "JAEGER_REPORTER_LOG_SPANS"
+      value: "true"
+    - name: "JAEGER_REPORTER_MAX_QUEUE_SIZE"
+      value: "100"
+    - name: "JAEGER_REPORTER_FLUSH_INTERVAL"
+      value: "1000"
+    - name: "JAEGER_REPORTER_HOST"
+      value: "localhost"
+    - name: "JAEGER_REPORTER_PORT"
+      value: "6831"
+    - name: "JAEGER_REPORTER_LOG_SPANS"
+      value: "true"
+    - name: "JAEGER_REPORTER_MAX_QUEUE_SIZE"
+      value: "100"
+    - name: "JAEGER_REPORTER_FLUSH_INTERVAL"
+      value: "1000"
+    - name: "JAEGER_REPORTER_HOST"
+      value: "localhost"
+  

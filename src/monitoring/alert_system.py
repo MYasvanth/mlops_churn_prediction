@@ -313,7 +313,7 @@ class SlackNotifier:
 class AlertManager:
     """Main alert management system"""
     
-    def __init__(self, config_path: str = "configs/monitoring_config.yaml"):
+    def __init__(self, config_path: str = "configs/monitoring/monitoring_config.yaml"):
         """
         Initialize alert manager
         

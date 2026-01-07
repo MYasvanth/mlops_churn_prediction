@@ -1,0 +1,44 @@
+# Streamlit Deployment Configuration for Churn Prediction
+
+streamlit:
+  app:
+    name: "Churn Prediction Dashboard"
+    description: "Interactive churn prediction and monitoring"
+    version: "1.0.0"
+    
+  server:
+    host: "0.0.0.0"
+    port: 8501
+    max_upload_size: 200  # MB
+    
+  features:
+    enable_prediction: true
+    enable_monitoring: true
+    enable_optuna: true
+    enable_data_analysis: true
+    
+  models:
+    default_model: "best_model"
+    staging_model_path: "models/staging"
+    production_model_path: "models/production"
+    
+  optuna:
+    storage_url: "sqlite:///optuna_studies.db"
+    study_prefix: "churn_prediction"
+    
+  monitoring:
+    refresh_interval: 30  # seconds
+    metrics_retention_days: 30
+    
+  security:
+    enable_authentication: false
+    allowed_origins: ["*"]
+    
+  ui:
+    theme: "dark"
+    primary_color: "#1f77b4"
+    secondary_color: "#ff7f0e"
+    
+  logging:
+    level: "INFO"
+    format: "%(asctime)s - %(name)s - %(levelname)s - %(message)s"

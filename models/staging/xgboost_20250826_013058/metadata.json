@@ -1,0 +1,14 @@
+{
+  "model_id": "xgboost_20250826_013058",
+  "model_path": "models\\temp\\xgboost_model.pkl",
+  "stage": "staging",
+  "registered_at": "2025-08-26T01:30:58.840405",
+  "model_type": "xgboost",
+  "metrics": {
+    "accuracy": 0.8541814567655829,
+    "precision": 0.8493504936209404,
+    "recall": 0.8541814567655829,
+    "f1_score": 0.8493916572892377,
+    "roc_auc": 0.9210839975901237
+  }
+}

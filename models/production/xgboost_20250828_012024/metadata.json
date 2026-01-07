@@ -1,0 +1,10 @@
+{
+  "model_id": "xgboost_20250828_012024",
+  "model_path": "models\\production\\xgboost_20250828_012024\\model.pkl",
+  "stage": "production",
+  "registered_at": "2025-08-28T01:26:26.613156",
+  "model_type": "xgboost",
+  "metrics": {},
+  "promoted_from": "staging",
+  "original_registered_at": "2025-08-28T01:20:24.252397"
+}

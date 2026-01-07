@@ -348,7 +348,14 @@ class DataLoader:
     
     def load_processed_data(self, data_type: str = "train") -> pd.DataFrame:
         """Load processed data (train, validation, or test)."""
-        processed_path = Path(self.config['data_paths']['processed_data'])
+        # Handle config structure with 'data' key
+        if 'data_paths' in self.config:
+            processed_path = Path(self.config['data_paths']['processed_data'])
+        elif 'data' in self.config and 'processed_data_path' in self.config['data']:
+            processed_path = Path(self.config['data']['processed_data_path'])
+        else:
+            raise KeyError("Processed data path not found in config")
+        
         file_path = processed_path / f"{data_type}.csv"
         
         if not file_path.exists():
@@ -360,8 +367,20 @@ class DataLoader:
     
     def get_feature_target_split(self, df: pd.DataFrame) -> Tuple[pd.DataFrame, pd.Series]:
         """Split dataframe into features and target."""
-        target_col = self.config['preprocessing']['target_column']
-        id_col = self.config['preprocessing']['id_column']
+        # Handle config structure with 'preprocessing' or 'data' key
+        if 'preprocessing' in self.config:
+            target_col = self.config['preprocessing']['target_column']
+            id_col = self.config['preprocessing']['id_column']
+        elif 'data' in self.config:
+            # Fix to check nested 'split' key for target_column and id_column
+            if 'split' in self.config['data']:
+                target_col = self.config['data']['split'].get('target_column', 'churned')
+                id_col = self.config['data']['split'].get('id_column', 'customerID')
+            else:
+                target_col = self.config['data'].get('target_column', 'churned')
+                id_col = self.config['data'].get('id_column', 'customerID')
+        else:
+            raise KeyError("Target or ID column not found in config")
         
         # Remove ID column if present
         feature_cols = [col for col in df.columns if col not in [target_col, id_col]]

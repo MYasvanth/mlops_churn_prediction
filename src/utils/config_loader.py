@@ -15,20 +15,21 @@ import logging
 logger = logging.getLogger(__name__)
 
 class ConfigLoader:
-    """Configuration loader using Hydra"""
-    
+    """Configuration loader using Hydra for consistency"""
+
     @staticmethod
     def load_config(config_path: str = None) -> DictConfig:
-        """Load configuration using Hydra"""
+        """Load configuration using Hydra for consistency"""
         if config_path:
             return OmegaConf.load(config_path)
+        # Use Hydra compose for main config to ensure consistency
         return hydra.compose(config_name="config")
-    
+
     @staticmethod
     def save_config(cfg: DictConfig, path: str) -> None:
         """Save configuration to file"""
         OmegaConf.save(cfg, path)
-        
+
     @staticmethod
     def merge_configs(base_cfg: DictConfig, override_cfg: DictConfig) -> DictConfig:
         """Merge two configurations"""

@@ -26,14 +26,14 @@ from zenml.logger import get_logger
 from zenml.integrations.mlflow.model_deployers.mlflow_model_deployer import MLFlowModelDeployer
 from zenml.integrations.mlflow.services import MLFlowDeploymentService
 from zenml.integrations.mlflow.steps import mlflow_model_deployer_step
-from zenml.integrations.evidently.data_validators import EvidentlyDataValidator
-from zenml.integrations.evidently.steps import evidently_report_step
-from zenml.steps import BaseStepConfig
+# from zenml.integrations.evidently.data_validators import EvidentlyDataValidator
+# from zenml.integrations.evidently.steps import evidently_report_step
+from pydantic import BaseModel
 
 # Import custom modules
-from src.data.data_ingestion import DataIngestionConfig
-from src.data.data_validation import DataValidationConfig
-from src.features.feature_engineering import FeatureEngineeringConfig
+from src.data.data_ingestion import DataIngestion
+from src.data.data_validation import DataValidator
+from src.features.feature_engineering import ChurnFeatureEngineer
 from src.features.preprocessing import PreprocessingConfig
 from src.models.model_trainer import ModelTrainerConfig
 from src.models.model_evaluator import ModelEvaluatorConfig
@@ -45,14 +45,14 @@ from src.utils.config_loader import load_config
 logger = get_logger(__name__)
 
 # Step Configurations
-class DataIngestionStepConfig(BaseStepConfig):
+class DataIngestionStepConfig(BaseModel):
     """Configuration for data ingestion step."""
     data_path: str = "data/raw/Customer_data.csv"
     output_path: str = "data/processed/"
     test_size: float = 0.2
     random_state: int = 42
 
-class FeatureEngineeringStepConfig(BaseStepConfig):
+class FeatureEngineeringStepConfig(BaseModel):
     """Configuration for feature engineering step."""
     target_column: str = "churn"
     categorical_features: list = ["gender", "contract_type", "payment_method"]
@@ -60,7 +60,7 @@ class FeatureEngineeringStepConfig(BaseStepConfig):
     feature_selection_method: str = "selectkbest"
     k_features: int = 15
 
-class ModelTrainingStepConfig(BaseStepConfig):
+class ModelTrainingStepConfig(BaseModel):
     """Configuration for model training step."""
     model_type: str = "random_forest"
     n_estimators: int = 100
@@ -68,7 +68,7 @@ class ModelTrainingStepConfig(BaseStepConfig):
     random_state: int = 42
     use_hyperparameter_tuning: bool = True
 
-class ModelEvaluationStepConfig(BaseStepConfig):
+class ModelEvaluationStepConfig(BaseModel):
     """Configuration for model evaluation step."""
     threshold: float = 0.5
     metrics: list = ["accuracy", "precision", "recall", "f1", "roc_auc"]

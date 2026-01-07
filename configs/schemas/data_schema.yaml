@@ -1,0 +1,24 @@
+type: object
+properties:
+  customerID:
+    type: integer
+    description: Unique identifier for each customer
+  age:
+    type: number
+    description: Age of the customer
+  balance:
+    type: number
+    description: Account balance of the customer
+  churn:
+    type: integer
+    description: Churn status (0 = No, 1 = Yes)
+  prediction:
+    type: integer
+    description: Prediction of churn status (0 = No, 1 = Yes)
+  # Add other relevant fields as necessary
+required:
+  - customerID
+  - age
+  - balance
+  - churn
+  - prediction

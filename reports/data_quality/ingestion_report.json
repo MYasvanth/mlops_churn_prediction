@@ -1,7 +1,7 @@
 {
   "total_rows": 7043,
   "total_columns": 21,
-  "memory_usage_mb": 7.419560432434082,
+  "memory_usage_mb": 7.365826606750488,
   "duplicate_rows": 0,
   "missing_values": {
     "customerID": 0,
@@ -29,10 +29,10 @@
   "data_types": {
     "customerID": "object",
     "gender": "object",
-    "SeniorCitizen": "int64",
+    "SeniorCitizen": "int32",
     "Partner": "object",
     "Dependents": "object",
-    "tenure": "int64",
+    "tenure": "int32",
     "PhoneService": "object",
     "MultipleLines": "object",
     "InternetService": "object",

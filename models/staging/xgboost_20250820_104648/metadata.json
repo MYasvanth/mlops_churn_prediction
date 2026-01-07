@@ -1,0 +1,40 @@
+{
+  "model_id": "xgboost_20250820_104648",
+  "model_path": "models\\staging\\xgboost_20250820_104648\\model.pkl",
+  "stage": "staging",
+  "registered_at": "2025-08-20T10:46:48.300103",
+  "model_name": "churn_xgboost",
+  "model_type": "xgboost",
+  "performance_metrics": {
+    "accuracy": 0.8041163946061036,
+    "precision": 0.7952396711751641,
+    "recall": 0.8041163946061036,
+    "f1_score": 0.7974372950582949,
+    "roc_auc": 0.8393732723655997
+  },
+  "hyperparameters": {},
+  "feature_columns": [
+    "customerID",
+    "gender",
+    "SeniorCitizen",
+    "Partner",
+    "Dependents",
+    "tenure",
+    "PhoneService",
+    "MultipleLines",
+    "InternetService",
+    "OnlineSecurity",
+    "OnlineBackup",
+    "DeviceProtection",
+    "TechSupport",
+    "StreamingTV",
+    "StreamingMovies",
+    "Contract",
+    "PaperlessBilling",
+    "PaymentMethod",
+    "MonthlyCharges",
+    "TotalCharges"
+  ],
+  "created_by": "unified_pipeline",
+  "description": "Churn prediction model using xgboost"
+}

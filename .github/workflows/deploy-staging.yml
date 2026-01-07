@@ -1,0 +1,29 @@
+name: Deploy to Staging
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    needs: test
+    
+    steps:
+    - uses: actions/checkout@v3
+    
+    - name: Set up Python
+      uses: actions/setup-python@v3
+      with:
+        python-version: 3.9
+    
+    - name: Install dependencies
+      run: pip install -r requirements.txt
+    
+    - name: Train and deploy model
+      run: |
+        python scripts/ci_cd/deploy_staging.py
+    
+    - name: Run smoke tests
+      run: |
+        python scripts/ci_cd/smoke_test.py
