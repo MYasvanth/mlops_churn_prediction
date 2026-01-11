@@ -214,6 +214,3 @@ class UnifiedModelLoader:
         model = joblib.load(latest_model)
         
         return model, str(latest_model)
-I f   s u b m i t t e d ,   t h i s   r e p o r t   w i l l   b e   u s e d   b y   c o r e   m a i n t a i n e r s   t o   i m p r o v e  
- f u t u r e   r e l e a s e s   o f   c o n d a .  
- 
