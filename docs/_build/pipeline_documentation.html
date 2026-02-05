@@ -1,0 +1,313 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pipeline Documentation &mdash; MLOps Churn Prediction 1.0.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=9edc463e" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=8d563738"></script>
+      <script src="_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Monitoring Guide" href="monitoring.html" />
+    <link rel="prev" title="Deployment Guide" href="deployment_guide.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            MLOps Churn Prediction
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="usage.html">Usage Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api_documentation.html">API Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="deployment_guide.html">Deployment Guide</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Pipeline Documentation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#architecture-overview">Architecture Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#pipeline-components">Pipeline Components</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#data-ingestion-pipeline">1. Data Ingestion Pipeline</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#feature-engineering-pipeline">2. Feature Engineering Pipeline</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#training-pipeline">3. Training Pipeline</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#deployment-pipeline">4. Deployment Pipeline</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#monitoring-pipeline">5. Monitoring Pipeline</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#running-pipelines">Running Pipelines</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#zenml-commands">ZenML Commands</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#direct-execution">Direct Execution</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#configuration">Configuration</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#pipeline-parameters">Pipeline Parameters</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#model-configuration">Model Configuration</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#pipeline-orchestration">Pipeline Orchestration</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#zenml-integration">ZenML Integration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#scheduling">Scheduling</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#best-practices">Best Practices</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="monitoring.html">Monitoring Guide</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">MLOps Churn Prediction</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Pipeline Documentation</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/pipeline_documentation.md.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="pipeline-documentation">
+<h1>Pipeline Documentation<a class="headerlink" href="#pipeline-documentation" title="Link to this heading"></a></h1>
+<section id="architecture-overview">
+<h2>Architecture Overview<a class="headerlink" href="#architecture-overview" title="Link to this heading"></a></h2>
+<p>The MLOps pipeline consists of several interconnected components:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>Data Ingestion → Feature Engineering → Model Training → Model Registry → Deployment
+     ↓                    ↓                 ↓              ↓             ↓
+Data Validation → Feature Store → Hyperparameter → Model Validation → Monitoring
+</pre></div>
+</div>
+</section>
+<section id="pipeline-components">
+<h2>Pipeline Components<a class="headerlink" href="#pipeline-components" title="Link to this heading"></a></h2>
+<section id="data-ingestion-pipeline">
+<h3>1. Data Ingestion Pipeline<a class="headerlink" href="#data-ingestion-pipeline" title="Link to this heading"></a></h3>
+<p><strong>Location</strong>: <code class="docutils literal notranslate"><span class="pre">src/pipelines/data_ingestion_pipeline.py</span></code></p>
+<p><strong>Purpose</strong>: Load and validate raw customer data</p>
+<p><strong>Steps</strong>:</p>
+<ul class="simple">
+<li><p>Load data from CSV/database</p></li>
+<li><p>Validate data schema</p></li>
+<li><p>Handle missing values</p></li>
+<li><p>Store processed data</p></li>
+</ul>
+</section>
+<section id="feature-engineering-pipeline">
+<h3>2. Feature Engineering Pipeline<a class="headerlink" href="#feature-engineering-pipeline" title="Link to this heading"></a></h3>
+<p><strong>Location</strong>: <code class="docutils literal notranslate"><span class="pre">src/pipelines/feature_engineering_pipeline.py</span></code></p>
+<p><strong>Purpose</strong>: Transform raw data into ML-ready features</p>
+<p><strong>Features Created</strong>:</p>
+<ul class="simple">
+<li><p>Tenure categories</p></li>
+<li><p>Monthly charges normalization</p></li>
+<li><p>Service usage patterns</p></li>
+<li><p>Customer lifecycle stage</p></li>
+</ul>
+</section>
+<section id="training-pipeline">
+<h3>3. Training Pipeline<a class="headerlink" href="#training-pipeline" title="Link to this heading"></a></h3>
+<p><strong>Location</strong>: <code class="docutils literal notranslate"><span class="pre">zenml_pipelines/training_pipeline.py</span></code></p>
+<p><strong>Purpose</strong>: Train and evaluate ML models</p>
+<p><strong>Supported Models</strong>:</p>
+<ul class="simple">
+<li><p>XGBoost</p></li>
+<li><p>LightGBM</p></li>
+<li><p>Random Forest</p></li>
+<li><p>Logistic Regression</p></li>
+<li><p>SVM</p></li>
+</ul>
+<p><strong>Hyperparameter Optimization</strong>:</p>
+<ul class="simple">
+<li><p>Optuna integration</p></li>
+<li><p>Bayesian optimization</p></li>
+<li><p>Cross-validation</p></li>
+</ul>
+</section>
+<section id="deployment-pipeline">
+<h3>4. Deployment Pipeline<a class="headerlink" href="#deployment-pipeline" title="Link to this heading"></a></h3>
+<p><strong>Location</strong>: <code class="docutils literal notranslate"><span class="pre">zenml_pipelines/inference_pipeline.py</span></code></p>
+<p><strong>Purpose</strong>: Deploy models to production</p>
+<p><strong>Stages</strong>:</p>
+<ul class="simple">
+<li><p>Model validation</p></li>
+<li><p>A/B testing setup</p></li>
+<li><p>Production deployment</p></li>
+<li><p>Rollback capability</p></li>
+</ul>
+</section>
+<section id="monitoring-pipeline">
+<h3>5. Monitoring Pipeline<a class="headerlink" href="#monitoring-pipeline" title="Link to this heading"></a></h3>
+<p><strong>Location</strong>: <code class="docutils literal notranslate"><span class="pre">zenml_pipelines/monitoring_pipeline.py</span></code></p>
+<p><strong>Purpose</strong>: Monitor model performance and data drift</p>
+<p><strong>Monitoring Types</strong>:</p>
+<ul class="simple">
+<li><p>Data drift detection</p></li>
+<li><p>Model performance tracking</p></li>
+<li><p>Alert generation</p></li>
+<li><p>Report creation</p></li>
+</ul>
+</section>
+</section>
+<section id="running-pipelines">
+<h2>Running Pipelines<a class="headerlink" href="#running-pipelines" title="Link to this heading"></a></h2>
+<section id="zenml-commands">
+<h3>ZenML Commands<a class="headerlink" href="#zenml-commands" title="Link to this heading"></a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Initialize ZenML</span>
+zenml<span class="w"> </span>init
+
+<span class="c1"># Run training pipeline</span>
+zenml<span class="w"> </span>pipeline<span class="w"> </span>run<span class="w"> </span>training_pipeline
+
+<span class="c1"># Run inference pipeline</span>
+zenml<span class="w"> </span>pipeline<span class="w"> </span>run<span class="w"> </span>inference_pipeline
+
+<span class="c1"># View pipeline runs</span>
+zenml<span class="w"> </span>pipeline<span class="w"> </span>runs<span class="w"> </span>list
+</pre></div>
+</div>
+</section>
+<section id="direct-execution">
+<h3>Direct Execution<a class="headerlink" href="#direct-execution" title="Link to this heading"></a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Complete pipeline</span>
+python<span class="w"> </span>run_churn_pipeline.py<span class="w"> </span>--model-type<span class="w"> </span>xgboost<span class="w"> </span>--hyperparameter-optimization
+
+<span class="c1"># Individual components</span>
+python<span class="w"> </span>-m<span class="w"> </span>src.pipelines.data_ingestion_pipeline
+python<span class="w"> </span>-m<span class="w"> </span>src.pipelines.feature_engineering_pipeline
+</pre></div>
+</div>
+</section>
+</section>
+<section id="configuration">
+<h2>Configuration<a class="headerlink" href="#configuration" title="Link to this heading"></a></h2>
+<section id="pipeline-parameters">
+<h3>Pipeline Parameters<a class="headerlink" href="#pipeline-parameters" title="Link to this heading"></a></h3>
+<p><strong>File</strong>: <code class="docutils literal notranslate"><span class="pre">params.yaml</span></code></p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">data_ingestion</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">source_path</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;data/raw/churn_data.csv&quot;</span>
+<span class="w">  </span><span class="nt">validation_rules</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;configs/data/validation_rules.yaml&quot;</span>
+
+<span class="nt">feature_engineering</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">categorical_features</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&quot;gender&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;Partner&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;Dependents&quot;</span><span class="p p-Indicator">]</span>
+<span class="w">  </span><span class="nt">numerical_features</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&quot;tenure&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;MonthlyCharges&quot;</span><span class="p p-Indicator">]</span>
+
+<span class="nt">training</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">test_size</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0.2</span>
+<span class="w">  </span><span class="nt">random_state</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">42</span>
+<span class="w">  </span><span class="nt">cv_folds</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">5</span>
+
+<span class="nt">hyperparameter_optimization</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">n_trials</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">100</span>
+<span class="w">  </span><span class="nt">timeout</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">3600</span>
+</pre></div>
+</div>
+</section>
+<section id="model-configuration">
+<h3>Model Configuration<a class="headerlink" href="#model-configuration" title="Link to this heading"></a></h3>
+<p><strong>Location</strong>: <code class="docutils literal notranslate"><span class="pre">configs/model/</span></code></p>
+<p>Each model has its own configuration file with hyperparameter ranges and training settings.</p>
+</section>
+</section>
+<section id="pipeline-orchestration">
+<h2>Pipeline Orchestration<a class="headerlink" href="#pipeline-orchestration" title="Link to this heading"></a></h2>
+<section id="zenml-integration">
+<h3>ZenML Integration<a class="headerlink" href="#zenml-integration" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p><strong>Artifact Store</strong>: Local filesystem or cloud storage</p></li>
+<li><p><strong>Metadata Store</strong>: SQLite or cloud database</p></li>
+<li><p><strong>Orchestrator</strong>: Local or Kubernetes</p></li>
+<li><p><strong>Model Registry</strong>: MLflow integration</p></li>
+</ul>
+</section>
+<section id="scheduling">
+<h3>Scheduling<a class="headerlink" href="#scheduling" title="Link to this heading"></a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">zenml.integrations.airflow.orchestrators</span><span class="w"> </span><span class="kn">import</span> <span class="n">AirflowOrchestrator</span>
+
+<span class="c1"># Schedule daily retraining</span>
+<span class="nd">@schedule</span><span class="p">(</span><span class="n">cron</span><span class="o">=</span><span class="s2">&quot;0 2 * * *&quot;</span><span class="p">)</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">daily_training_pipeline</span><span class="p">():</span>
+    <span class="n">training_pipeline</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="best-practices">
+<h2>Best Practices<a class="headerlink" href="#best-practices" title="Link to this heading"></a></h2>
+<ol class="arabic simple">
+<li><p><strong>Version Control</strong>: All pipeline code and configurations</p></li>
+<li><p><strong>Testing</strong>: Unit tests for each pipeline component</p></li>
+<li><p><strong>Monitoring</strong>: Track pipeline execution metrics</p></li>
+<li><p><strong>Documentation</strong>: Keep pipeline documentation updated</p></li>
+<li><p><strong>Rollback</strong>: Maintain ability to rollback to previous versions</p></li>
+</ol>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="deployment_guide.html" class="btn btn-neutral float-left" title="Deployment Guide" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="monitoring.html" class="btn btn-neutral float-right" title="Monitoring Guide" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, MLOps Team.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

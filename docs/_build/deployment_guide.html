@@ -1,0 +1,257 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Deployment Guide &mdash; MLOps Churn Prediction 1.0.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=9edc463e" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=8d563738"></script>
+      <script src="_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Pipeline Documentation" href="pipeline_documentation.html" />
+    <link rel="prev" title="API Documentation" href="api_documentation.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            MLOps Churn Prediction
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="usage.html">Usage Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api_documentation.html">API Documentation</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Deployment Guide</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#quick-start">Quick Start</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#local-development">1. Local Development</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#docker-deployment">2. Docker Deployment</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#kubernetes-deployment">3. Kubernetes Deployment</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#production-deployment">Production Deployment</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#environment-variables">Environment Variables</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#health-checks">Health Checks</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#scaling">Scaling</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#monitoring-setup">Monitoring Setup</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#prometheus-metrics">Prometheus Metrics</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#grafana-dashboards">Grafana Dashboards</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#troubleshooting">Troubleshooting</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#common-issues">Common Issues</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="pipeline_documentation.html">Pipeline Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="monitoring.html">Monitoring Guide</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">MLOps Churn Prediction</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Deployment Guide</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/deployment_guide.md.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="deployment-guide">
+<h1>Deployment Guide<a class="headerlink" href="#deployment-guide" title="Link to this heading"></a></h1>
+<section id="quick-start">
+<h2>Quick Start<a class="headerlink" href="#quick-start" title="Link to this heading"></a></h2>
+<section id="local-development">
+<h3>1. Local Development<a class="headerlink" href="#local-development" title="Link to this heading"></a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Install dependencies</span>
+pip<span class="w"> </span>install<span class="w"> </span>-r<span class="w"> </span>requirements.txt
+
+<span class="c1"># Train models</span>
+python<span class="w"> </span>run_churn_pipeline.py<span class="w"> </span>--model-type<span class="w"> </span>xgboost
+
+<span class="c1"># Start API server</span>
+python<span class="w"> </span>scripts/monitoring/run_fastapi_server.py
+
+<span class="c1"># Launch dashboard</span>
+streamlit<span class="w"> </span>run<span class="w"> </span>src/deployment/streamlit_app.py<span class="w"> </span>--server.port<span class="w"> </span><span class="m">8501</span>
+</pre></div>
+</div>
+</section>
+<section id="docker-deployment">
+<h3>2. Docker Deployment<a class="headerlink" href="#docker-deployment" title="Link to this heading"></a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Build image</span>
+docker<span class="w"> </span>build<span class="w"> </span>-t<span class="w"> </span>mlops-churn<span class="w"> </span>.
+
+<span class="c1"># Run container</span>
+docker<span class="w"> </span>run<span class="w"> </span>-p<span class="w"> </span><span class="m">8000</span>:8000<span class="w"> </span>mlops-churn
+</pre></div>
+</div>
+</section>
+<section id="kubernetes-deployment">
+<h3>3. Kubernetes Deployment<a class="headerlink" href="#kubernetes-deployment" title="Link to this heading"></a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Apply manifests</span>
+kubectl<span class="w"> </span>apply<span class="w"> </span>-f<span class="w"> </span>deployment/kubernetes/
+
+<span class="c1"># Check status</span>
+kubectl<span class="w"> </span>get<span class="w"> </span>pods<span class="w"> </span>-l<span class="w"> </span><span class="nv">app</span><span class="o">=</span>mlops-churn
+</pre></div>
+</div>
+</section>
+</section>
+<section id="production-deployment">
+<h2>Production Deployment<a class="headerlink" href="#production-deployment" title="Link to this heading"></a></h2>
+<section id="environment-variables">
+<h3>Environment Variables<a class="headerlink" href="#environment-variables" title="Link to this heading"></a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">export</span><span class="w"> </span><span class="nv">MLFLOW_TRACKING_URI</span><span class="o">=</span>http://mlflow:5000
+<span class="nb">export</span><span class="w"> </span><span class="nv">MODEL_STAGE</span><span class="o">=</span>production
+<span class="nb">export</span><span class="w"> </span><span class="nv">API_HOST</span><span class="o">=</span><span class="m">0</span>.0.0.0
+<span class="nb">export</span><span class="w"> </span><span class="nv">API_PORT</span><span class="o">=</span><span class="m">8000</span>
+</pre></div>
+</div>
+</section>
+<section id="health-checks">
+<h3>Health Checks<a class="headerlink" href="#health-checks" title="Link to this heading"></a></h3>
+<p>The API provides health endpoints for load balancer configuration:</p>
+<ul class="simple">
+<li><p><strong>Liveness</strong>: <code class="docutils literal notranslate"><span class="pre">/health</span></code></p></li>
+<li><p><strong>Readiness</strong>: <code class="docutils literal notranslate"><span class="pre">/health</span></code></p></li>
+</ul>
+</section>
+<section id="scaling">
+<h3>Scaling<a class="headerlink" href="#scaling" title="Link to this heading"></a></h3>
+<p>Configure horizontal pod autoscaling:</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">autoscaling/v2</span>
+<span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">HorizontalPodAutoscaler</span>
+<span class="nt">metadata</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">mlops-churn-hpa</span>
+<span class="nt">spec</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">scaleTargetRef</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">apps/v1</span>
+<span class="w">    </span><span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Deployment</span>
+<span class="w">    </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">mlops-churn</span>
+<span class="w">  </span><span class="nt">minReplicas</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">2</span>
+<span class="w">  </span><span class="nt">maxReplicas</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">10</span>
+<span class="w">  </span><span class="nt">metrics</span><span class="p">:</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Resource</span>
+<span class="w">    </span><span class="nt">resource</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">cpu</span>
+<span class="w">      </span><span class="nt">target</span><span class="p">:</span>
+<span class="w">        </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Utilization</span>
+<span class="w">        </span><span class="nt">averageUtilization</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">70</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="monitoring-setup">
+<h2>Monitoring Setup<a class="headerlink" href="#monitoring-setup" title="Link to this heading"></a></h2>
+<section id="prometheus-metrics">
+<h3>Prometheus Metrics<a class="headerlink" href="#prometheus-metrics" title="Link to this heading"></a></h3>
+<p>The API exposes metrics at <code class="docutils literal notranslate"><span class="pre">/metrics</span></code> endpoint.</p>
+</section>
+<section id="grafana-dashboards">
+<h3>Grafana Dashboards<a class="headerlink" href="#grafana-dashboards" title="Link to this heading"></a></h3>
+<p>Import dashboard from <code class="docutils literal notranslate"><span class="pre">monitoring/dashboards/grafana.json</span></code>.</p>
+</section>
+</section>
+<section id="troubleshooting">
+<h2>Troubleshooting<a class="headerlink" href="#troubleshooting" title="Link to this heading"></a></h2>
+<section id="common-issues">
+<h3>Common Issues<a class="headerlink" href="#common-issues" title="Link to this heading"></a></h3>
+<ol class="arabic simple">
+<li><p><strong>Model Loading Errors</strong></p>
+<ul class="simple">
+<li><p>Check MLflow server connectivity</p></li>
+<li><p>Verify model registry permissions</p></li>
+</ul>
+</li>
+<li><p><strong>Memory Issues</strong></p>
+<ul class="simple">
+<li><p>Increase container memory limits</p></li>
+<li><p>Optimize model loading strategy</p></li>
+</ul>
+</li>
+<li><p><strong>Performance Issues</strong></p>
+<ul class="simple">
+<li><p>Enable model caching</p></li>
+<li><p>Use batch prediction for multiple requests</p></li>
+</ul>
+</li>
+</ol>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="api_documentation.html" class="btn btn-neutral float-left" title="API Documentation" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="pipeline_documentation.html" class="btn btn-neutral float-right" title="Pipeline Documentation" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, MLOps Team.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
