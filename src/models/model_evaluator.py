@@ -11,6 +11,7 @@ from sklearn.metrics import (
     roc_auc_score, classification_report, confusion_matrix,
     precision_recall_curve, roc_curve
 )
+from sklearn.model_selection import learning_curve, validation_curve
 import matplotlib.pyplot as plt
 import seaborn as sns
 from dataclasses import dataclass
@@ -34,6 +35,7 @@ class EvaluationMetrics:
     roc_auc: float
     confusion_matrix: np.ndarray
     classification_report: Dict[str, Any]
+    bias_variance_analysis: Dict[str, Any] = None
 
 class ModelEvaluator:
     """
@@ -90,6 +92,11 @@ class ModelEvaluator:
             
             # Generate visualizations
             self._generate_evaluation_plots(y_test, y_pred, y_pred_proba, model_name)
+            
+            # Analyze learning curves for bias-variance diagnosis
+            if hasattr(model, 'fit'):
+                bias_variance_analysis = self._analyze_learning_curves(model, X_test, y_test, model_name)
+                metrics.bias_variance_analysis = bias_variance_analysis
             
             # Save detailed report
             self._save_evaluation_report(metrics, model_name)
@@ -292,7 +299,8 @@ class ModelEvaluator:
                 'roc_auc': metrics.roc_auc
             },
             'classification_report': metrics.classification_report,
-            'confusion_matrix': metrics.confusion_matrix.tolist()
+            'confusion_matrix': metrics.confusion_matrix.tolist(),
+            'bias_variance_analysis': metrics.bias_variance_analysis
         }
         
         import json
@@ -362,3 +370,115 @@ class ModelEvaluator:
         
         logger.info(f"Best model: {best_model} with composite score: {best_score:.3f}")
         return best_model
+    
+    def _analyze_learning_curves(self, model, X, y, model_name: str) -> Dict[str, Any]:
+        """
+        Analyze learning curves for bias-variance diagnosis.
+        
+        Args:
+            model: Trained model
+            X: Features
+            y: Target
+            model_name: Name of the model
+            
+        Returns:
+            Dict: Bias-variance analysis results
+        """
+        try:
+            # Generate learning curves
+            train_sizes = np.linspace(0.1, 1.0, 10)
+            train_sizes_abs, train_scores, val_scores = learning_curve(
+                model, X, y, cv=5, train_sizes=train_sizes, 
+                scoring='accuracy', n_jobs=-1, random_state=42
+            )
+            
+            # Calculate means and stds
+            train_mean = np.mean(train_scores, axis=1)
+            train_std = np.std(train_scores, axis=1)
+            val_mean = np.mean(val_scores, axis=1)
+            val_std = np.std(val_scores, axis=1)
+            
+            # Bias-variance diagnosis
+            final_train_score = train_mean[-1]
+            final_val_score = val_mean[-1]
+            gap = final_train_score - final_val_score
+            
+            # Diagnosis logic
+            if final_train_score < 0.8 and final_val_score < 0.8:
+                diagnosis = "HIGH_BIAS_UNDERFIT"
+                recommendation = "Increase model complexity, add features, reduce regularization"
+            elif final_train_score > 0.9 and gap > 0.1:
+                diagnosis = "HIGH_VARIANCE_OVERFIT"
+                recommendation = "Reduce model complexity, add regularization, get more data"
+            elif gap < 0.05:
+                diagnosis = "GOOD_FIT"
+                recommendation = "Model is well-balanced"
+            else:
+                diagnosis = "MODERATE_OVERFIT"
+                recommendation = "Consider slight regularization or more data"
+            
+            # Plot learning curves
+            self._plot_learning_curves(train_sizes_abs, train_mean, train_std, 
+                                     val_mean, val_std, model_name, diagnosis)
+            
+            analysis = {
+                'final_train_score': float(final_train_score),
+                'final_val_score': float(final_val_score),
+                'train_val_gap': float(gap),
+                'diagnosis': diagnosis,
+                'recommendation': recommendation,
+                'train_scores': train_mean.tolist(),
+                'val_scores': val_mean.tolist(),
+                'train_sizes': train_sizes_abs.tolist()
+            }
+            
+            # Log to MLflow
+            mlflow.log_metric("train_val_gap", gap)
+            mlflow.log_param("bias_variance_diagnosis", diagnosis)
+            
+            logger.info(f"Learning curve analysis: {diagnosis}")
+            return analysis
+            
+        except Exception as e:
+            logger.warning(f"Learning curve analysis failed: {str(e)}")
+            return {"error": str(e)}
+    
+    def _plot_learning_curves(self, train_sizes, train_mean, train_std, 
+                             val_mean, val_std, model_name: str, diagnosis: str):
+        """
+        Plot learning curves with bias-variance diagnosis.
+        """
+        plt.figure(figsize=(10, 6))
+        
+        # Plot training scores
+        plt.plot(train_sizes, train_mean, 'o-', color='blue', label='Training Score')
+        plt.fill_between(train_sizes, train_mean - train_std, train_mean + train_std, 
+                        alpha=0.1, color='blue')
+        
+        # Plot validation scores
+        plt.plot(train_sizes, val_mean, 'o-', color='red', label='Validation Score')
+        plt.fill_between(train_sizes, val_mean - val_std, val_mean + val_std, 
+                        alpha=0.1, color='red')
+        
+        plt.xlabel('Training Set Size')
+        plt.ylabel('Accuracy Score')
+        plt.title(f'Learning Curves - {model_name}\nDiagnosis: {diagnosis}')
+        plt.legend(loc='best')
+        plt.grid(True, alpha=0.3)
+        
+        # Add diagnosis annotation
+        gap = train_mean[-1] - val_mean[-1]
+        plt.annotate(f'Train-Val Gap: {gap:.3f}', 
+                    xy=(0.7, 0.1), xycoords='axes fraction',
+                    bbox=dict(boxstyle='round', facecolor='wheat', alpha=0.8))
+        
+        # Save plot
+        plt.savefig(self.reports_dir / f'{model_name}_learning_curves.png', 
+                   dpi=300, bbox_inches='tight')
+        plt.close()
+        
+        # Log to MLflow
+        try:
+            mlflow.log_artifact(str(self.reports_dir / f'{model_name}_learning_curves.png'))
+        except Exception as e:
+            logger.warning(f"Failed to log learning curves to MLflow: {str(e)}")
