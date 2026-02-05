@@ -32,7 +32,7 @@ This project implements a complete machine learning operations (MLOps) pipeline 
 │   Registry      │    │   (FastAPI)     │    │   & Alerts      │
 └─────────────────┘    └─────────────────┘    └─────────────────┘
 ```
-
+![Churn Architecture](https://github.com/MYasvanth/mlops_churn_prediction/blob/master/Churn_Architecture.png)
 ## 📊 Model Performance
 
 | Model | Accuracy | Precision | Recall | F1-Score |
