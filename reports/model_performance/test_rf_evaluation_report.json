@@ -1,0 +1,90 @@
+{
+  "model_name": "test_rf",
+  "metrics": {
+    "accuracy": 0.925,
+    "precision": 0.925042504250425,
+    "recall": 0.925,
+    "f1_score": 0.9249981249531238,
+    "roc_auc": 0.9722500000000002
+  },
+  "classification_report": {
+    "0": {
+      "precision": 0.9207920792079208,
+      "recall": 0.93,
+      "f1-score": 0.9253731343283582,
+      "support": 100.0
+    },
+    "1": {
+      "precision": 0.9292929292929293,
+      "recall": 0.92,
+      "f1-score": 0.9246231155778895,
+      "support": 100.0
+    },
+    "accuracy": 0.925,
+    "macro avg": {
+      "precision": 0.9250425042504251,
+      "recall": 0.925,
+      "f1-score": 0.9249981249531238,
+      "support": 200.0
+    },
+    "weighted avg": {
+      "precision": 0.925042504250425,
+      "recall": 0.925,
+      "f1-score": 0.9249981249531238,
+      "support": 200.0
+    }
+  },
+  "confusion_matrix": [
+    [
+      93,
+      7
+    ],
+    [
+      8,
+      92
+    ]
+  ],
+  "bias_variance_analysis": {
+    "final_train_score": 1.0,
+    "final_val_score": 0.8399999999999999,
+    "train_val_gap": 0.16000000000000014,
+    "diagnosis": "HIGH_VARIANCE_OVERFIT",
+    "recommendation": "Reduce model complexity, add regularization, get more data",
+    "train_scores": [
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0
+    ],
+    "val_scores": [
+      0.625,
+      0.69,
+      0.76,
+      0.76,
+      0.765,
+      0.765,
+      0.775,
+      0.8000000000000002,
+      0.8099999999999999,
+      0.8399999999999999
+    ],
+    "train_sizes": [
+      16,
+      32,
+      48,
+      64,
+      80,
+      96,
+      112,
+      128,
+      144,
+      160
+    ]
+  }
+}
