@@ -1,0 +1,45 @@
+# Core ML Libraries
+pandas
+numpy
+scikit-learn
+xgboost
+lightgbm
+
+# MLOps Tools
+mlflow
+dvc
+optuna
+evidently
+zenml[mlflow,scikit-learn,dvc,evidently,optuna]>=0.41.0
+
+# Data Processing
+pyyaml
+joblib
+pyarrow
+
+# API and Serving
+fastapi
+uvicorn
+pydantic
+
+# Monitoring and Logging
+wandb
+prometheus-client
+
+# Development and Testing
+pytest
+black
+flake8
+mypy
+
+# Visualization
+matplotlib
+seaborn
+plotly
+
+# Utilities
+tqdm
+click
+python-dotenv
+requests
+pyparsing
