@@ -14,10 +14,11 @@ plotly
 matplotlib
 seaborn
 
+# MLflow - upgraded for Python 3.13 compatibility
+mlflow>=2.9.0
+
 # Utilities
 pyyaml
 python-dotenv
 setuptools>=65.0.0
-
-# Fix protobuf conflict - force compatible version
-protobuf==3.20.3
+protobuf>=3.20.0,<5.0.0
