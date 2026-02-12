@@ -17,6 +17,7 @@ seaborn
 # Utilities
 pyyaml
 python-dotenv
+setuptools>=65.0.0
 
 # Fix protobuf conflict - force compatible version
 protobuf==3.20.3
