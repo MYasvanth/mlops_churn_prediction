@@ -16,8 +16,10 @@ import mlflow
 import optuna
 from datetime import datetime
 
-# Add src to path
-sys.path.append(str(Path(__file__).parent))
+# Add project root to sys.path for imports
+project_root = Path(__file__).parent.parent.parent
+if str(project_root) not in sys.path:
+    sys.path.insert(0, str(project_root))
 
 from src.models.unified_model_registry_fixed import UnifiedModelRegistry
 from src.utils.logger import get_logger
