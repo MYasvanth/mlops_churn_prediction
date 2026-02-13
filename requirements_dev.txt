@@ -14,6 +14,7 @@ zenml[mlflow,scikit-learn,dvc,evidently,optuna]>=0.41.0
 
 # Data Processing
 pyyaml
+omegaconf
 joblib
 pyarrow
 
@@ -43,3 +44,6 @@ click
 python-dotenv
 requests
 pyparsing
+
+# Streamlit
+streamlit
