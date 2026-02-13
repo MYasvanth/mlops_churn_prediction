@@ -202,13 +202,16 @@ class ChurnPredictionApp:
     def predict_churn(self, input_data):
         """Predict churn for input data"""
         try:
-            # Load production model
+            # Load production model - prefer xgboost
             models = self.registry.list_models("production")
             if not models:
                 st.error("No production models available")
                 return {'prediction': 0, 'probability': 0.0}
             
-            latest_model = models[0]
+            # Find xgboost model, otherwise use latest
+            xgboost_model = next((m for m in models if 'xgboost' in m['model_id'].lower()), None)
+            latest_model = xgboost_model if xgboost_model else models[0]
+            
             model = self.registry.load_model(latest_model["model_id"], "production")
             
             # Convert input data to features (this would need proper feature engineering)
