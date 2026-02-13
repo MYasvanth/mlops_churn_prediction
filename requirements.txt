@@ -17,6 +17,9 @@ seaborn
 # MLflow - upgraded for Python 3.13 compatibility
 mlflow>=2.9.0
 
+# Optuna
+optuna
+
 # Utilities
 pyyaml
 python-dotenv
