@@ -2,6 +2,14 @@
 
 An end-to-end MLOps pipeline for customer churn prediction with automated training, deployment, monitoring, and production-ready serving capabilities.
 
+## 🚀 Live Demo
+
+Streamlit App (Deployed):
+
+👉 https://mlops-churn-prediction-4qvb.onrender.com
+
+This UI loads the production model from MLflow and performs real-time churn prediction.
+
 ## 🎯 Overview
 
 This project implements a complete machine learning operations (MLOps) pipeline for predicting customer churn using multiple algorithms and industry best practices. The pipeline includes data processing, model training, hyperparameter optimization, model deployment, and continuous monitoring.
