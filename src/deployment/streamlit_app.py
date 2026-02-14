@@ -240,10 +240,39 @@ class ChurnPredictionApp:
             return {'prediction': 0, 'probability': 0.0}
     
     def _prepare_features(self, input_data):
-        """Prepare features for prediction (simplified)"""
-        # This should implement proper feature engineering
-        # For now, return dummy features
-        return np.array([[0.5] * 20])  # Dummy features
+        """Prepare features matching training pipeline"""
+        try:
+            # Create DataFrame with proper encoding
+            # customerID: use hash to convert to numeric (model expects numeric)
+            customer_id_hash = hash('PRED-' + str(np.random.randint(1000, 9999))) % 10000
+            
+            df = pd.DataFrame([{
+                'customerID': customer_id_hash,
+                'gender': 1 if input_data['gender'] == 'Male' else 0,
+                'SeniorCitizen': input_data['SeniorCitizen'],
+                'Partner': 1 if input_data['Partner'] == 'Yes' else 0,
+                'Dependents': 1 if input_data['Dependents'] == 'Yes' else 0,
+                'tenure': input_data['tenure'],
+                'PhoneService': 1 if input_data['PhoneService'] == 'Yes' else 0,
+                'MultipleLines': 1 if input_data['MultipleLines'] == 'Yes' else 0,
+                'InternetService': 2 if input_data['InternetService'] == 'Fiber optic' else (1 if input_data['InternetService'] == 'DSL' else 0),
+                'OnlineSecurity': 1 if input_data['OnlineSecurity'] == 'Yes' else 0,
+                'OnlineBackup': 1 if input_data['OnlineBackup'] == 'Yes' else 0,
+                'DeviceProtection': 1 if input_data['DeviceProtection'] == 'Yes' else 0,
+                'TechSupport': 1 if input_data['TechSupport'] == 'Yes' else 0,
+                'StreamingTV': 1 if input_data['StreamingTV'] == 'Yes' else 0,
+                'StreamingMovies': 1 if input_data['StreamingMovies'] == 'Yes' else 0,
+                'Contract': 0 if input_data['Contract'] == 'Month-to-month' else (1 if input_data['Contract'] == 'One year' else 2),
+                'PaperlessBilling': 1 if input_data['PaperlessBilling'] == 'Yes' else 0,
+                'PaymentMethod': 0 if input_data['PaymentMethod'] == 'Electronic check' else 1,
+                'MonthlyCharges': input_data['MonthlyCharges'],
+                'TotalCharges': input_data['TotalCharges']
+            }])
+            return df.values
+            
+        except Exception as e:
+            st.error(f"Feature preparation error: {e}")
+            raise
     
     def _get_feature_names(self):
         """Get feature names (simplified)"""
