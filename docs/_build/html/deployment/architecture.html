@@ -1,0 +1,259 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>System Architecture &mdash; MLOps Churn Prediction 1.0.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=9edc463e" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=8d563738"></script>
+      <script src="../_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            MLOps Churn Prediction
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <!-- Local TOC -->
+              <div class="local-toc"><ul>
+<li><a class="reference internal" href="#">System Architecture</a><ul>
+<li><a class="reference internal" href="#high-level-architecture">High-Level Architecture</a></li>
+<li><a class="reference internal" href="#components">Components</a><ul>
+<li><a class="reference internal" href="#api-gateway">1. API Gateway</a></li>
+<li><a class="reference internal" href="#prediction-api">2. Prediction API</a></li>
+<li><a class="reference internal" href="#model-server">3. Model Server</a></li>
+<li><a class="reference internal" href="#feature-store">4. Feature Store</a></li>
+<li><a class="reference internal" href="#monitoring">5. Monitoring</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#deployment-options">Deployment Options</a><ul>
+<li><a class="reference internal" href="#option-1-kubernetes-recommended">Option 1: Kubernetes (Recommended)</a></li>
+<li><a class="reference internal" href="#option-2-serverless">Option 2: Serverless</a></li>
+<li><a class="reference internal" href="#option-3-container-docker">Option 3: Container (Docker)</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#security">Security</a></li>
+</ul>
+</li>
+</ul>
+</div>
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">MLOps Churn Prediction</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">System Architecture</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/deployment/architecture.md.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="system-architecture">
+<h1>System Architecture<a class="headerlink" href="#system-architecture" title="Link to this heading"></a></h1>
+<section id="high-level-architecture">
+<h2>High-Level Architecture<a class="headerlink" href="#high-level-architecture" title="Link to this heading"></a></h2>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>┌─────────────────────────────────────────────────────────────────┐
+│                        Client Applications                       │
+│  (Web App, Mobile App, CRM, Marketing Automation)              │
+└─────────────────────────────┬───────────────────────────────────┘
+                              │ HTTPS/REST
+                              ▼
+┌─────────────────────────────────────────────────────────────────┐
+│                         API Gateway                               │
+│                    (Authentication, Rate Limiting)              │
+└─────────────────────────────┬───────────────────────────────────┘
+                              │
+                              ▼
+┌─────────────────────────────────────────────────────────────────┐
+│                      Prediction API                               │
+│              (FastAPI - Model Serving)                          │
+│  ┌─────────────────────────────────────────────────────────────┐│
+│  │                    LightGBM Model                           ││
+│  │              (Cached, GPU-enabled)                         ││
+│  └─────────────────────────────────────────────────────────────┘│
+└─────────────────────────────┬───────────────────────────────────┘
+                              │
+              ┌───────────────┼───────────────┐
+              ▼               ▼               ▼
+       ┌──────────┐   ┌──────────┐   ┌──────────┐
+       │ MLflow   │   │ Feature  │   │ Monitoring│
+       │ Server   │   │ Store    │   │ (Grafana)│
+       └──────────┘   └──────────┘   └──────────┘
+</pre></div>
+</div>
+</section>
+<section id="components">
+<h2>Components<a class="headerlink" href="#components" title="Link to this heading"></a></h2>
+<section id="api-gateway">
+<h3>1. API Gateway<a class="headerlink" href="#api-gateway" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p><strong>Technology</strong>: NGINX / AWS API Gateway</p></li>
+<li><p><strong>Functions</strong>:</p>
+<ul>
+<li><p>SSL termination</p></li>
+<li><p>Authentication (OAuth2/JWT)</p></li>
+<li><p>Rate limiting</p></li>
+<li><p>Request routing</p></li>
+</ul>
+</li>
+</ul>
+</section>
+<section id="prediction-api">
+<h3>2. Prediction API<a class="headerlink" href="#prediction-api" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p><strong>Technology</strong>: FastAPI (Python)</p></li>
+<li><p><strong>Functions</strong>:</p>
+<ul>
+<li><p>Real-time predictions</p></li>
+<li><p>Batch predictions</p></li>
+<li><p>Model versioning</p></li>
+<li><p>Input validation</p></li>
+</ul>
+</li>
+</ul>
+</section>
+<section id="model-server">
+<h3>3. Model Server<a class="headerlink" href="#model-server" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p><strong>Technology</strong>: MLflow Serving / Triton</p></li>
+<li><p><strong>Functions</strong>:</p>
+<ul>
+<li><p>Model loading</p></li>
+<li><p>Inference optimization</p></li>
+<li><p>A/B testing support</p></li>
+</ul>
+</li>
+</ul>
+</section>
+<section id="feature-store">
+<h3>4. Feature Store<a class="headerlink" href="#feature-store" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p><strong>Technology</strong>: Redis / Feast</p></li>
+<li><p><strong>Functions</strong>:</p>
+<ul>
+<li><p>Feature retrieval</p></li>
+<li><p>Feature caching</p></li>
+<li><p>Point-in-time lookup</p></li>
+</ul>
+</li>
+</ul>
+</section>
+<section id="monitoring">
+<h3>5. Monitoring<a class="headerlink" href="#monitoring" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p><strong>Technology</strong>: Prometheus + Grafana</p></li>
+<li><p><strong>Functions</strong>:</p>
+<ul>
+<li><p>Metrics collection</p></li>
+<li><p>Alerting</p></li>
+<li><p>Dashboards</p></li>
+</ul>
+</li>
+</ul>
+</section>
+</section>
+<section id="deployment-options">
+<h2>Deployment Options<a class="headerlink" href="#deployment-options" title="Link to this heading"></a></h2>
+<section id="option-1-kubernetes-recommended">
+<h3>Option 1: Kubernetes (Recommended)<a class="headerlink" href="#option-1-kubernetes-recommended" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p><strong>Infrastructure</strong>: EKS/GKE/AKS</p></li>
+<li><p><strong>Scaling</strong>: HPA + Cluster Autoscaler</p></li>
+<li><p><strong>CI/CD</strong>: ArgoCD/Flux</p></li>
+</ul>
+</section>
+<section id="option-2-serverless">
+<h3>Option 2: Serverless<a class="headerlink" href="#option-2-serverless" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p><strong>Compute</strong>: AWS Lambda / Cloud Functions</p></li>
+<li><p><strong>API</strong>: API Gateway</p></li>
+<li><p><strong>Storage</strong>: S3</p></li>
+</ul>
+</section>
+<section id="option-3-container-docker">
+<h3>Option 3: Container (Docker)<a class="headerlink" href="#option-3-container-docker" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p><strong>Orchestration</strong>: Docker Compose</p></li>
+<li><p><strong>Use Case</strong>: Development/Staging</p></li>
+</ul>
+</section>
+</section>
+<section id="security">
+<h2>Security<a class="headerlink" href="#security" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p><strong>Authentication</strong>: OAuth2 with JWT</p></li>
+<li><p><strong>Encryption</strong>: TLS 1.3</p></li>
+<li><p><strong>Secrets</strong>: HashiCorp Vault / AWS Secrets Manager</p></li>
+<li><p><strong>VPC</strong>: Private subnets for sensitive services</p></li>
+</ul>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, MLOps Team.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

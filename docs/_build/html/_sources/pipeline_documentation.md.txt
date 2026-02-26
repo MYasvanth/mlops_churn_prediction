@@ -1,0 +1,167 @@
+# Pipeline Documentation
+
+## Architecture Overview
+
+The MLOps pipeline consists of several interconnected components:
+
+```
+Data Ingestion → Feature Engineering → Model Training → Model Registry → Deployment
+     ↓                    ↓                 ↓              ↓             ↓
+Data Validation → Feature Store → Hyperparameter → Model Validation → Monitoring
+```
+
+## Pipeline Components
+
+### 1. Data Ingestion Pipeline
+
+**Location**: `src/pipelines/data_ingestion_pipeline.py`
+
+**Purpose**: Load and validate raw customer data
+
+**Steps**:
+- Load data from CSV/database
+- Validate data schema
+- Handle missing values
+- Store processed data
+
+### 2. Feature Engineering Pipeline
+
+**Location**: `src/pipelines/feature_engineering_pipeline.py`
+
+**Purpose**: Transform raw data into ML-ready features
+
+**Features Created**:
+- Tenure categories
+- Monthly charges normalization
+- Service usage patterns
+- Customer lifecycle stage
+
+### 3. Training Pipeline
+
+**Location**: `zenml_pipelines/training_pipeline.py`
+
+**Purpose**: Train and evaluate ML models
+
+**Supported Models**:
+- XGBoost
+- LightGBM
+- Random Forest
+- Logistic Regression
+- SVM
+
+**Hyperparameter Optimization**:
+- Optuna integration
+- Bayesian optimization
+- Cross-validation
+
+### 4. Deployment Pipeline
+
+**Location**: `zenml_pipelines/inference_pipeline.py`
+
+**Purpose**: Deploy models to production
+
+**Stages**:
+- Model validation
+- A/B testing setup
+- Production deployment
+- Rollback capability
+
+### 5. Monitoring Pipeline
+
+**Location**: `zenml_pipelines/monitoring_pipeline.py`
+
+**Purpose**: Monitor model performance and data drift
+
+**Monitoring Types**:
+- Data drift detection
+- Model performance tracking
+- Alert generation
+- Report creation
+
+## Running Pipelines
+
+### ZenML Commands
+
+```bash
+# Initialize ZenML
+zenml init
+
+# Run training pipeline
+zenml pipeline run training_pipeline
+
+# Run inference pipeline
+zenml pipeline run inference_pipeline
+
+# View pipeline runs
+zenml pipeline runs list
+```
+
+### Direct Execution
+
+```bash
+# Complete pipeline
+python run_churn_pipeline.py --model-type xgboost --hyperparameter-optimization
+
+# Individual components
+python -m src.pipelines.data_ingestion_pipeline
+python -m src.pipelines.feature_engineering_pipeline
+```
+
+## Configuration
+
+### Pipeline Parameters
+
+**File**: `params.yaml`
+
+```yaml
+data_ingestion:
+  source_path: "data/raw/churn_data.csv"
+  validation_rules: "configs/data/validation_rules.yaml"
+
+feature_engineering:
+  categorical_features: ["gender", "Partner", "Dependents"]
+  numerical_features: ["tenure", "MonthlyCharges"]
+
+training:
+  test_size: 0.2
+  random_state: 42
+  cv_folds: 5
+
+hyperparameter_optimization:
+  n_trials: 100
+  timeout: 3600
+```
+
+### Model Configuration
+
+**Location**: `configs/model/`
+
+Each model has its own configuration file with hyperparameter ranges and training settings.
+
+## Pipeline Orchestration
+
+### ZenML Integration
+
+- **Artifact Store**: Local filesystem or cloud storage
+- **Metadata Store**: SQLite or cloud database
+- **Orchestrator**: Local or Kubernetes
+- **Model Registry**: MLflow integration
+
+### Scheduling
+
+```python
+from zenml.integrations.airflow.orchestrators import AirflowOrchestrator
+
+# Schedule daily retraining
+@schedule(cron="0 2 * * *")
+def daily_training_pipeline():
+    training_pipeline.run()
+```
+
+## Best Practices
+
+1. **Version Control**: All pipeline code and configurations
+2. **Testing**: Unit tests for each pipeline component
+3. **Monitoring**: Track pipeline execution metrics
+4. **Documentation**: Keep pipeline documentation updated
+5. **Rollback**: Maintain ability to rollback to previous versions

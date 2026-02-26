@@ -1,0 +1,114 @@
+# API Documentation
+
+## Overview
+
+The MLOps Churn Prediction API provides REST endpoints for model inference, management, and monitoring.
+
+**Base URL**: `http://localhost:8000`
+
+## Authentication
+
+Currently no authentication required for local deployment.
+
+## Endpoints
+
+### Health Check
+
+**GET** `/health`
+
+Returns system health status and available models.
+
+**Response**:
+```json
+{
+  "status": "healthy",
+  "model_loaded": true,
+  "available_models": ["xgboost_20250822_013133"]
+}
+```
+
+### List Models
+
+**GET** `/models`
+
+**Parameters**:
+- `stage` (optional): Filter by model stage (`staging`, `production`)
+
+**Response**:
+```json
+[
+  {
+    "model_id": "xgboost_20250822_013133",
+    "model_type": "xgboost",
+    "stage": "staging",
+    "created_at": "2025-08-22T01:31:33"
+  }
+]
+```
+
+### Single Prediction
+
+**POST** `/predict`
+
+**Request Body**:
+```json
+{
+  "features": [0.5, 0.3, 0.8, ...],  // 20 features
+  "model_id": "xgboost_20250822_013133",
+  "stage": "staging"
+}
+```
+
+**Response**:
+```json
+{
+  "prediction": 1,
+  "probability": 0.85,
+  "model_id": "xgboost_20250822_013133"
+}
+```
+
+### Batch Prediction
+
+**POST** `/predict/batch`
+
+**Request Body**:
+```json
+{
+  "data": [[0.5, 0.3, ...], [0.8, 0.2, ...]],
+  "model_id": "xgboost_20250822_013133",
+  "stage": "staging"
+}
+```
+
+### Model Information
+
+**GET** `/models/{model_id}`
+
+**Parameters**:
+- `stage` (optional): Model stage
+
+**Response**:
+```json
+{
+  "model_id": "xgboost_20250822_013133",
+  "model_type": "xgboost",
+  "performance_metrics": {
+    "accuracy": 0.804,
+    "precision": 0.82,
+    "recall": 0.79,
+    "f1_score": 0.80
+  }
+}
+```
+
+## Error Codes
+
+- `200`: Success
+- `400`: Bad Request
+- `404`: Model Not Found
+- `500`: Internal Server Error
+
+## Interactive Documentation
+
+Visit `http://localhost:8000/docs` for interactive Swagger UI documentation.

@@ -1,0 +1,275 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>API Documentation &mdash; MLOps Churn Prediction 1.0.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=9edc463e" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=8d563738"></script>
+      <script src="../_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            MLOps Churn Prediction
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <!-- Local TOC -->
+              <div class="local-toc"><ul>
+<li><a class="reference internal" href="#">API Documentation</a><ul>
+<li><a class="reference internal" href="#base-url">Base URL</a></li>
+<li><a class="reference internal" href="#authentication">Authentication</a></li>
+<li><a class="reference internal" href="#endpoints">Endpoints</a><ul>
+<li><a class="reference internal" href="#predict-churn">1. Predict Churn</a></li>
+<li><a class="reference internal" href="#batch-prediction">2. Batch Prediction</a></li>
+<li><a class="reference internal" href="#get-model-info">3. Get Model Info</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#error-responses">Error Responses</a></li>
+<li><a class="reference internal" href="#rate-limits">Rate Limits</a></li>
+<li><a class="reference internal" href="#sdks">SDKs</a><ul>
+<li><a class="reference internal" href="#python">Python</a></li>
+<li><a class="reference internal" href="#javascript">JavaScript</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">MLOps Churn Prediction</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">API Documentation</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/deployment/api.md.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="api-documentation">
+<h1>API Documentation<a class="headerlink" href="#api-documentation" title="Link to this heading"></a></h1>
+<section id="base-url">
+<h2>Base URL<a class="headerlink" href="#base-url" title="Link to this heading"></a></h2>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Production</span><span class="p">:</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">api</span><span class="o">.</span><span class="n">churn</span><span class="o">-</span><span class="n">prediction</span><span class="o">.</span><span class="n">example</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">v1</span>
+<span class="n">Staging</span><span class="p">:</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">staging</span><span class="o">-</span><span class="n">api</span><span class="o">.</span><span class="n">churn</span><span class="o">-</span><span class="n">prediction</span><span class="o">.</span><span class="n">example</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">v1</span>
+</pre></div>
+</div>
+</section>
+<section id="authentication">
+<h2>Authentication<a class="headerlink" href="#authentication" title="Link to this heading"></a></h2>
+<p>All requests require a Bearer token:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Authorization</span><span class="p">:</span> <span class="n">Bearer</span> <span class="o">&lt;</span><span class="n">your</span><span class="o">-</span><span class="n">api</span><span class="o">-</span><span class="n">key</span><span class="o">&gt;</span>
+</pre></div>
+</div>
+</section>
+<section id="endpoints">
+<h2>Endpoints<a class="headerlink" href="#endpoints" title="Link to this heading"></a></h2>
+<section id="predict-churn">
+<h3>1. Predict Churn<a class="headerlink" href="#predict-churn" title="Link to this heading"></a></h3>
+<p><strong>POST</strong> <code class="docutils literal notranslate"><span class="pre">/predict</span></code></p>
+<p>Request:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">json</span>
+<span class="p">{</span>
+  <span class="s2">&quot;customer_id&quot;</span><span class="p">:</span> <span class="s2">&quot;CUST12345&quot;</span><span class="p">,</span>
+  <span class="s2">&quot;features&quot;</span><span class="p">:</span> <span class="p">{</span>
+    <span class="s2">&quot;age&quot;</span><span class="p">:</span> <span class="mi">35</span><span class="p">,</span>
+    <span class="s2">&quot;tenure_months&quot;</span><span class="p">:</span> <span class="mi">24</span><span class="p">,</span>
+    <span class="s2">&quot;monthly_charges&quot;</span><span class="p">:</span> <span class="mf">79.99</span><span class="p">,</span>
+    <span class="s2">&quot;total_charges&quot;</span><span class="p">:</span> <span class="mf">1919.76</span><span class="p">,</span>
+    <span class="s2">&quot;login_frequency&quot;</span><span class="p">:</span> <span class="mi">15</span><span class="p">,</span>
+    <span class="s2">&quot;session_duration_avg&quot;</span><span class="p">:</span> <span class="mf">25.5</span><span class="p">,</span>
+    <span class="s2">&quot;support_ticket_count&quot;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span>
+    <span class="s2">&quot;payment_delay_count&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+    <span class="s2">&quot;inactive_days&quot;</span><span class="p">:</span> <span class="mi">5</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>Response:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">json</span>
+<span class="p">{</span>
+  <span class="s2">&quot;customer_id&quot;</span><span class="p">:</span> <span class="s2">&quot;CUST12345&quot;</span><span class="p">,</span>
+  <span class="s2">&quot;churn_probability&quot;</span><span class="p">:</span> <span class="mf">0.73</span><span class="p">,</span>
+  <span class="s2">&quot;risk_level&quot;</span><span class="p">:</span> <span class="s2">&quot;HIGH&quot;</span><span class="p">,</span>
+  <span class="s2">&quot;prediction_timestamp&quot;</span><span class="p">:</span> <span class="s2">&quot;2024-01-15T10:30:00Z&quot;</span><span class="p">,</span>
+  <span class="s2">&quot;model_version&quot;</span><span class="p">:</span> <span class="s2">&quot;lightgbm_v2.3.1&quot;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+<section id="batch-prediction">
+<h3>2. Batch Prediction<a class="headerlink" href="#batch-prediction" title="Link to this heading"></a></h3>
+<p><strong>POST</strong> <code class="docutils literal notranslate"><span class="pre">/predict/batch</span></code></p>
+<p>Request:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">json</span>
+<span class="p">{</span>
+  <span class="s2">&quot;customers&quot;</span><span class="p">:</span> <span class="p">[</span>
+    <span class="p">{</span><span class="s2">&quot;customer_id&quot;</span><span class="p">:</span> <span class="s2">&quot;CUST12345&quot;</span><span class="p">,</span> <span class="s2">&quot;features&quot;</span><span class="p">:</span> <span class="p">{</span><span class="o">...</span><span class="p">}},</span>
+    <span class="p">{</span><span class="s2">&quot;customer_id&quot;</span><span class="p">:</span> <span class="s2">&quot;CUST12346&quot;</span><span class="p">,</span> <span class="s2">&quot;features&quot;</span><span class="p">:</span> <span class="p">{</span><span class="o">...</span><span class="p">}}</span>
+  <span class="p">]</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>Response:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">json</span>
+<span class="p">{</span>
+  <span class="s2">&quot;predictions&quot;</span><span class="p">:</span> <span class="p">[</span>
+    <span class="p">{</span><span class="s2">&quot;customer_id&quot;</span><span class="p">:</span> <span class="s2">&quot;CUST12345&quot;</span><span class="p">,</span> <span class="s2">&quot;churn_probability&quot;</span><span class="p">:</span> <span class="mf">0.73</span><span class="p">,</span> <span class="s2">&quot;risk_level&quot;</span><span class="p">:</span> <span class="s2">&quot;HIGH&quot;</span><span class="p">},</span>
+    <span class="p">{</span><span class="s2">&quot;customer_id&quot;</span><span class="p">:</span> <span class="s2">&quot;CUST12346&quot;</span><span class="p">,</span> <span class="s2">&quot;churn_probability&quot;</span><span class="p">:</span> <span class="mf">0.12</span><span class="p">,</span> <span class="s2">&quot;risk_level&quot;</span><span class="p">:</span> <span class="s2">&quot;LOW&quot;</span><span class="p">}</span>
+  <span class="p">],</span>
+  <span class="s2">&quot;processing_time_ms&quot;</span><span class="p">:</span> <span class="mi">250</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+<section id="get-model-info">
+<h3>3. Get Model Info<a class="headerlink" href="#get-model-info" title="Link to this heading"></a></h3>
+<p><strong>GET</strong> <code class="docutils literal notranslate"><span class="pre">/model/info</span></code></p>
+<p>Response:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">json</span>
+<span class="p">{</span>
+  <span class="s2">&quot;model_name&quot;</span><span class="p">:</span> <span class="s2">&quot;lightgbm_churn&quot;</span><span class="p">,</span>
+  <span class="s2">&quot;model_version&quot;</span><span class="p">:</span> <span class="s2">&quot;2.3.1&quot;</span><span class="p">,</span>
+  <span class="s2">&quot;training_date&quot;</span><span class="p">:</span> <span class="s2">&quot;2024-01-10&quot;</span><span class="p">,</span>
+  <span class="s2">&quot;metrics&quot;</span><span class="p">:</span> <span class="p">{</span>
+    <span class="s2">&quot;auc_roc&quot;</span><span class="p">:</span> <span class="mf">0.88</span><span class="p">,</span>
+    <span class="s2">&quot;f1_score&quot;</span><span class="p">:</span> <span class="mf">0.80</span><span class="p">,</span>
+    <span class="s2">&quot;precision&quot;</span><span class="p">:</span> <span class="mf">0.81</span><span class="p">,</span>
+    <span class="s2">&quot;recall&quot;</span><span class="p">:</span> <span class="mf">0.79</span>
+  <span class="p">},</span>
+  <span class="s2">&quot;features&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;age&quot;</span><span class="p">,</span> <span class="s2">&quot;tenure_months&quot;</span><span class="p">,</span> <span class="o">...</span><span class="p">]</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="error-responses">
+<h2>Error Responses<a class="headerlink" href="#error-responses" title="Link to this heading"></a></h2>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Status Code</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>400</p></td>
+<td><p>Invalid request format</p></td>
+</tr>
+<tr class="row-odd"><td><p>401</p></td>
+<td><p>Unauthorized - Invalid API key</p></td>
+</tr>
+<tr class="row-even"><td><p>429</p></td>
+<td><p>Rate limit exceeded</p></td>
+</tr>
+<tr class="row-odd"><td><p>500</p></td>
+<td><p>Internal server error</p></td>
+</tr>
+<tr class="row-even"><td><p>503</p></td>
+<td><p>Service unavailable</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="rate-limits">
+<h2>Rate Limits<a class="headerlink" href="#rate-limits" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p><strong>Standard</strong>: 100 requests/minute</p></li>
+<li><p><strong>Premium</strong>: 1000 requests/minute</p></li>
+<li><p><strong>Batch</strong>: 10 requests/minute (max 1000 customers per request)</p></li>
+</ul>
+</section>
+<section id="sdks">
+<h2>SDKs<a class="headerlink" href="#sdks" title="Link to this heading"></a></h2>
+<section id="python">
+<h3>Python<a class="headerlink" href="#python" title="Link to this heading"></a></h3>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">churn_client</span><span class="w"> </span><span class="kn">import</span> <span class="n">ChurnPredictor</span>
+
+<span class="n">client</span> <span class="o">=</span> <span class="n">ChurnPredictor</span><span class="p">(</span><span class="n">api_key</span><span class="o">=</span><span class="s2">&quot;your-api-key&quot;</span><span class="p">)</span>
+<span class="n">result</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">customer_id</span><span class="o">=</span><span class="s2">&quot;CUST12345&quot;</span><span class="p">,</span> <span class="n">features</span><span class="o">=</span><span class="p">{</span><span class="o">...</span><span class="p">})</span>
+</pre></div>
+</div>
+</section>
+<section id="javascript">
+<h3>JavaScript<a class="headerlink" href="#javascript" title="Link to this heading"></a></h3>
+<div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="kd">const</span><span class="w"> </span><span class="nx">churnClient</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">require</span><span class="p">(</span><span class="s1">&#39;churn-sdk&#39;</span><span class="p">);</span>
+
+<span class="kd">const</span><span class="w"> </span><span class="nx">result</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">await</span><span class="w"> </span><span class="nx">churnClient</span><span class="p">.</span><span class="nx">predict</span><span class="p">({</span>
+<span class="w">  </span><span class="nx">customerId</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;CUST12345&#39;</span><span class="p">,</span>
+<span class="w">  </span><span class="nx">features</span><span class="o">:</span><span class="w"> </span><span class="p">{...}</span>
+<span class="p">});</span>
+</pre></div>
+</div>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, MLOps Team.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
