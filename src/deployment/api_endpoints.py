@@ -5,11 +5,14 @@ Separates API layer from model serving logic for better modularity
 
 from fastapi import FastAPI, HTTPException, Depends
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import HTMLResponse
+from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel
 from typing import List, Dict, Any, Optional
 import logging
 import numpy as np
 from datetime import datetime
+from pathlib import Path
 
 from ..models.unified_model_registry_fixed import UnifiedModelRegistry
 from ..utils.logger import get_logger
@@ -250,21 +253,18 @@ async def predict_batch(
         logger.error(f"Batch prediction error: {e}")
         raise HTTPException(status_code=400, detail=str(e))
 
-@app.get("/")
+@app.get("/", response_class=HTMLResponse)
 async def root():
-    """Root endpoint with API documentation."""
-    return {
-        "message": "Churn Prediction API",
-        "version": "1.0.0",
-        "endpoints": {
-            "health": "/health",
-            "list_models": "/models",
-            "model_info": "/models/{model_id}",
-            "predict": "/predict",
-            "predict_batch": "/predict/batch",
-            "documentation": "/docs"
-        }
-    }
+    """Serve frontend HTML."""
+    html = Path("static/index.html")
+    if html.exists():
+        return html.read_text()
+    return """
+    <html><body style="font-family:Arial;padding:50px;text-align:center;">
+    <h1>🔮 Churn Prediction API</h1>
+    <p>API is running. Visit <a href="/docs">/docs</a> for documentation.</p>
+    </body></html>
+    """
 
 if __name__ == "__main__":
     import uvicorn

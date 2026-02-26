@@ -1,0 +1,241 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Data Quality &mdash; MLOps Churn Prediction 1.0.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=9edc463e" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=8d563738"></script>
+      <script src="../_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            MLOps Churn Prediction
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <!-- Local TOC -->
+              <div class="local-toc"><ul>
+<li><a class="reference internal" href="#">Data Quality</a><ul>
+<li><a class="reference internal" href="#quality-framework">Quality Framework</a><ul>
+<li><a class="reference internal" href="#data-quality-dimensions">Data Quality Dimensions</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#validation-rules">Validation Rules</a><ul>
+<li><a class="reference internal" href="#schema-validation">Schema Validation</a></li>
+<li><a class="reference internal" href="#business-rules">Business Rules</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#monitoring">Monitoring</a><ul>
+<li><a class="reference internal" href="#data-quality-checks">Data Quality Checks</a></li>
+<li><a class="reference internal" href="#alerting">Alerting</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#data-quality-dashboard">Data Quality Dashboard</a></li>
+<li><a class="reference internal" href="#remediation-process">Remediation Process</a></li>
+</ul>
+</li>
+</ul>
+</div>
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">MLOps Churn Prediction</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Data Quality</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/data/quality.md.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="data-quality">
+<h1>Data Quality<a class="headerlink" href="#data-quality" title="Link to this heading"></a></h1>
+<section id="quality-framework">
+<h2>Quality Framework<a class="headerlink" href="#quality-framework" title="Link to this heading"></a></h2>
+<section id="data-quality-dimensions">
+<h3>Data Quality Dimensions<a class="headerlink" href="#data-quality-dimensions" title="Link to this heading"></a></h3>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Dimension</p></th>
+<th class="head"><p>Description</p></th>
+<th class="head"><p>Target</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><strong>Completeness</strong></p></td>
+<td><p>No missing values</p></td>
+<td><p>&gt; 99%</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>Accuracy</strong></p></td>
+<td><p>Correct values</p></td>
+<td><p>&gt; 98%</p></td>
+</tr>
+<tr class="row-even"><td><p><strong>Consistency</strong></p></td>
+<td><p>Uniform format</p></td>
+<td><p>100%</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>Timeliness</strong></p></td>
+<td><p>Up-to-date data</p></td>
+<td><p>&lt; 24h latency</p></td>
+</tr>
+<tr class="row-even"><td><p><strong>Uniqueness</strong></p></td>
+<td><p>No duplicates</p></td>
+<td><p>100%</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+</section>
+<section id="validation-rules">
+<h2>Validation Rules<a class="headerlink" href="#validation-rules" title="Link to this heading"></a></h2>
+<section id="schema-validation">
+<h3>Schema Validation<a class="headerlink" href="#schema-validation" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p>Data types match expected schema</p></li>
+<li><p>Required fields are present</p></li>
+<li><p>Value ranges are within bounds</p></li>
+</ul>
+</section>
+<section id="business-rules">
+<h3>Business Rules<a class="headerlink" href="#business-rules" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p>Customer age: 18-100</p></li>
+<li><p>Tenure: &gt;= 0</p></li>
+<li><p>Charges: &gt;= 0</p></li>
+<li><p>Dates: Not in future</p></li>
+</ul>
+</section>
+</section>
+<section id="monitoring">
+<h2>Monitoring<a class="headerlink" href="#monitoring" title="Link to this heading"></a></h2>
+<section id="data-quality-checks">
+<h3>Data Quality Checks<a class="headerlink" href="#data-quality-checks" title="Link to this heading"></a></h3>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python</span>
+<span class="c1"># Example data quality check</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">great_expectations</span><span class="w"> </span><span class="kn">import</span> <span class="n">GreatExpectations</span>
+
+<span class="n">ge</span> <span class="o">=</span> <span class="n">GreatExpectations</span><span class="p">()</span>
+<span class="n">expectation_suite</span> <span class="o">=</span> <span class="n">ge</span><span class="o">.</span><span class="n">get_expectation_suite</span><span class="p">(</span><span class="s2">&quot;churn_data&quot;</span><span class="p">)</span>
+
+<span class="c1"># Run validation</span>
+<span class="n">results</span> <span class="o">=</span> <span class="n">ge</span><span class="o">.</span><span class="n">validate</span><span class="p">(</span>
+    <span class="n">batch_request</span><span class="o">=</span><span class="n">batch_request</span><span class="p">,</span>
+    <span class="n">expectation_suite</span><span class="o">=</span><span class="n">expectation_suite</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="alerting">
+<h3>Alerting<a class="headerlink" href="#alerting" title="Link to this heading"></a></h3>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Check</p></th>
+<th class="head"><p>Alert Threshold</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Missing values</p></td>
+<td><p>&gt; 1%</p></td>
+</tr>
+<tr class="row-odd"><td><p>Duplicate records</p></td>
+<td><p>&gt; 0.1%</p></td>
+</tr>
+<tr class="row-even"><td><p>Invalid values</p></td>
+<td><p>&gt; 0.5%</p></td>
+</tr>
+<tr class="row-odd"><td><p>Stale data</p></td>
+<td><p>&gt; 48 hours</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+</section>
+<section id="data-quality-dashboard">
+<h2>Data Quality Dashboard<a class="headerlink" href="#data-quality-dashboard" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p>Great Expectations dashboard</p></li>
+<li><p>Data lineage tracking</p></li>
+<li><p>Anomaly detection</p></li>
+<li><p>Historical trends</p></li>
+</ul>
+</section>
+<section id="remediation-process">
+<h2>Remediation Process<a class="headerlink" href="#remediation-process" title="Link to this heading"></a></h2>
+<ol class="arabic simple">
+<li><p><strong>Detection</strong>: Automated alerts trigger</p></li>
+<li><p><strong>Investigation</strong>: Root cause analysis</p></li>
+<li><p><strong>Correction</strong>: Fix data at source</p></li>
+<li><p><strong>Validation</strong>: Re-run quality checks</p></li>
+<li><p><strong>Documentation</strong>: Log incident and resolution</p></li>
+</ol>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, MLOps Team.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

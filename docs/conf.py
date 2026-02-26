@@ -10,6 +10,7 @@ extensions = [
     'sphinx.ext.viewcode',
     'sphinx.ext.napoleon',
     'myst_parser',
+    'sphinx.ext.githubpages',
 ]
 
 templates_path = ['_templates']

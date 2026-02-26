@@ -1,0 +1,17 @@
+services:
+  # FastAPI Service - Uses existing script
+  - type: web
+    name: churn-prediction-api
+    env: python
+    buildCommand: pip install -r requirements.txt
+    startCommand: python scripts/monitoring/run_fastapi_server.py
+    envVars:
+      - key: PYTHONPATH
+        value: .
+        
+  # Streamlit Dashboard - Uses existing app  
+  - type: web
+    name: churn-prediction-dashboard
+    env: python
+    buildCommand: pip install -r requirements.txt
+    startCommand: streamlit run src/deployment/streamlit_app.py --server.port $PORT --server.address 0.0.0.0 --server.headless true

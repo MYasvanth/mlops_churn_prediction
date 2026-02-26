@@ -7,12 +7,24 @@ Welcome to the MLOps Churn Prediction pipeline documentation.
    :maxdepth: 2
    :caption: Contents:
 
-   installation
-   usage
-   api_documentation
-   deployment_guide
-   pipeline_documentation
-   monitoring
+   README
+   index
+   problem-statement/overview
+   problem-statement/metrics
+   problem-statement/stakeholders
+   data/sources
+   data/schema
+   data/features
+   data/quality
+   model/approach
+   model/experiments
+   model/results
+   deployment/architecture
+   deployment/api
+   deployment/monitoring
+   deployment/cicd
+   business-impact/roi
+   business-impact/lessons
 
 Indices and tables
 ==================

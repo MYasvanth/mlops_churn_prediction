@@ -1,0 +1,254 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Lessons Learned &mdash; MLOps Churn Prediction 1.0.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=9edc463e" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=8d563738"></script>
+      <script src="../_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            MLOps Churn Prediction
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <!-- Local TOC -->
+              <div class="local-toc"><ul>
+<li><a class="reference internal" href="#">Lessons Learned</a><ul>
+<li><a class="reference internal" href="#technical-lessons">Technical Lessons</a><ul>
+<li><a class="reference internal" href="#data-quality-is-critical">1. Data Quality is Critical</a></li>
+<li><a class="reference internal" href="#feature-engineering-matters-more-than-model-selection">2. Feature Engineering Matters More Than Model Selection</a></li>
+<li><a class="reference internal" href="#model-monitoring-is-an-afterthought">3. Model Monitoring is an Afterthought</a></li>
+<li><a class="reference internal" href="#version-everything">4. Version Everything</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#process-lessons">Process Lessons</a><ul>
+<li><a class="reference internal" href="#start-simple">5. Start Simple</a></li>
+<li><a class="reference internal" href="#automate-everything">6. Automate Everything</a></li>
+<li><a class="reference internal" href="#cross-functional-collaboration">7. Cross-Functional Collaboration</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#business-lessons">Business Lessons</a><ul>
+<li><a class="reference internal" href="#define-metrics-upfront">8. Define Metrics Upfront</a></li>
+<li><a class="reference internal" href="#communicate-results-effectively">9. Communicate Results Effectively</a></li>
+<li><a class="reference internal" href="#plan-for-maintenance">10. Plan for Maintenance</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#recommendations-for-future-projects">Recommendations for Future Projects</a><ul>
+<li><a class="reference internal" href="#do-s">Do’s</a></li>
+<li><a class="reference internal" href="#don-ts">Don’ts</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#key-takeaways">Key Takeaways</a></li>
+</ul>
+</li>
+</ul>
+</div>
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">MLOps Churn Prediction</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Lessons Learned</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/business-impact/lessons.md.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="lessons-learned">
+<h1>Lessons Learned<a class="headerlink" href="#lessons-learned" title="Link to this heading"></a></h1>
+<section id="technical-lessons">
+<h2>Technical Lessons<a class="headerlink" href="#technical-lessons" title="Link to this heading"></a></h2>
+<section id="data-quality-is-critical">
+<h3>1. Data Quality is Critical<a class="headerlink" href="#data-quality-is-critical" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p><strong>Lesson</strong>: Garbage in, garbage out</p></li>
+<li><p><strong>Impact</strong>: Model performance directly correlated with data quality</p></li>
+<li><p><strong>Action</strong>: Invest in data validation pipelines early</p></li>
+</ul>
+</section>
+<section id="feature-engineering-matters-more-than-model-selection">
+<h3>2. Feature Engineering Matters More Than Model Selection<a class="headerlink" href="#feature-engineering-matters-more-than-model-selection" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p><strong>Lesson</strong>: Simple models with good features outperform complex models</p></li>
+<li><p><strong>Impact</strong>: 60% of model performance from feature engineering</p></li>
+<li><p><strong>Action</strong>: Spend time understanding domain and creating meaningful features</p></li>
+</ul>
+</section>
+<section id="model-monitoring-is-an-afterthought">
+<h3>3. Model Monitoring is an Afterthought<a class="headerlink" href="#model-monitoring-is-an-afterthought" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p><strong>Lesson</strong>: Models degrade over time without monitoring</p></li>
+<li><p><strong>Impact</strong>: Silent model decay can lead to poor business decisions</p></li>
+<li><p><strong>Action</strong>: Build monitoring into initial design, not post-deployment</p></li>
+</ul>
+</section>
+<section id="version-everything">
+<h3>4. Version Everything<a class="headerlink" href="#version-everything" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p><strong>Lesson</strong>: Code, data, models, and features need versioning</p></li>
+<li><p><strong>Impact</strong>: Reproducibility is essential for debugging and compliance</p></li>
+<li><p><strong>Action</strong>: Implement MLflow, DVC, and feature store from day one</p></li>
+</ul>
+</section>
+</section>
+<section id="process-lessons">
+<h2>Process Lessons<a class="headerlink" href="#process-lessons" title="Link to this heading"></a></h2>
+<section id="start-simple">
+<h3>5. Start Simple<a class="headerlink" href="#start-simple" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p><strong>Lesson</strong>: Don’t over-engineer initial solutions</p></li>
+<li><p><strong>Impact</strong>: Faster time to value, easier debugging</p></li>
+<li><p><strong>Action</strong>: Start with baseline models, iterate</p></li>
+</ul>
+</section>
+<section id="automate-everything">
+<h3>6. Automate Everything<a class="headerlink" href="#automate-everything" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p><strong>Lesson</strong>: Manual processes don’t scale</p></li>
+<li><p><strong>Impact</strong>: Human error, inconsistent results</p></li>
+<li><p><strong>Action</strong>: CI/CD for models, automated retraining triggers</p></li>
+</ul>
+</section>
+<section id="cross-functional-collaboration">
+<h3>7. Cross-Functional Collaboration<a class="headerlink" href="#cross-functional-collaboration" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p><strong>Lesson</strong>: ML projects need diverse expertise</p></li>
+<li><p><strong>Impact</strong>: Better solutions, faster debugging</p></li>
+<li><p><strong>Action</strong>: Regular syncs between DS, DE, DevOps, and business teams</p></li>
+</ul>
+</section>
+</section>
+<section id="business-lessons">
+<h2>Business Lessons<a class="headerlink" href="#business-lessons" title="Link to this heading"></a></h2>
+<section id="define-metrics-upfront">
+<h3>8. Define Metrics Upfront<a class="headerlink" href="#define-metrics-upfront" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p><strong>Lesson</strong>: Technical metrics ≠ business metrics</p></li>
+<li><p><strong>Impact</strong>: Model can be “accurate” but not deliver business value</p></li>
+<li><p><strong>Action</strong>: Map ML metrics to business KPIs early</p></li>
+</ul>
+</section>
+<section id="communicate-results-effectively">
+<h3>9. Communicate Results Effectively<a class="headerlink" href="#communicate-results-effectively" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p><strong>Lesson</strong>: Complex models need simple explanations</p></li>
+<li><p><strong>Impact</strong>: Stakeholder buy-in depends on understanding</p></li>
+<li><p><strong>Action</strong>: Create clear visualizations and dashboards</p></li>
+</ul>
+</section>
+<section id="plan-for-maintenance">
+<h3>10. Plan for Maintenance<a class="headerlink" href="#plan-for-maintenance" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p><strong>Lesson</strong>: ML systems are not “set and forget”</p></li>
+<li><p><strong>Impact</strong>: Ongoing costs and technical debt</p></li>
+<li><p><strong>Action</strong>: Budget for monitoring, retraining, and updates</p></li>
+</ul>
+</section>
+</section>
+<section id="recommendations-for-future-projects">
+<h2>Recommendations for Future Projects<a class="headerlink" href="#recommendations-for-future-projects" title="Link to this heading"></a></h2>
+<section id="do-s">
+<h3>Do’s<a class="headerlink" href="#do-s" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p>✅ Start with a clear problem statement</p></li>
+<li><p>✅ Invest in data infrastructure early</p></li>
+<li><p>✅ Build monitoring from the start</p></li>
+<li><p>✅ Document everything</p></li>
+<li><p>✅ Version control all assets</p></li>
+<li><p>✅ Test thoroughly (data + model + integration)</p></li>
+</ul>
+</section>
+<section id="don-ts">
+<h3>Don’ts<a class="headerlink" href="#don-ts" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p>❌ Don’t skip exploratory data analysis</p></li>
+<li><p>❌ Don’t choose complex models over interpretable ones unnecessarily</p></li>
+<li><p>❌ Don’t deploy without monitoring</p></li>
+<li><p>❌ Don’t forget about data drift</p></li>
+<li><p>❌ Don’t neglect security and compliance</p></li>
+</ul>
+</section>
+</section>
+<section id="key-takeaways">
+<h2>Key Takeaways<a class="headerlink" href="#key-takeaways" title="Link to this heading"></a></h2>
+<ol class="arabic simple">
+<li><p><strong>MLOps is as important as ML</strong>: The operational framework determines long-term success</p></li>
+<li><p><strong>Start small, iterate fast</strong>: Get something working, then improve</p></li>
+<li><p><strong>Collaboration is key</strong>: Success requires diverse team expertise</p></li>
+<li><p><strong>Monitor everything</strong>: You can’t improve what you don’t measure</p></li>
+<li><p><strong>Keep it simple</strong>: Complexity increases maintenance burden</p></li>
+</ol>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, MLOps Team.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

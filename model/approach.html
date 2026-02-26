@@ -1,0 +1,211 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Algorithm Selection &mdash; MLOps Churn Prediction 1.0.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=9edc463e" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=8d563738"></script>
+      <script src="../_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            MLOps Churn Prediction
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <!-- Local TOC -->
+              <div class="local-toc"><ul>
+<li><a class="reference internal" href="#">Algorithm Selection</a><ul>
+<li><a class="reference internal" href="#candidate-algorithms">Candidate Algorithms</a><ul>
+<li><a class="reference internal" href="#logistic-regression">1. Logistic Regression</a></li>
+<li><a class="reference internal" href="#random-forest">2. Random Forest</a></li>
+<li><a class="reference internal" href="#xgboost-lightgbm-gradient-boosting">3. XGBoost / LightGBM (Gradient Boosting)</a></li>
+<li><a class="reference internal" href="#neural-networks">4. Neural Networks</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#selected-approach">Selected Approach</a><ul>
+<li><a class="reference internal" href="#primary-model-lightgbm">Primary Model: LightGBM</a></li>
+<li><a class="reference internal" href="#backup-model-xgboost">Backup Model: XGBoost</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#model-architecture">Model Architecture</a></li>
+<li><a class="reference internal" href="#hyperparameter-tuning">Hyperparameter Tuning</a></li>
+</ul>
+</li>
+</ul>
+</div>
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">MLOps Churn Prediction</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Algorithm Selection</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/model/approach.md.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="algorithm-selection">
+<h1>Algorithm Selection<a class="headerlink" href="#algorithm-selection" title="Link to this heading"></a></h1>
+<section id="candidate-algorithms">
+<h2>Candidate Algorithms<a class="headerlink" href="#candidate-algorithms" title="Link to this heading"></a></h2>
+<section id="logistic-regression">
+<h3>1. Logistic Regression<a class="headerlink" href="#logistic-regression" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p><strong>Pros</strong>: Interpretable, fast, baseline model</p></li>
+<li><p><strong>Cons</strong>: Limited predictive power for complex patterns</p></li>
+<li><p><strong>Use Case</strong>: Baseline model, regulatory requirements</p></li>
+</ul>
+</section>
+<section id="random-forest">
+<h3>2. Random Forest<a class="headerlink" href="#random-forest" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p><strong>Pros</strong>: Handles non-linear relationships, feature importance</p></li>
+<li><p><strong>Cons</strong>: Can overfit, less interpretable</p></li>
+<li><p><strong>Use Case</strong>: Quick iteration, feature selection</p></li>
+</ul>
+</section>
+<section id="xgboost-lightgbm-gradient-boosting">
+<h3>3. XGBoost / LightGBM (Gradient Boosting)<a class="headerlink" href="#xgboost-lightgbm-gradient-boosting" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p><strong>Pros</strong>: High accuracy, handles imbalanced data, built-in regularization</p></li>
+<li><p><strong>Cons</strong>: Requires tuning, less interpretable</p></li>
+<li><p><strong>Use Case</strong>: Production model, best performance</p></li>
+</ul>
+</section>
+<section id="neural-networks">
+<h3>4. Neural Networks<a class="headerlink" href="#neural-networks" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p><strong>Pros</strong>: Can capture complex patterns</p></li>
+<li><p><strong>Cons</strong>: Requires more data, harder to train</p></li>
+<li><p><strong>Use Case</strong>: If other models underperform</p></li>
+</ul>
+</section>
+</section>
+<section id="selected-approach">
+<h2>Selected Approach<a class="headerlink" href="#selected-approach" title="Link to this heading"></a></h2>
+<section id="primary-model-lightgbm">
+<h3>Primary Model: LightGBM<a class="headerlink" href="#primary-model-lightgbm" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p>Best balance of performance and speed</p></li>
+<li><p>Native handling of categorical features</p></li>
+<li><p>Built-in support for imbalanced data</p></li>
+</ul>
+</section>
+<section id="backup-model-xgboost">
+<h3>Backup Model: XGBoost<a class="headerlink" href="#backup-model-xgboost" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p>Alternative for ensemble</p></li>
+<li><p>Different regularization approach</p></li>
+</ul>
+</section>
+</section>
+<section id="model-architecture">
+<h2>Model Architecture<a class="headerlink" href="#model-architecture" title="Link to this heading"></a></h2>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>┌─────────────────────────────────────────────┐
+│              Input Features                  │
+│  (Customer demographics, behavior, usage)   │
+└─────────────────┬───────────────────────────┘
+                  │
+                  ▼
+┌─────────────────────────────────────────────┐
+│           Feature Preprocessing              │
+│  (Encoding, scaling, feature engineering)   │
+└─────────────────┬───────────────────────────┘
+                  │
+                  ▼
+┌─────────────────────────────────────────────┐
+│              LightGBM Model                  │
+│  - 500 trees                                │
+│  - Max depth: 6                             │
+│  - Learning rate: 0.05                     │
+│  - Class weight: balanced                   │
+└─────────────────┬───────────────────────────┘
+                  │
+                  ▼
+┌─────────────────────────────────────────────┐
+│            Output: Churn Probability         │
+│              (0.0 - 1.0)                    │
+└─────────────────────────────────────────────┘
+</pre></div>
+</div>
+</section>
+<section id="hyperparameter-tuning">
+<h2>Hyperparameter Tuning<a class="headerlink" href="#hyperparameter-tuning" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p>Bayesian optimization with Optuna</p></li>
+<li><p>Cross-validation: 5-fold stratified</p></li>
+<li><p>Optimization metric: F1-score</p></li>
+</ul>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, MLOps Team.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

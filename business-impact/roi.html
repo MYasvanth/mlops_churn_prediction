@@ -1,0 +1,308 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ROI Analysis &mdash; MLOps Churn Prediction 1.0.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=9edc463e" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=8d563738"></script>
+      <script src="../_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            MLOps Churn Prediction
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <!-- Local TOC -->
+              <div class="local-toc"><ul>
+<li><a class="reference internal" href="#">ROI Analysis</a><ul>
+<li><a class="reference internal" href="#cost-analysis">Cost Analysis</a><ul>
+<li><a class="reference internal" href="#customer-acquisition-vs-retention">Customer Acquisition vs. Retention</a></li>
+<li><a class="reference internal" href="#retention-program-costs">Retention Program Costs</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#savings-calculation">Savings Calculation</a><ul>
+<li><a class="reference internal" href="#before-model-deployment">Before Model Deployment</a></li>
+<li><a class="reference internal" href="#after-model-deployment">After Model Deployment</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#roi-metrics">ROI Metrics</a><ul>
+<li><a class="reference internal" href="#monthly-breakdown">Monthly Breakdown</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#additional-benefits">Additional Benefits</a><ul>
+<li><a class="reference internal" href="#non-financial-roi">Non-Financial ROI</a></li>
+<li><a class="reference internal" href="#risk-mitigation">Risk Mitigation</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#recommendation">Recommendation</a></li>
+</ul>
+</li>
+</ul>
+</div>
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">MLOps Churn Prediction</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">ROI Analysis</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/business-impact/roi.md.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="roi-analysis">
+<h1>ROI Analysis<a class="headerlink" href="#roi-analysis" title="Link to this heading"></a></h1>
+<section id="cost-analysis">
+<h2>Cost Analysis<a class="headerlink" href="#cost-analysis" title="Link to this heading"></a></h2>
+<section id="customer-acquisition-vs-retention">
+<h3>Customer Acquisition vs. Retention<a class="headerlink" href="#customer-acquisition-vs-retention" title="Link to this heading"></a></h3>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Metric</p></th>
+<th class="head"><p>Value</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Average Customer Acquisition Cost (CAC)</p></td>
+<td><p>$250</p></td>
+</tr>
+<tr class="row-odd"><td><p>Average Customer Lifetime Value (CLV)</p></td>
+<td><p>$1,200</p></td>
+</tr>
+<tr class="row-even"><td><p>Average Monthly Revenue per Customer</p></td>
+<td><p>$80</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="retention-program-costs">
+<h3>Retention Program Costs<a class="headerlink" href="#retention-program-costs" title="Link to this heading"></a></h3>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Item</p></th>
+<th class="head"><p>Cost</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Prediction API Infrastructure</p></td>
+<td><p>$500/month</p></td>
+</tr>
+<tr class="row-odd"><td><p>Marketing Campaign (500 customers)</p></td>
+<td><p>$2,000/month</p></td>
+</tr>
+<tr class="row-even"><td><p>Personalized Offers (avg)</p></td>
+<td><p>$25/customer</p></td>
+</tr>
+<tr class="row-odd"><td><p>Monitoring &amp; Maintenance</p></td>
+<td><p>$300/month</p></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Total Monthly Cost</strong>: ~$4,800</p>
+</section>
+</section>
+<section id="savings-calculation">
+<h2>Savings Calculation<a class="headerlink" href="#savings-calculation" title="Link to this heading"></a></h2>
+<section id="before-model-deployment">
+<h3>Before Model Deployment<a class="headerlink" href="#before-model-deployment" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p>Monthly Churn Rate: 8%</p></li>
+<li><p>Customers Lost/Month: 800</p></li>
+<li><p>Revenue Lost/Month: $64,000</p></li>
+<li><p>Annual Loss: $768,000</p></li>
+</ul>
+</section>
+<section id="after-model-deployment">
+<h3>After Model Deployment<a class="headerlink" href="#after-model-deployment" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p>Targeted Interventions: 500 customers/month</p></li>
+<li><p>Conversion Rate: 40% (200 saved)</p></li>
+<li><p>Churn Rate Reduced to: 6%</p></li>
+<li><p>Customers Lost/Month: 600</p></li>
+<li><p>Revenue Lost/Month: $48,000</p></li>
+<li><p>Annual Loss: $576,000</p></li>
+</ul>
+</section>
+</section>
+<section id="roi-metrics">
+<h2>ROI Metrics<a class="headerlink" href="#roi-metrics" title="Link to this heading"></a></h2>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Metric</p></th>
+<th class="head"><p>Value</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><strong>Annual Savings</strong></p></td>
+<td><p>$192,000</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>Program Cost (Annual)</strong></p></td>
+<td><p>$57,600</p></td>
+</tr>
+<tr class="row-even"><td><p><strong>Net Benefit</strong></p></td>
+<td><p>$134,400</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>ROI</strong></p></td>
+<td><p>233%</p></td>
+</tr>
+</tbody>
+</table>
+<section id="monthly-breakdown">
+<h3>Monthly Breakdown<a class="headerlink" href="#monthly-breakdown" title="Link to this heading"></a></h3>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Month</p></th>
+<th class="head"><p>Customers Saved</p></th>
+<th class="head"><p>Revenue Saved</p></th>
+<th class="head"><p>Cost</p></th>
+<th class="head"><p>Net Benefit</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>1</p></td>
+<td><p>200</p></td>
+<td><p>$16,000</p></td>
+<td><p>$4,800</p></td>
+<td><p>$11 2</p></td>
+</tr>
+<tr class="row-odd"><td><p>4,800</p></td>
+<td><p>$11,200</p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p>…</p></td>
+<td><p>…</p></td>
+<td><p>…</p></td>
+<td><p>…</p></td>
+<td><p>…</p></td>
+</tr>
+<tr class="row-odd"><td><p>12</p></td>
+<td><p>200</p></td>
+<td><p>$16,000</p></td>
+<td><p>$4,800</p></td>
+<td><p>$11,200</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+</section>
+<section id="additional-benefits">
+<h2>Additional Benefits<a class="headerlink" href="#additional-benefits" title="Link to this heading"></a></h2>
+<section id="non-financial-roi">
+<h3>Non-Financial ROI<a class="headerlink" href="#non-financial-roi" title="Link to this heading"></a></h3>
+<ol class="arabic simple">
+<li><p><strong>Improved Customer Experience</strong></p>
+<ul class="simple">
+<li><p>Proactive outreach</p></li>
+<li><p>Personalized offers</p></li>
+<li><p>Reduced friction</p></li>
+</ul>
+</li>
+<li><p><strong>Better Resource Allocation</strong></p>
+<ul class="simple">
+<li><p>Focus on high-risk customers</p></li>
+<li><p>Optimize marketing spend</p></li>
+<li><p>Reduce wasted campaigns</p></li>
+</ul>
+</li>
+<li><p><strong>Competitive Advantage</strong></p>
+<ul class="simple">
+<li><p>Predictive capabilities</p></li>
+<li><p>Data-driven decisions</p></li>
+<li><p>Industry leadership</p></li>
+</ul>
+</li>
+</ol>
+</section>
+<section id="risk-mitigation">
+<h3>Risk Mitigation<a class="headerlink" href="#risk-mitigation" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p>Early churn detection prevents revenue leakage</p></li>
+<li><p>Data insights inform product improvements</p></li>
+<li><p>Customer feedback loops enhance satisfaction</p></li>
+</ul>
+</section>
+</section>
+<section id="recommendation">
+<h2>Recommendation<a class="headerlink" href="#recommendation" title="Link to this heading"></a></h2>
+<p><strong>Proceed with full deployment</strong> due to:</p>
+<ul class="simple">
+<li><p>Strong ROI (233%)</p></li>
+<li><p>Quick payback period (&lt; 2 months)</p></li>
+<li><p>Additional strategic benefits</p></li>
+<li><p>Low technical risk</p></li>
+</ul>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, MLOps Team.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

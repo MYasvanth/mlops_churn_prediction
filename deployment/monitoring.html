@@ -1,0 +1,287 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Monitoring Setup &mdash; MLOps Churn Prediction 1.0.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=9edc463e" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=8d563738"></script>
+      <script src="../_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            MLOps Churn Prediction
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <!-- Local TOC -->
+              <div class="local-toc"><ul>
+<li><a class="reference internal" href="#">Monitoring Setup</a><ul>
+<li><a class="reference internal" href="#monitoring-stack">Monitoring Stack</a></li>
+<li><a class="reference internal" href="#key-metrics">Key Metrics</a><ul>
+<li><a class="reference internal" href="#model-performance-metrics">Model Performance Metrics</a></li>
+<li><a class="reference internal" href="#business-metrics">Business Metrics</a></li>
+<li><a class="reference internal" href="#data-quality-metrics">Data Quality Metrics</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#dashboards">Dashboards</a><ul>
+<li><a class="reference internal" href="#executive-dashboard">1. Executive Dashboard</a></li>
+<li><a class="reference internal" href="#operations-dashboard">2. Operations Dashboard</a></li>
+<li><a class="reference internal" href="#model-performance">3. Model Performance</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#alerting-rules">Alerting Rules</a></li>
+<li><a class="reference internal" href="#logging">Logging</a><ul>
+<li><a class="reference internal" href="#structured-log-format">Structured Log Format</a></li>
+<li><a class="reference internal" href="#log-retention">Log Retention</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#retraining-triggers">Retraining Triggers</a></li>
+<li><a class="reference internal" href="#on-call">On-Call</a></li>
+</ul>
+</li>
+</ul>
+</div>
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">MLOps Churn Prediction</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Monitoring Setup</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/deployment/monitoring.md.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="monitoring-setup">
+<h1>Monitoring Setup<a class="headerlink" href="#monitoring-setup" title="Link to this heading"></a></h1>
+<section id="monitoring-stack">
+<h2>Monitoring Stack<a class="headerlink" href="#monitoring-stack" title="Link to this heading"></a></h2>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Component</p></th>
+<th class="head"><p>Purpose</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><strong>Prometheus</strong></p></td>
+<td><p>Metrics collection</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>Grafana</strong></p></td>
+<td><p>Visualization &amp; dashboards</p></td>
+</tr>
+<tr class="row-even"><td><p><strong>Alertmanager</strong></p></td>
+<td><p>Alert routing</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>ELK Stack</strong></p></td>
+<td><p>Log aggregation</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="key-metrics">
+<h2>Key Metrics<a class="headerlink" href="#key-metrics" title="Link to this heading"></a></h2>
+<section id="model-performance-metrics">
+<h3>Model Performance Metrics<a class="headerlink" href="#model-performance-metrics" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">prediction_latency_p50</span></code> - 50th percentile latency</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">prediction_latency_p95</span></code> - 95th percentile latency</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">prediction_latency_p99</span></code> - 99th percentile latency</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">prediction_count</span></code> - Total predictions made</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">prediction_errors</span></code> - Failed predictions</p></li>
+</ul>
+</section>
+<section id="business-metrics">
+<h3>Business Metrics<a class="headerlink" href="#business-metrics" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">churn_rate_actual</span></code> - Actual churn rate</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">retention_campaign_impact</span></code> - Campaign effectiveness</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">revenue_at_risk</span></code> - Predicted revenue at risk</p></li>
+</ul>
+</section>
+<section id="data-quality-metrics">
+<h3>Data Quality Metrics<a class="headerlink" href="#data-quality-metrics" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">data_freshness</span></code> - Time since last data update</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">missing_values_count</span></code> - Missing feature values</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">drift_score</span></code> - Population Stability Index (PSI)</p></li>
+</ul>
+</section>
+</section>
+<section id="dashboards">
+<h2>Dashboards<a class="headerlink" href="#dashboards" title="Link to this heading"></a></h2>
+<section id="executive-dashboard">
+<h3>1. Executive Dashboard<a class="headerlink" href="#executive-dashboard" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p>Churn trend over time</p></li>
+<li><p>Model performance KPIs</p></li>
+<li><p>Business impact metrics</p></li>
+<li><p>ROI tracking</p></li>
+</ul>
+</section>
+<section id="operations-dashboard">
+<h3>2. Operations Dashboard<a class="headerlink" href="#operations-dashboard" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p>API health &amp; uptime</p></li>
+<li><p>Latency percentiles</p></li>
+<li><p>Error rates</p></li>
+<li><p>Resource utilization</p></li>
+</ul>
+</section>
+<section id="model-performance">
+<h3>3. Model Performance<a class="headerlink" href="#model-performance" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p>AUC-ROC over time</p></li>
+<li><p>Precision/Recall trends</p></li>
+<li><p>Feature importance drift</p></li>
+<li><p>Prediction distribution</p></li>
+</ul>
+</section>
+</section>
+<section id="alerting-rules">
+<h2>Alerting Rules<a class="headerlink" href="#alerting-rules" title="Link to this heading"></a></h2>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Alert</p></th>
+<th class="head"><p>Condition</p></th>
+<th class="head"><p>Severity</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>High Latency</p></td>
+<td><p>p95 &gt; 200ms</p></td>
+<td><p>Warning</p></td>
+</tr>
+<tr class="row-odd"><td><p>Critical Latency</p></td>
+<td><p>p99 &gt; 500ms</p></td>
+<td><p>Critical</p></td>
+</tr>
+<tr class="row-even"><td><p>Model Drift</p></td>
+<td><p>PSI &gt; 0.20</p></td>
+<td><p>Warning</p></td>
+</tr>
+<tr class="row-odd"><td><p>High Error Rate</p></td>
+<td><p>Errors &gt; 1%</p></td>
+<td><p>Critical</p></td>
+</tr>
+<tr class="row-even"><td><p>Data Stale</p></td>
+<td><p>Freshness &gt; 24h</p></td>
+<td><p>Warning</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="logging">
+<h2>Logging<a class="headerlink" href="#logging" title="Link to this heading"></a></h2>
+<section id="structured-log-format">
+<h3>Structured Log Format<a class="headerlink" href="#structured-log-format" title="Link to this heading"></a></h3>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">json</span>
+<span class="p">{</span>
+  <span class="s2">&quot;timestamp&quot;</span><span class="p">:</span> <span class="s2">&quot;2024-01-15T10:30:00Z&quot;</span><span class="p">,</span>
+  <span class="s2">&quot;level&quot;</span><span class="p">:</span> <span class="s2">&quot;INFO&quot;</span><span class="p">,</span>
+  <span class="s2">&quot;service&quot;</span><span class="p">:</span> <span class="s2">&quot;prediction-api&quot;</span><span class="p">,</span>
+  <span class="s2">&quot;customer_id&quot;</span><span class="p">:</span> <span class="s2">&quot;CUST12345&quot;</span><span class="p">,</span>
+  <span class="s2">&quot;prediction&quot;</span><span class="p">:</span> <span class="mf">0.73</span><span class="p">,</span>
+  <span class="s2">&quot;latency_ms&quot;</span><span class="p">:</span> <span class="mi">45</span><span class="p">,</span>
+  <span class="s2">&quot;model_version&quot;</span><span class="p">:</span> <span class="s2">&quot;lightgbm_v2.3.1&quot;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+<section id="log-retention">
+<h3>Log Retention<a class="headerlink" href="#log-retention" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p><strong>Development</strong>: 7 days</p></li>
+<li><p><strong>Staging</strong>: 30 days</p></li>
+<li><p><strong>Production</strong>: 1 year</p></li>
+</ul>
+</section>
+</section>
+<section id="retraining-triggers">
+<h2>Retraining Triggers<a class="headerlink" href="#retraining-triggers" title="Link to this heading"></a></h2>
+<p>Automated retraining is triggered when:</p>
+<ol class="arabic simple">
+<li><p>Model drift PSI &gt; 0.10</p></li>
+<li><p>Performance drops &gt; 5%</p></li>
+<li><p>Scheduled (weekly/monthly)</p></li>
+<li><p>Manual trigger</p></li>
+</ol>
+</section>
+<section id="on-call">
+<h2>On-Call<a class="headerlink" href="#on-call" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p><strong>Primary</strong>: DevOps Team</p></li>
+<li><p><strong>Secondary</strong>: Data Science Team</p></li>
+<li><p><strong>Escalation</strong>: Engineering Manager</p></li>
+</ul>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, MLOps Team.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
