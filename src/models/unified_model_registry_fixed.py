@@ -123,17 +123,15 @@ class UnifiedModelRegistry:
             model = self.load_model(model_id, from_stage)
             metadata = self.get_model_info(model_id, from_stage)
             
-            # Create a completely new metadata object for the promoted model
-            promoted_metadata = {
-                "model_id": model_id,  # Keep the same model_id
-                "model_path": "",  # Will be set below
+            # Create a completely new metadata object for the promoted model, preserving original metadata
+            promoted_metadata = metadata.copy()
+            promoted_metadata.update({
+                "model_id": model_id,
                 "stage": to_stage,
                 "registered_at": datetime.now().isoformat(),
-                "model_type": metadata.get("model_type", "unknown"),
-                "metrics": metadata.get("metrics", {}),
                 "promoted_from": from_stage,
                 "original_registered_at": metadata.get("registered_at", "")
-            }
+            })
             
             # Save model to production directory
             model_dir = Path("models") / to_stage / model_id
