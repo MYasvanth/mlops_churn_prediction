@@ -45,6 +45,10 @@ class ChurnFeatureEngineer(BaseEstimator, TransformerMixin):
     def _get_default_config(self) -> Dict:
         """Get default feature engineering configuration."""
         return {
+            'encoding': {
+                'method': 'one_hot',  # 'one_hot', 'label'
+                'features': ['gender', 'InternetService', 'Contract', 'PaymentMethod']
+            },
             'scaling': {
                 'method': 'standard',  # 'standard', 'minmax', 'robust'
                 'features': ['tenure', 'MonthlyCharges', 'TotalCharges']
@@ -65,7 +69,7 @@ class ChurnFeatureEngineer(BaseEstimator, TransformerMixin):
             'feature_selection': {
                 'enabled': True,
                 'method': 'k_best',  # 'k_best', 'mutual_info', 'chi2'
-                'k': 20
+                'k': 25
             },
             'dimensionality_reduction': {
                 'enabled': False,
@@ -84,8 +88,11 @@ class ChurnFeatureEngineer(BaseEstimator, TransformerMixin):
         # Create basic engineered features
         X_engineered = self._create_engineered_features(X_copy)
         
+        # Fit encoding
+        X_encoded = self._fit_encoding(X_engineered, y)
+        
         # Fit scalers
-        X_scaled = self._fit_scalers(X_engineered, y)
+        X_scaled = self._fit_scalers(X_encoded, y)
         
         # Create polynomial features
         X_poly = self._create_polynomial_features(X_scaled)
@@ -112,8 +119,11 @@ class ChurnFeatureEngineer(BaseEstimator, TransformerMixin):
         # Create basic engineered features
         X_engineered = self._create_engineered_features(X_copy)
         
+        # Apply encoding
+        X_encoded = self._apply_encoding(X_engineered)
+        
         # Apply scaling
-        X_scaled = self._apply_scaling(X_engineered)
+        X_scaled = self._apply_scaling(X_encoded)
         
         # Create polynomial features
         X_poly = self._create_polynomial_features(X_scaled)
@@ -134,6 +144,50 @@ class ChurnFeatureEngineer(BaseEstimator, TransformerMixin):
             X_reduced = X_selected
         
         return X_reduced
+    
+    def _fit_encoding(self, X: pd.DataFrame, y: pd.Series = None) -> pd.DataFrame:
+        """Fit encoders for categorical features."""
+        encoding_config = self.config.get('encoding', {})
+        if not encoding_config:
+            return X
+            
+        method = encoding_config.get('method', 'one_hot')
+        features_to_encode = encoding_config.get('features', [])
+        
+        available_features = [col for col in features_to_encode if col in X.columns]
+        if not available_features:
+            return X
+            
+        if method == 'one_hot':
+            from sklearn.preprocessing import OneHotEncoder
+            encoder = OneHotEncoder(sparse_output=False, handle_unknown='ignore')
+            encoder.fit(X[available_features])
+            self.scalers['encoding'] = encoder
+            logger.info(f"Fitted OneHotEncoder for {len(available_features)} features")
+        
+        return X
+
+    def _apply_encoding(self, X: pd.DataFrame) -> pd.DataFrame:
+        """Apply encoding to categorical features."""
+        if 'encoding' not in self.scalers:
+            return X
+            
+        encoder = self.scalers['encoding']
+        encoding_config = self.config.get('encoding', {})
+        features_to_encode = encoding_config.get('features', [])
+        available_features = [col for col in features_to_encode if col in X.columns]
+        
+        if not available_features:
+            return X
+            
+        encoded_data = encoder.transform(X[available_features])
+        encoded_cols = encoder.get_feature_names_out(available_features)
+        
+        X_encoded = X.drop(columns=available_features)
+        encoded_df = pd.DataFrame(encoded_data, columns=encoded_cols, index=X.index)
+        X_final = pd.concat([X_encoded, encoded_df], axis=1)
+        
+        return X_final
     
     def _create_engineered_features(self, X: pd.DataFrame) -> pd.DataFrame:
         """Create engineered features from raw data."""
