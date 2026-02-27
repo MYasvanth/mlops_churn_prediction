@@ -25,6 +25,7 @@ from src.models.unified_model_registry_fixed import UnifiedModelRegistry
 from src.utils.logger import get_logger
 from src.utils.config_loader import load_config
 from src.monitoring.optuna_monitor import OptunaMonitor
+from src.data.data_loader import DataLoader
 
 logger = get_logger(__name__)
 
@@ -59,6 +60,13 @@ class ChurnPredictionApp:
         self.config = load_config("configs/model/unified_model_config.yaml")
         self.registry = UnifiedModelRegistry("configs/model/unified_model_config.yaml")
         self.optuna_monitor = OptunaMonitor()
+        self.data_loader = DataLoader("configs/data/local.yaml")
+        # Load encoders
+        try:
+            self.data_loader.load_encoders("models/encoders/")
+            logger.info("Successfully loaded label encoders")
+        except Exception as e:
+            logger.error(f"Error loading encoders: {e}")
         
     def run(self):
         """Main application runner"""
@@ -242,41 +250,71 @@ class ChurnPredictionApp:
     def _prepare_features(self, input_data):
         """Prepare features matching training pipeline"""
         try:
-            # Create DataFrame with proper encoding
-            # customerID: use hash to convert to numeric (model expects numeric)
+            # Create DataFrame with all columns in correct order
+            # Note: customerID is included as it was in the training pipeline
             customer_id_hash = hash('PRED-' + str(np.random.randint(1000, 9999))) % 10000
             
             df = pd.DataFrame([{
-                'customerID': customer_id_hash,
-                'gender': 1 if input_data['gender'] == 'Male' else 0,
+                'customerID': str(customer_id_hash), # Training pipeline uses .astype(str)
+                'gender': input_data['gender'],
                 'SeniorCitizen': input_data['SeniorCitizen'],
-                'Partner': 1 if input_data['Partner'] == 'Yes' else 0,
-                'Dependents': 1 if input_data['Dependents'] == 'Yes' else 0,
+                'Partner': input_data['Partner'],
+                'Dependents': input_data['Dependents'],
                 'tenure': input_data['tenure'],
-                'PhoneService': 1 if input_data['PhoneService'] == 'Yes' else 0,
-                'MultipleLines': 1 if input_data['MultipleLines'] == 'Yes' else 0,
-                'InternetService': 2 if input_data['InternetService'] == 'Fiber optic' else (1 if input_data['InternetService'] == 'DSL' else 0),
-                'OnlineSecurity': 1 if input_data['OnlineSecurity'] == 'Yes' else 0,
-                'OnlineBackup': 1 if input_data['OnlineBackup'] == 'Yes' else 0,
-                'DeviceProtection': 1 if input_data['DeviceProtection'] == 'Yes' else 0,
-                'TechSupport': 1 if input_data['TechSupport'] == 'Yes' else 0,
-                'StreamingTV': 1 if input_data['StreamingTV'] == 'Yes' else 0,
-                'StreamingMovies': 1 if input_data['StreamingMovies'] == 'Yes' else 0,
-                'Contract': 0 if input_data['Contract'] == 'Month-to-month' else (1 if input_data['Contract'] == 'One year' else 2),
-                'PaperlessBilling': 1 if input_data['PaperlessBilling'] == 'Yes' else 0,
-                'PaymentMethod': 0 if input_data['PaymentMethod'] == 'Electronic check' else 1,
+                'PhoneService': input_data['PhoneService'],
+                'MultipleLines': input_data['MultipleLines'],
+                'InternetService': input_data['InternetService'],
+                'OnlineSecurity': input_data['OnlineSecurity'],
+                'OnlineBackup': input_data['OnlineBackup'],
+                'DeviceProtection': input_data['DeviceProtection'],
+                'TechSupport': input_data['TechSupport'],
+                'StreamingTV': input_data['StreamingTV'],
+                'StreamingMovies': input_data['StreamingMovies'],
+                'Contract': input_data['Contract'],
+                'PaperlessBilling': input_data['PaperlessBilling'],
+                'PaymentMethod': input_data['PaymentMethod'],
                 'MonthlyCharges': input_data['MonthlyCharges'],
                 'TotalCharges': input_data['TotalCharges']
             }])
-            return df.values
             
+            # Apply label encoding using saved encoders
+            for col, encoder in self.data_loader.label_encoders.items():
+                if col in df.columns:
+                    try:
+                        # Handle unknown categories by using the first class if not found
+                        val = str(df[col].iloc[0])
+                        if val in encoder.classes_:
+                            df[col] = encoder.transform([val])[0]
+                        else:
+                            # Default to 0 if category not seen during training
+                            df[col] = 0
+                    except Exception as e:
+                        logger.warning(f"Error encoding {col}: {e}")
+                        df[col] = 0
+            
+            # Ensure all columns are numeric
+            for col in df.columns:
+                if df[col].dtype == 'object':
+                    # Fallback for columns not in label_encoders
+                    try:
+                        df[col] = pd.to_numeric(df[col])
+                    except:
+                        df[col] = 0
+            
+            return df.values
         except Exception as e:
             st.error(f"Feature preparation error: {e}")
             raise
     
     def _get_feature_names(self):
-        """Get feature names (simplified)"""
-        return [f"feature_{i}" for i in range(20)]
+        """Get actual feature names from training schema"""
+        return [
+            "customerID", "gender", "SeniorCitizen", "Partner", "Dependents", 
+            "tenure", "PhoneService", "MultipleLines", "InternetService", 
+            "OnlineSecurity", "OnlineBackup", "DeviceProtection", "TechSupport", 
+            "StreamingTV", "StreamingMovies", "Contract", "PaperlessBilling", 
+            "PaymentMethod", "MonthlyCharges", "TotalCharges"
+        ]
     
     def show_monitoring_page(self):
         """Performance monitoring interface"""
@@ -343,22 +381,39 @@ class ChurnPredictionApp:
                 st.write(f"- {severity}: {count}")
     
     def _load_performance_data(self):
-        """Load performance data from monitoring reports"""
-        # This would load actual performance data from monitoring reports
-        # For now, return dummy data
-        return {
-            'accuracy': 0.85,
-            'precision': 0.82,
-            'recall': 0.87,
-            'f1_score': 0.84,
-            'roc_auc': 0.89,
-            'trend_data': {
-                'timestamps': ['2024-01-01', '2024-01-02', '2024-01-03'],
-                'accuracy': [0.83, 0.84, 0.85],
-                'precision': [0.80, 0.81, 0.82],
-                'recall': [0.85, 0.86, 0.87]
-            }
-        }
+        """Load performance data from the latest production model"""
+        try:
+            # Get production models
+            models = self.registry.list_models("production")
+            if not models:
+                # Try staging if no production model
+                models = self.registry.list_models("staging")
+            
+            if not models:
+                return None
+            
+            latest_model = models[0]
+            metrics = latest_model.get('performance_metrics', {})
+            
+            if not metrics:
+                # Handle different naming in metadata
+                metrics = latest_model.get('metrics', {})
+            
+            if metrics:
+                # Add trend data (dummy for now as we don't have historical performance file yet)
+                metrics['trend_data'] = {
+                    'timestamps': [datetime.now().strftime('%Y-%m-%d')],
+                    'accuracy': [metrics.get('accuracy', 0)],
+                    'precision': [metrics.get('precision', 0)],
+                    'recall': [metrics.get('recall', 0)]
+                }
+                return metrics
+            
+            return None
+            
+        except Exception as e:
+            logger.error(f"Error loading performance data: {e}")
+            return None
     
     def _create_performance_trend_chart(self, performance_data):
         """Create performance trend chart"""
@@ -399,15 +454,32 @@ class ChurnPredictionApp:
         return fig
     
     def _check_data_drift(self):
-        """Check for data drift"""
-        # This would use the data drift monitor
-        # For now, return dummy data
-        return {
-            'drift_detected': False,
-            'drift_score': 0.12,
-            'drifted_columns': [],
-            'report_summary': {'status': 'No significant drift detected'}
-        }
+        """Check for data drift from history"""
+        try:
+            drift_history_path = Path("reports/drift_reports/drift_history.json")
+            if drift_history_path.exists():
+                with open(drift_history_path, 'r') as f:
+                    history = json.load(f)
+                
+                if history:
+                    # Return the latest report
+                    latest = history[-1]
+                    return {
+                        'drift_detected': latest.get('drift_detected', False),
+                        'drift_score': latest.get('drift_score', 0),
+                        'drifted_columns': latest.get('drifted_columns', []),
+                        'report_summary': {'status': 'Drift analysis from ' + latest.get('timestamp', 'unknown')}
+                    }
+            
+            return {
+                'drift_detected': False,
+                'drift_score': 0,
+                'drifted_columns': [],
+                'report_summary': {'status': 'No drift reports found'}
+            }
+        except Exception as e:
+            logger.error(f"Error checking data drift: {e}")
+            return {'drift_detected': False, 'drift_score': 0, 'drifted_columns': [], 'report_summary': {}}
     
     def _get_alert_summary(self):
         """Get alert summary"""
@@ -494,6 +566,14 @@ class ChurnPredictionApp:
             
             if Path(data_path).exists():
                 data = pd.read_csv(data_path)
+                
+                # Standardize column names
+                if 'Churn' in data.columns:
+                    data = data.rename(columns={'Churn': 'churn'})
+                
+                # Convert target to numeric if needed
+                if 'churn' in data.columns and data['churn'].dtype == 'object':
+                    data['churn'] = data['churn'].map({'Yes': 1, 'No': 0})
                 
                 col1, col2, col3 = st.columns(3)
                 
