@@ -8,6 +8,7 @@ import argparse
 import json
 import sys
 from pathlib import Path
+import numpy as np
 
 # Add src to path for imports
 sys.path.append(str(Path(__file__).parent.parent))
@@ -66,7 +67,7 @@ def main():
     
     args = parser.parse_args()
     
-    print("🚀 Starting Unified Model Training")
+    print("Starting Unified Model Training")
     print(f"   - Model Type: {args.model_type}")
     print(f"   - Data Path: {args.data_path}")
     print(f"   - Stage: {args.stage}")
@@ -75,33 +76,34 @@ def main():
     try:
         # Ensure data path exists
         if not Path(args.data_path).exists():
-            print(f"❌ Data file not found: {args.data_path}")
+            print(f"Data file not found: {args.data_path}")
             return 1
         
         # Run training based on model type
         if args.model_type == "all":
-            print("📊 Training all supported models...")
+            print("Training all supported models...")
             results = train_all_models(args.data_path)
             
         elif args.model_type == "auto":
-            print("🤖 Auto-selecting best model...")
+            print("Auto-selecting best model...")
             results = auto_train_best_model(args.data_path)
             
         else:
-            print(f"🎯 Training {args.model_type} model...")
-            results = train_single_model(
+            print(f"Training {args.model_type} model...")
+            result = train_single_model(
                 model_type=args.model_type,
                 data_path=args.data_path
             )
+            results = {args.model_type: result}
         
         # Save results if output path provided
         if args.output_path:
             with open(args.output_path, 'w') as f:
                 json.dump(results, f, indent=2, default=str)
-            print(f"📄 Results saved to: {args.output_path}")
+            print(f"Results saved to: {args.output_path}")
         
         # Print results
-        print("\n📈 Training Results:")
+        print("\nTraining Results:")
         if isinstance(results, dict):
             if "best_model" in results:
                 print(f"   - Best Model: {results['best_model']}")
@@ -111,17 +113,26 @@ def main():
                 if isinstance(result, dict) and "error" not in result:
                     print(f"   - {model_type}:")
                     print(f"     - Model ID: {result.get('model_id', 'N/A')}")
-                    print(f"     - F1 Score: {result.get('metrics', {}).get('f1_score', 'N/A'):.4f}")
-                    print(f"     - Accuracy: {result.get('metrics', {}).get('accuracy', 'N/A'):.4f}")
-                    print(f"     - ROC AUC: {result.get('metrics', {}).get('roc_auc', 'N/A'):.4f}")
+                    metrics = result.get('metrics', {})
+                    f1 = metrics.get('f1_score', 'N/A')
+                    acc = metrics.get('accuracy', 'N/A')
+                    auc = metrics.get('roc_auc', 'N/A')
+                    
+                    f1_str = f"{f1:.4f}" if isinstance(f1, (int, float, np.number)) else str(f1)
+                    acc_str = f"{acc:.4f}" if isinstance(acc, (int, float, np.number)) else str(acc)
+                    auc_str = f"{auc:.4f}" if isinstance(auc, (int, float, np.number)) else str(auc)
+                    
+                    print(f"     - F1 Score: {f1_str}")
+                    print(f"     - Accuracy: {acc_str}")
+                    print(f"     - ROC AUC: {auc_str}")
                 elif isinstance(result, dict) and "error" in result:
-                    print(f"   - {model_type}: ❌ Error - {result['error']}")
+                    print(f"   - {model_type}: Error - {result['error']}")
         
-        print("✅ Training completed successfully!")
+        print("Training completed successfully!")
         return 0
         
     except Exception as e:
-        print(f"❌ Training failed: {str(e)}")
+        print(f"Training failed: {str(e)}")
         if args.verbose:
             import traceback
             traceback.print_exc()
