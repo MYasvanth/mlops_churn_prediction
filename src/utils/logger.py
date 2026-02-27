@@ -128,5 +128,5 @@ class MLflowLogger:
 # Global logger instance
 main_logger = get_logger(
     "mlops_churn_prediction",
-    log_file=f"mlops_{datetime.now().strftime('%Y%m%d')}.log"
+    log_file=None  # Only log to console by default
 )
