@@ -24,14 +24,15 @@
 
 ## Selected Approach
 
-### Primary Model: LightGBM
-- Best balance of performance and speed
-- Native handling of categorical features
-- Built-in support for imbalanced data
+### Primary Model: XGBoost
+- High accuracy and robust performance
+- Excellent handling of imbalanced data
+- Built-in regularization and cross-validation
 
-### Backup Model: XGBoost
+### Alternative Model: LightGBM
+- Faster training speed
+- Native handling of categorical features
 - Alternative for ensemble
-- Different regularization approach
 
 ## Model Architecture
 
@@ -49,11 +50,11 @@
                   │
                   ▼
 ┌─────────────────────────────────────────────┐
-│              LightGBM Model                  │
-│  - 500 trees                                │
-│  - Max depth: 6                             │
-│  - Learning rate: 0.05                     │
-│  - Class weight: balanced                   │
+│              XGBoost Model                   │
+│  - 100 estimators                           │
+│  - Max depth: 5                             │
+│  - Learning rate: 0.1                       │
+│  - Objective: binary:logistic               │
 └─────────────────┬───────────────────────────┘
                   │
                   ▼
@@ -67,4 +68,4 @@
 
 - Bayesian optimization with Optuna
 - Cross-validation: 5-fold stratified
-- Optimization metric: F1-score
+- Optimization metric: Cross-validation score
