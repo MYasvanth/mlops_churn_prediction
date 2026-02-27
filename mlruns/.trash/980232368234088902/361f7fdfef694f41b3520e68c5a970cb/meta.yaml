@@ -1,0 +1,15 @@
+artifact_uri: file:///C:/Users/admin/Desktop/Sql Project/MLprojects/mlops_churn_prediction/mlruns/980232368234088902/361f7fdfef694f41b3520e68c5a970cb/artifacts
+deleted_time: 1755614683507
+end_time: 1753441817124
+entry_point_name: ''
+experiment_id: '980232368234088902'
+lifecycle_stage: deleted
+run_id: 361f7fdfef694f41b3520e68c5a970cb
+run_name: charming-conch-587
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1753441799905
+status: 3
+tags: []
+user_id: admin

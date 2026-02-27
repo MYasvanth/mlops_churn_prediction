@@ -1,0 +1,14 @@
+artifact_uri: file:///C:/Users/admin/Desktop/Sql%20Project/MLprojects/mlops_churn_prediction/mlruns/703411698562074264/7afc9660284d452d853ee345d79565e3/artifacts
+end_time: 1760085759419
+entry_point_name: ''
+experiment_id: '703411698562074264'
+lifecycle_stage: active
+run_id: 7afc9660284d452d853ee345d79565e3
+run_name: invincible-bug-795
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1760085753599
+status: 3
+tags: []
+user_id: admin

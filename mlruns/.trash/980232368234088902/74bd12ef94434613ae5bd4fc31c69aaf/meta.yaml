@@ -1,0 +1,15 @@
+artifact_uri: file:///C:/Users/admin/Desktop/Sql Project/MLprojects/mlops_churn_prediction/mlruns/980232368234088902/74bd12ef94434613ae5bd4fc31c69aaf/artifacts
+deleted_time: 1755614683716
+end_time: 1753439166730
+entry_point_name: ''
+experiment_id: '980232368234088902'
+lifecycle_stage: deleted
+run_id: 74bd12ef94434613ae5bd4fc31c69aaf
+run_name: polite-croc-537
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1753439149860
+status: 3
+tags: []
+user_id: admin

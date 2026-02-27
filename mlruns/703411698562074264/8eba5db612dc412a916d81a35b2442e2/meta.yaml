@@ -1,0 +1,14 @@
+artifact_uri: file:///C:/Users/admin/Desktop/Sql%20Project/MLprojects/mlops_churn_prediction/mlruns/703411698562074264/8eba5db612dc412a916d81a35b2442e2/artifacts
+end_time: 1770360264493
+entry_point_name: ''
+experiment_id: '703411698562074264'
+lifecycle_stage: active
+run_id: 8eba5db612dc412a916d81a35b2442e2
+run_name: incongruous-toad-961
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1770360263377
+status: 4
+tags: []
+user_id: admin

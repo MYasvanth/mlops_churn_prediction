@@ -1,0 +1,14 @@
+artifact_uri: file:///C:/Users/admin/Desktop/Sql Project/MLprojects/mlops_churn_prediction/mlruns/0/422f9ba50fb444ea8a6d6604c4bd912f/artifacts
+end_time: 1760348339695
+entry_point_name: ''
+experiment_id: '0'
+lifecycle_stage: active
+run_id: 422f9ba50fb444ea8a6d6604c4bd912f
+run_name: auspicious-moth-513
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1760348339126
+status: 3
+tags: []
+user_id: admin

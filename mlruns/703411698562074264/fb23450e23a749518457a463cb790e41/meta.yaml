@@ -1,0 +1,14 @@
+artifact_uri: file:///C:/Users/admin/Desktop/Sql%20Project/MLprojects/mlops_churn_prediction/mlruns/703411698562074264/fb23450e23a749518457a463cb790e41/artifacts
+end_time: 1768130767331
+entry_point_name: ''
+experiment_id: '703411698562074264'
+lifecycle_stage: active
+run_id: fb23450e23a749518457a463cb790e41
+run_name: serious-shoat-834
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1768130750677
+status: 3
+tags: []
+user_id: admin

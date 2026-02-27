@@ -1,0 +1,14 @@
+artifact_uri: file:///C:/Users/admin/Desktop/Sql%20Project/MLprojects/mlops_churn_prediction/mlruns/703411698562074264/49f0aeb601ee47f28d93d1dd30b98ed1/artifacts
+end_time: 1760085747178
+entry_point_name: ''
+experiment_id: '703411698562074264'
+lifecycle_stage: active
+run_id: 49f0aeb601ee47f28d93d1dd30b98ed1
+run_name: gifted-crane-876
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1760085735701
+status: 3
+tags: []
+user_id: admin

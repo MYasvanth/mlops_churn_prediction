@@ -1,0 +1,14 @@
+artifact_uri: file:///C:/Users/admin/Desktop/Sql Project/MLprojects/mlops_churn_prediction/mlruns/0/eea7f142170545c5b4e5a1e1a66d95d9/artifacts
+end_time: 1760413780303
+entry_point_name: ''
+experiment_id: '0'
+lifecycle_stage: active
+run_id: eea7f142170545c5b4e5a1e1a66d95d9
+run_name: useful-gull-978
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1760413779938
+status: 3
+tags: []
+user_id: admin

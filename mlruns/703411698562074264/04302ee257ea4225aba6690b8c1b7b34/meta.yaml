@@ -1,0 +1,14 @@
+artifact_uri: file:///C:/Users/admin/Desktop/Sql%20Project/MLprojects/mlops_churn_prediction/mlruns/703411698562074264/04302ee257ea4225aba6690b8c1b7b34/artifacts
+end_time: 1760085712548
+entry_point_name: ''
+experiment_id: '703411698562074264'
+lifecycle_stage: active
+run_id: 04302ee257ea4225aba6690b8c1b7b34
+run_name: redolent-skunk-981
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1760085697198
+status: 3
+tags: []
+user_id: admin

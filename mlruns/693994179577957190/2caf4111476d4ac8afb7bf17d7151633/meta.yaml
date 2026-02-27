@@ -1,0 +1,14 @@
+artifact_uri: mlflow-artifacts:/693994179577957190/2caf4111476d4ac8afb7bf17d7151633/artifacts
+end_time: 1756064531813
+entry_point_name: ''
+experiment_id: '693994179577957190'
+lifecycle_stage: active
+run_id: 2caf4111476d4ac8afb7bf17d7151633
+run_name: migrated_lightgbm_20250820_104713
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1756064511343
+status: 3
+tags: []
+user_id: admin

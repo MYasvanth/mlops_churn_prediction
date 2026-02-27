@@ -1,0 +1,14 @@
+artifact_uri: file:///C:/Users/admin/Desktop/Sql Project/MLprojects/mlops_churn_prediction/mlruns/0/433c24be99c8432495a09a79ac088143/artifacts
+end_time: 1760413756524
+entry_point_name: ''
+experiment_id: '0'
+lifecycle_stage: active
+run_id: 433c24be99c8432495a09a79ac088143
+run_name: beautiful-mouse-841
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1760413756153
+status: 3
+tags: []
+user_id: admin

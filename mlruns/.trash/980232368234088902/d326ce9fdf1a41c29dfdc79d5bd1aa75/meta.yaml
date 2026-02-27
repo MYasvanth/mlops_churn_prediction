@@ -1,0 +1,15 @@
+artifact_uri: file:///C:/Users/admin/Desktop/Sql Project/MLprojects/mlops_churn_prediction/mlruns/980232368234088902/d326ce9fdf1a41c29dfdc79d5bd1aa75/artifacts
+deleted_time: 1755614683351
+end_time: 1755416843916
+entry_point_name: ''
+experiment_id: '980232368234088902'
+lifecycle_stage: deleted
+run_id: d326ce9fdf1a41c29dfdc79d5bd1aa75
+run_name: auspicious-shad-388
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1755416835917
+status: 3
+tags: []
+user_id: admin

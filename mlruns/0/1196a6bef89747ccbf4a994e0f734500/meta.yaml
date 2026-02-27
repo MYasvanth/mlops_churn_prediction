@@ -1,0 +1,14 @@
+artifact_uri: file:///C:/Users/admin/Desktop/Sql Project/MLprojects/mlops_churn_prediction/mlruns/0/1196a6bef89747ccbf4a994e0f734500/artifacts
+end_time: 1760413869450
+entry_point_name: ''
+experiment_id: '0'
+lifecycle_stage: active
+run_id: 1196a6bef89747ccbf4a994e0f734500
+run_name: blushing-seal-234
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1760413868957
+status: 3
+tags: []
+user_id: admin

@@ -1,0 +1,14 @@
+artifact_uri: file:///C:/Users/admin/Desktop/Sql%20Project/MLprojects/mlops_churn_prediction/mlruns/703411698562074264/956622daa3ef49cf88402541d019bb54/artifacts
+end_time: 1760038033054
+entry_point_name: ''
+experiment_id: '703411698562074264'
+lifecycle_stage: active
+run_id: 956622daa3ef49cf88402541d019bb54
+run_name: enchanting-conch-592
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1760038021086
+status: 3
+tags: []
+user_id: admin

@@ -1,0 +1,14 @@
+artifact_uri: file:///C:/Users/admin/Desktop/Sql Project/MLprojects/mlops_churn_prediction/mlruns/532171451029585026/e19e7bb5bb3a4b55ba3e1aecf59f25fb/artifacts
+end_time: 1756324552988
+entry_point_name: ''
+experiment_id: '532171451029585026'
+lifecycle_stage: active
+run_id: e19e7bb5bb3a4b55ba3e1aecf59f25fb
+run_name: deploy_xgboost_20250828_012024_staging
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1756324552883
+status: 3
+tags: []
+user_id: admin

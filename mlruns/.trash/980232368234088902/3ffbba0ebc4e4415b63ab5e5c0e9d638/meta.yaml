@@ -1,0 +1,15 @@
+artifact_uri: file:///C:/Users/admin/Desktop/Sql Project/MLprojects/mlops_churn_prediction/mlruns/980232368234088902/3ffbba0ebc4e4415b63ab5e5c0e9d638/artifacts
+deleted_time: 1755614683368
+end_time: 1755416663290
+entry_point_name: ''
+experiment_id: '980232368234088902'
+lifecycle_stage: deleted
+run_id: 3ffbba0ebc4e4415b63ab5e5c0e9d638
+run_name: judicious-mare-317
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1755416646522
+status: 3
+tags: []
+user_id: admin

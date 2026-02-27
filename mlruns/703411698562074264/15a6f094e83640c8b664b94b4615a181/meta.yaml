@@ -1,0 +1,14 @@
+artifact_uri: file:///C:/Users/admin/Desktop/Sql%20Project/MLprojects/mlops_churn_prediction/mlruns/703411698562074264/15a6f094e83640c8b664b94b4615a181/artifacts
+end_time: 1755666978652
+entry_point_name: ''
+experiment_id: '703411698562074264'
+lifecycle_stage: active
+run_id: 15a6f094e83640c8b664b94b4615a181
+run_name: agreeable-frog-339
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1755666959998
+status: 3
+tags: []
+user_id: admin

@@ -1,0 +1,14 @@
+artifact_uri: file:///C:/Users/admin/Desktop/Sql%20Project/MLprojects/mlops_churn_prediction/mlruns/703411698562074264/4886fe5f43e44c2493d5a6e0e48cb32c/artifacts
+end_time: 1755670568378
+entry_point_name: ''
+experiment_id: '703411698562074264'
+lifecycle_stage: active
+run_id: 4886fe5f43e44c2493d5a6e0e48cb32c
+run_name: bald-duck-368
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1755670556226
+status: 3
+tags: []
+user_id: admin

@@ -1,0 +1,14 @@
+artifact_uri: file:///C:/Users/admin/Desktop/Sql%20Project/MLprojects/mlops_churn_prediction/mlruns/703411698562074264/2eb13a468a0e4e588b3d5b48ea45cdf2/artifacts
+end_time: 1756411046447
+entry_point_name: ''
+experiment_id: '703411698562074264'
+lifecycle_stage: active
+run_id: 2eb13a468a0e4e588b3d5b48ea45cdf2
+run_name: debonair-turtle-42
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1756411037397
+status: 3
+tags: []
+user_id: admin

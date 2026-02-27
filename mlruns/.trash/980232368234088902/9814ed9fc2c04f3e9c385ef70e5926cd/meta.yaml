@@ -1,0 +1,15 @@
+artifact_uri: file:///C:/Users/admin/Desktop/Sql Project/MLprojects/mlops_churn_prediction/mlruns/980232368234088902/9814ed9fc2c04f3e9c385ef70e5926cd/artifacts
+deleted_time: 1755614683219
+end_time: 1755547288689
+entry_point_name: ''
+experiment_id: '980232368234088902'
+lifecycle_stage: deleted
+run_id: 9814ed9fc2c04f3e9c385ef70e5926cd
+run_name: Churn_XGBoost_Training
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1755547288476
+status: 3
+tags: []
+user_id: admin

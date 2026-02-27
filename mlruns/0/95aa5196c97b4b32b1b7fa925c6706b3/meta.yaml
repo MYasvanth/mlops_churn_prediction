@@ -1,0 +1,14 @@
+artifact_uri: file:///C:/Users/admin/Desktop/Sql Project/MLprojects/mlops_churn_prediction/mlruns/0/95aa5196c97b4b32b1b7fa925c6706b3/artifacts
+end_time: 1756066135841
+entry_point_name: ''
+experiment_id: '0'
+lifecycle_stage: active
+run_id: 95aa5196c97b4b32b1b7fa925c6706b3
+run_name: melodic-cow-320
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1756066135206
+status: 3
+tags: []
+user_id: admin

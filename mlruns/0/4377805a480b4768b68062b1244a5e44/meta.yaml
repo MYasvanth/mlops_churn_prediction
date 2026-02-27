@@ -1,0 +1,14 @@
+artifact_uri: file:///C:/Users/admin/Desktop/Sql Project/MLprojects/mlops_churn_prediction/mlruns/0/4377805a480b4768b68062b1244a5e44/artifacts
+end_time: 1760413933924
+entry_point_name: ''
+experiment_id: '0'
+lifecycle_stage: active
+run_id: 4377805a480b4768b68062b1244a5e44
+run_name: receptive-snail-978
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1760413933482
+status: 3
+tags: []
+user_id: admin

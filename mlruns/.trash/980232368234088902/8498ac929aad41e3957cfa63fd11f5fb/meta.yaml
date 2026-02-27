@@ -1,0 +1,15 @@
+artifact_uri: file:///C:/Users/admin/Desktop/Sql Project/MLprojects/mlops_churn_prediction/mlruns/980232368234088902/8498ac929aad41e3957cfa63fd11f5fb/artifacts
+deleted_time: 1755614683533
+end_time: 1753441786098
+entry_point_name: ''
+experiment_id: '980232368234088902'
+lifecycle_stage: deleted
+run_id: 8498ac929aad41e3957cfa63fd11f5fb
+run_name: luxuriant-ant-109
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1753441772257
+status: 3
+tags: []
+user_id: admin

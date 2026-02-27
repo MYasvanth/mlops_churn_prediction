@@ -1,0 +1,14 @@
+artifact_uri: file:///C:/Users/admin/Desktop/Sql%20Project/MLprojects/mlops_churn_prediction/mlruns/703411698562074264/faa96ca1e0494fff98813c492b68a349/artifacts
+end_time: 1760085753563
+entry_point_name: ''
+experiment_id: '703411698562074264'
+lifecycle_stage: active
+run_id: faa96ca1e0494fff98813c492b68a349
+run_name: exultant-cod-579
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1760085747192
+status: 3
+tags: []
+user_id: admin

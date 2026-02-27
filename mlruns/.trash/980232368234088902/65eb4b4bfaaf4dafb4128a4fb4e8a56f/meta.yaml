@@ -1,0 +1,15 @@
+artifact_uri: file:///C:/Users/admin/Desktop/Sql Project/MLprojects/mlops_churn_prediction/mlruns/980232368234088902/65eb4b4bfaaf4dafb4128a4fb4e8a56f/artifacts
+deleted_time: 1755614683695
+end_time: 1753440118440
+entry_point_name: ''
+experiment_id: '980232368234088902'
+lifecycle_stage: deleted
+run_id: 65eb4b4bfaaf4dafb4128a4fb4e8a56f
+run_name: painted-sponge-868
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1753440107217
+status: 3
+tags: []
+user_id: admin

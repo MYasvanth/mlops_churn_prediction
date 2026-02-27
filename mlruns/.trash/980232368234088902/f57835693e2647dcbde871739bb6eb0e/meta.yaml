@@ -1,0 +1,15 @@
+artifact_uri: file:///C:/Users/admin/Desktop/Sql Project/MLprojects/mlops_churn_prediction/mlruns/980232368234088902/f57835693e2647dcbde871739bb6eb0e/artifacts
+deleted_time: 1755614683244
+end_time: 1755545605392
+entry_point_name: ''
+experiment_id: '980232368234088902'
+lifecycle_stage: deleted
+run_id: f57835693e2647dcbde871739bb6eb0e
+run_name: big-roo-38
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1755545596718
+status: 3
+tags: []
+user_id: admin

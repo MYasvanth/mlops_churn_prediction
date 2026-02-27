@@ -1,0 +1,15 @@
+artifact_uri: file:///C:/Users/admin/Desktop/Sql Project/MLprojects/mlops_churn_prediction/mlruns/980232368234088902/aec6540e750b476eaedde3b2e5d52a42/artifacts
+deleted_time: 1755614683463
+end_time: 1755415577496
+entry_point_name: ''
+experiment_id: '980232368234088902'
+lifecycle_stage: deleted
+run_id: aec6540e750b476eaedde3b2e5d52a42
+run_name: bald-mole-872
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1755415565333
+status: 3
+tags: []
+user_id: admin

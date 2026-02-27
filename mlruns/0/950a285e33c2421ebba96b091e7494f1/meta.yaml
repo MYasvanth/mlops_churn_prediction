@@ -1,0 +1,14 @@
+artifact_uri: file:///C:/Users/admin/Desktop/Sql Project/MLprojects/mlops_churn_prediction/mlruns/0/950a285e33c2421ebba96b091e7494f1/artifacts
+end_time: 1756066133487
+entry_point_name: ''
+experiment_id: '0'
+lifecycle_stage: active
+run_id: 950a285e33c2421ebba96b091e7494f1
+run_name: youthful-roo-159
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1756066130416
+status: 3
+tags: []
+user_id: admin

@@ -1,0 +1,14 @@
+artifact_uri: file:///C:/Users/admin/Desktop/Sql%20Project/MLprojects/mlops_churn_prediction/mlruns/703411698562074264/f7a76a5d20bd403c9ade7af22d8f9a37/artifacts
+end_time: 1760085437602
+entry_point_name: ''
+experiment_id: '703411698562074264'
+lifecycle_stage: active
+run_id: f7a76a5d20bd403c9ade7af22d8f9a37
+run_name: spiffy-bass-765
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1760085428412
+status: 3
+tags: []
+user_id: admin

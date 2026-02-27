@@ -1,0 +1,15 @@
+artifact_uri: file:///C:/Users/admin/Desktop/Sql Project/MLprojects/mlops_churn_prediction/mlruns/560598965687104729/a8bdc433443347568a77ffeb00ac5d9b/artifacts
+deleted_time: 1759947658796
+end_time: 1759862386001
+entry_point_name: ''
+experiment_id: '560598965687104729'
+lifecycle_stage: deleted
+run_id: a8bdc433443347568a77ffeb00ac5d9b
+run_name: exultant-stork-414
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1759862385796
+status: 4
+tags: []
+user_id: admin

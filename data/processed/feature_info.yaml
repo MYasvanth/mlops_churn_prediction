@@ -1,0 +1,53 @@
+categorical_columns:
+- gender
+- Partner
+- Dependents
+- PhoneService
+- MultipleLines
+- InternetService
+- OnlineSecurity
+- OnlineBackup
+- DeviceProtection
+- TechSupport
+- StreamingTV
+- StreamingMovies
+- Contract
+- PaperlessBilling
+- PaymentMethod
+created_features:
+- CLV
+- AvgMonthlyCharges
+- ServiceCount
+- TenureGroup
+- ChargeGroup
+feature_columns:
+- gender
+- SeniorCitizen
+- Partner
+- Dependents
+- tenure
+- PhoneService
+- MultipleLines
+- InternetService
+- OnlineSecurity
+- OnlineBackup
+- DeviceProtection
+- TechSupport
+- StreamingTV
+- StreamingMovies
+- Contract
+- PaperlessBilling
+- PaymentMethod
+- MonthlyCharges
+- TotalCharges
+- CLV
+- AvgMonthlyCharges
+- ServiceCount
+- TenureGroup
+- ChargeGroup
+- Churn
+numerical_columns:
+- tenure
+- MonthlyCharges
+- TotalCharges
+target_column: Churn

@@ -1,0 +1,15 @@
+artifact_uri: file:///C:/Users/admin/Desktop/Sql Project/MLprojects/mlops_churn_prediction/mlruns/980232368234088902/c6bdd5bdb3a54160811e2e3e1e79ee5c/artifacts
+deleted_time: 1755614683306
+end_time: 1755544214041
+entry_point_name: ''
+experiment_id: '980232368234088902'
+lifecycle_stage: deleted
+run_id: c6bdd5bdb3a54160811e2e3e1e79ee5c
+run_name: Churn_Logistic_Regression_Training
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1755544213847
+status: 3
+tags: []
+user_id: admin

@@ -1,0 +1,14 @@
+artifact_uri: file:///C:/Users/admin/Desktop/Sql Project/MLprojects/mlops_churn_prediction/mlruns/0/a4c4b6769b664efc93b1245ff4a608d7/artifacts
+end_time: 1760348176774
+entry_point_name: ''
+experiment_id: '0'
+lifecycle_stage: active
+run_id: a4c4b6769b664efc93b1245ff4a608d7
+run_name: shivering-ram-427
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1760348175488
+status: 3
+tags: []
+user_id: admin

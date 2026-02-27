@@ -1,0 +1,14 @@
+artifact_uri: file:///C:/Users/admin/Desktop/Sql Project/MLprojects/mlops_churn_prediction/mlruns/0/5bef16a691ff4d90a85daef38a3c66f0/artifacts
+end_time: 1760413878654
+entry_point_name: ''
+experiment_id: '0'
+lifecycle_stage: active
+run_id: 5bef16a691ff4d90a85daef38a3c66f0
+run_name: suave-croc-552
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1760413878096
+status: 3
+tags: []
+user_id: admin

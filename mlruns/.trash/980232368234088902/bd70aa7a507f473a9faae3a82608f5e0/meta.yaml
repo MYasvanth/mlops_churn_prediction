@@ -1,0 +1,15 @@
+artifact_uri: file:///C:/Users/admin/Desktop/Sql Project/MLprojects/mlops_churn_prediction/mlruns/980232368234088902/bd70aa7a507f473a9faae3a82608f5e0/artifacts
+deleted_time: 1755614683423
+end_time: 1755415584175
+entry_point_name: ''
+experiment_id: '980232368234088902'
+lifecycle_stage: deleted
+run_id: bd70aa7a507f473a9faae3a82608f5e0
+run_name: puzzled-squid-451
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1755415577541
+status: 3
+tags: []
+user_id: admin

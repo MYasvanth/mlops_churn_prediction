@@ -1,0 +1,14 @@
+artifact_uri: file:///C:/Users/admin/Desktop/Sql%20Project/MLprojects/mlops_churn_prediction/mlruns/703411698562074264/b5ed7c0b26bf4b61af5275c97c66b9d4/artifacts
+end_time: 1756324238884
+entry_point_name: ''
+experiment_id: '703411698562074264'
+lifecycle_stage: active
+run_id: b5ed7c0b26bf4b61af5275c97c66b9d4
+run_name: able-lynx-7
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1756324221045
+status: 3
+tags: []
+user_id: admin

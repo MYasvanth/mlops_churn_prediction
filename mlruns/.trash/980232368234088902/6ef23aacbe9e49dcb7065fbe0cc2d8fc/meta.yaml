@@ -1,0 +1,15 @@
+artifact_uri: file:///C:/Users/admin/Desktop/Sql Project/MLprojects/mlops_churn_prediction/mlruns/980232368234088902/6ef23aacbe9e49dcb7065fbe0cc2d8fc/artifacts
+deleted_time: 1755614683659
+end_time: 1753440125645
+entry_point_name: ''
+experiment_id: '980232368234088902'
+lifecycle_stage: deleted
+run_id: 6ef23aacbe9e49dcb7065fbe0cc2d8fc
+run_name: learned-fish-899
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1753440118448
+status: 3
+tags: []
+user_id: admin

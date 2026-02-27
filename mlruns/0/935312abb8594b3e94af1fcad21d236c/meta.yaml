@@ -1,0 +1,14 @@
+artifact_uri: file:///C:/Users/admin/Desktop/Sql Project/MLprojects/mlops_churn_prediction/mlruns/0/935312abb8594b3e94af1fcad21d236c/artifacts
+end_time: 1760413975375
+entry_point_name: ''
+experiment_id: '0'
+lifecycle_stage: active
+run_id: 935312abb8594b3e94af1fcad21d236c
+run_name: grandiose-lark-915
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1760413974969
+status: 3
+tags: []
+user_id: admin

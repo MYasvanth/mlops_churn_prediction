@@ -1,0 +1,15 @@
+artifact_uri: file:///C:/Users/admin/Desktop/Sql Project/MLprojects/mlops_churn_prediction/mlruns/980232368234088902/5196a98ab9294166b179901d020dac85/artifacts
+deleted_time: 1755614683345
+end_time: 1755431537302
+entry_point_name: ''
+experiment_id: '980232368234088902'
+lifecycle_stage: deleted
+run_id: 5196a98ab9294166b179901d020dac85
+run_name: fearless-panda-356
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1755431523326
+status: 3
+tags: []
+user_id: admin

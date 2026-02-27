@@ -1,0 +1,14 @@
+artifact_uri: file:///C:/Users/admin/Desktop/Sql Project/MLprojects/mlops_churn_prediction/mlruns/0/bbe3722c3a304a3bab02ec81bc74c2e3/artifacts
+end_time: 1760373705998
+entry_point_name: ''
+experiment_id: '0'
+lifecycle_stage: active
+run_id: bbe3722c3a304a3bab02ec81bc74c2e3
+run_name: treasured-moose-414
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1760373705377
+status: 3
+tags: []
+user_id: admin

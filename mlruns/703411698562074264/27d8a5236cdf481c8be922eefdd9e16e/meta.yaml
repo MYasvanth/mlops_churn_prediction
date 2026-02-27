@@ -1,0 +1,14 @@
+artifact_uri: file:///C:/Users/admin/Desktop/Sql%20Project/MLprojects/mlops_churn_prediction/mlruns/703411698562074264/27d8a5236cdf481c8be922eefdd9e16e/artifacts
+end_time: 1756411073888
+entry_point_name: ''
+experiment_id: '703411698562074264'
+lifecycle_stage: active
+run_id: 27d8a5236cdf481c8be922eefdd9e16e
+run_name: delightful-crab-787
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1756411068349
+status: 3
+tags: []
+user_id: admin

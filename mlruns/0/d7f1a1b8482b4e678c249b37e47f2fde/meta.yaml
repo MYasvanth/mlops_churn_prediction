@@ -1,0 +1,14 @@
+artifact_uri: file:///C:/Users/admin/Desktop/Sql Project/MLprojects/mlops_churn_prediction/mlruns/0/d7f1a1b8482b4e678c249b37e47f2fde/artifacts
+end_time: 1760413861503
+entry_point_name: ''
+experiment_id: '0'
+lifecycle_stage: active
+run_id: d7f1a1b8482b4e678c249b37e47f2fde
+run_name: bouncy-grub-789
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1760413861139
+status: 3
+tags: []
+user_id: admin

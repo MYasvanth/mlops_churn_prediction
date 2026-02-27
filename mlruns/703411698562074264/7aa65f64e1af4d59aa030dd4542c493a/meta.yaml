@@ -1,0 +1,14 @@
+artifact_uri: file:///C:/Users/admin/Desktop/Sql%20Project/MLprojects/mlops_churn_prediction/mlruns/703411698562074264/7aa65f64e1af4d59aa030dd4542c493a/artifacts
+end_time: 1768130774352
+entry_point_name: ''
+experiment_id: '703411698562074264'
+lifecycle_stage: active
+run_id: 7aa65f64e1af4d59aa030dd4542c493a
+run_name: unruly-shrew-882
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1768130767372
+status: 3
+tags: []
+user_id: admin

@@ -1,0 +1,14 @@
+artifact_uri: file:///C:/Users/admin/Desktop/Sql%20Project/MLprojects/mlops_churn_prediction/mlruns/703411698562074264/7fc2abed07f4471eaed93027fbdb5d92/artifacts
+end_time: 1760038079109
+entry_point_name: ''
+experiment_id: '703411698562074264'
+lifecycle_stage: active
+run_id: 7fc2abed07f4471eaed93027fbdb5d92
+run_name: illustrious-shad-566
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1760038069799
+status: 3
+tags: []
+user_id: admin

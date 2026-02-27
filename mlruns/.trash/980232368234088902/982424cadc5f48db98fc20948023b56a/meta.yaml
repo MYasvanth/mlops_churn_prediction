@@ -1,0 +1,15 @@
+artifact_uri: file:///C:/Users/admin/Desktop/Sql Project/MLprojects/mlops_churn_prediction/mlruns/980232368234088902/982424cadc5f48db98fc20948023b56a/artifacts
+deleted_time: 1755614683615
+end_time: 1753441630936
+entry_point_name: ''
+experiment_id: '980232368234088902'
+lifecycle_stage: deleted
+run_id: 982424cadc5f48db98fc20948023b56a
+run_name: unequaled-fox-263
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1753441615539
+status: 3
+tags: []
+user_id: admin

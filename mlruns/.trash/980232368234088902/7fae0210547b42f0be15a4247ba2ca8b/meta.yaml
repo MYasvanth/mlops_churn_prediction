@@ -1,0 +1,15 @@
+artifact_uri: file:///C:/Users/admin/Desktop/Sql Project/MLprojects/mlops_churn_prediction/mlruns/980232368234088902/7fae0210547b42f0be15a4247ba2ca8b/artifacts
+deleted_time: 1755614683313
+end_time: 1755433170984
+entry_point_name: ''
+experiment_id: '980232368234088902'
+lifecycle_stage: deleted
+run_id: 7fae0210547b42f0be15a4247ba2ca8b
+run_name: lyrical-crane-948
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1755433158378
+status: 3
+tags: []
+user_id: admin

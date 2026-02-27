@@ -1,0 +1,10 @@
+artifact_location: file:///C:/Users/admin/Desktop/Sql Project/MLprojects/mlops_churn_prediction/mlruns/980232368234088902/models/m-0de428aed8c341f9bce76c5c199a3028/artifacts
+creation_timestamp: 1753441759308
+experiment_id: '980232368234088902'
+last_updated_timestamp: 1753441771853
+model_id: m-0de428aed8c341f9bce76c5c199a3028
+model_type: null
+name: model
+source_run_id: 3b276458cc8045d4b6426c62570c1395
+status: 2
+status_message: null

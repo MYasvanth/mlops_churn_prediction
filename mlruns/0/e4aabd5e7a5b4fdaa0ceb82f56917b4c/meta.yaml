@@ -1,0 +1,14 @@
+artifact_uri: file:///C:/Users/admin/Desktop/Sql Project/MLprojects/mlops_churn_prediction/mlruns/0/e4aabd5e7a5b4fdaa0ceb82f56917b4c/artifacts
+end_time: 1760413813453
+entry_point_name: ''
+experiment_id: '0'
+lifecycle_stage: active
+run_id: e4aabd5e7a5b4fdaa0ceb82f56917b4c
+run_name: upbeat-finch-734
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1760413813021
+status: 3
+tags: []
+user_id: admin

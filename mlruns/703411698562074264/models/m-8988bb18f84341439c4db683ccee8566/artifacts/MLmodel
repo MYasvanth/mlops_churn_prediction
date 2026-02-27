@@ -1,0 +1,22 @@
+artifact_path: file:///C:/Users/admin/Desktop/Sql%20Project/MLprojects/mlops_churn_prediction/mlruns/703411698562074264/models/m-8988bb18f84341439c4db683ccee8566/artifacts
+flavors:
+  python_function:
+    env:
+      conda: conda.yaml
+      virtualenv: python_env.yaml
+    loader_module: mlflow.sklearn
+    model_path: model.pkl
+    predict_fn: predict
+    python_version: 3.10.18
+  sklearn:
+    code: null
+    pickled_model: model.pkl
+    serialization_format: cloudpickle
+    sklearn_version: 1.7.1
+mlflow_version: 3.1.4
+model_id: m-8988bb18f84341439c4db683ccee8566
+model_size_bytes: 5985267
+model_uuid: m-8988bb18f84341439c4db683ccee8566
+prompts: null
+run_id: 7aa65f64e1af4d59aa030dd4542c493a
+utc_time_created: '2026-01-11 11:26:08.955439'

@@ -1,0 +1,15 @@
+artifact_uri: file:///C:/Users/admin/Desktop/Sql Project/MLprojects/mlops_churn_prediction/mlruns/980232368234088902/b22b42025e384af2ad31a31a6a78b794/artifacts
+deleted_time: 1755614683255
+end_time: 1755544349357
+entry_point_name: ''
+experiment_id: '980232368234088902'
+lifecycle_stage: deleted
+run_id: b22b42025e384af2ad31a31a6a78b794
+run_name: upbeat-eel-266
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1755544349169
+status: 4
+tags: []
+user_id: admin

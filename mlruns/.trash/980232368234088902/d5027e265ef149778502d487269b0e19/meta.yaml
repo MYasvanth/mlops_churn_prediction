@@ -1,0 +1,15 @@
+artifact_uri: file:///C:/Users/admin/Desktop/Sql Project/MLprojects/mlops_churn_prediction/mlruns/980232368234088902/d5027e265ef149778502d487269b0e19/artifacts
+deleted_time: 1755614683364
+end_time: 1755416835894
+entry_point_name: ''
+experiment_id: '980232368234088902'
+lifecycle_stage: deleted
+run_id: d5027e265ef149778502d487269b0e19
+run_name: auspicious-stork-301
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1755416823919
+status: 3
+tags: []
+user_id: admin

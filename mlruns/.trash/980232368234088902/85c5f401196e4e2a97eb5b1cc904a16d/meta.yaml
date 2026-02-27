@@ -1,0 +1,15 @@
+artifact_uri: file:///C:/Users/admin/Desktop/Sql Project/MLprojects/mlops_churn_prediction/mlruns/980232368234088902/85c5f401196e4e2a97eb5b1cc904a16d/artifacts
+deleted_time: 1753446010057
+end_time: 1753440107213
+entry_point_name: ''
+experiment_id: '980232368234088902'
+lifecycle_stage: deleted
+run_id: 85c5f401196e4e2a97eb5b1cc904a16d
+run_name: Iris_Logistic_Regression_Training
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1753440107101
+status: 3
+tags: []
+user_id: admin

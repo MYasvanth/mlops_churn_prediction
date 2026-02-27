@@ -1,0 +1,14 @@
+artifact_uri: file:///C:/Users/admin/Desktop/Sql%20Project/MLprojects/mlops_churn_prediction/mlruns/703411698562074264/e025c12afd914d9092417a2cebf4ba91/artifacts
+end_time: 1755667069153
+entry_point_name: ''
+experiment_id: '703411698562074264'
+lifecycle_stage: active
+run_id: e025c12afd914d9092417a2cebf4ba91
+run_name: dazzling-toad-742
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1755667055163
+status: 3
+tags: []
+user_id: admin

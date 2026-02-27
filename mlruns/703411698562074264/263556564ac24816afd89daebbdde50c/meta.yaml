@@ -1,0 +1,14 @@
+artifact_uri: file:///C:/Users/admin/Desktop/Sql%20Project/MLprojects/mlops_churn_prediction/mlruns/703411698562074264/263556564ac24816afd89daebbdde50c/artifacts
+end_time: 1770359761723
+entry_point_name: ''
+experiment_id: '703411698562074264'
+lifecycle_stage: active
+run_id: 263556564ac24816afd89daebbdde50c
+run_name: classy-dog-339
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1770359751882
+status: 3
+tags: []
+user_id: admin
