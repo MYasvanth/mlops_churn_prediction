@@ -1,8 +1,16 @@
 # Python
 __pycache__/
 *.py[cod]
+*.pyc
+*.pyo
+*.pyd
+*.so
+*.egg
 *.egg-info/
 .pytest_cache/
+dist/
+build/
+*.whl
 
 # Virtual Environments
 venv/
