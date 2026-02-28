@@ -122,9 +122,10 @@ class ModelEvaluator:
             EvaluationMetrics: Calculated metrics
         """
         accuracy = accuracy_score(y_true, y_pred)
-        precision = precision_score(y_true, y_pred, average='weighted')
-        recall = recall_score(y_true, y_pred, average='weighted')
-        f1 = f1_score(y_true, y_pred, average='weighted')
+        # Use binary metrics for the positive class (Churn=1)
+        precision = precision_score(y_true, y_pred, zero_division=0)
+        recall = recall_score(y_true, y_pred, zero_division=0)
+        f1 = f1_score(y_true, y_pred, zero_division=0)
         roc_auc = roc_auc_score(y_true, y_pred_proba)
         
         conf_matrix = confusion_matrix(y_true, y_pred)
@@ -190,7 +191,7 @@ class ModelEvaluator:
     def _plot_confusion_matrix(self, y_true: pd.Series, y_pred: np.ndarray, 
                               model_name: str):
         """
-        Plot confusion matrix.
+        Plot confusion matrix with fix for clipping issues.
         
         Args:
             y_true (pd.Series): True labels
@@ -199,13 +200,26 @@ class ModelEvaluator:
         """
         conf_matrix = confusion_matrix(y_true, y_pred)
         
-        plt.figure(figsize=(8, 6))
+        fig, ax = plt.subplots(figsize=(8, 6))
         sns.heatmap(conf_matrix, annot=True, fmt='d', cmap='Blues',
                    xticklabels=['No Churn', 'Churn'],
-                   yticklabels=['No Churn', 'Churn'])
-        plt.title(f'Confusion Matrix - {model_name}')
-        plt.xlabel('Predicted')
-        plt.ylabel('Actual')
+                   yticklabels=['No Churn', 'Churn'],
+                   ax=ax)
+        
+        # Set titles and labels
+        ax.set_title(f'Confusion Matrix - {model_name}')
+        ax.set_xlabel('Predicted')
+        ax.set_ylabel('Actual')
+        
+        # Robust fix for clipping: manually set y-limits
+        # In some matplotlib versions, the first and last rows are cut in half
+        bottom, top = ax.get_ylim()
+        if bottom < top:
+            ax.set_ylim(bottom + 0.5, top - 0.5)
+        else:
+            ax.set_ylim(bottom - 0.5, top + 0.5)
+            
+        plt.tight_layout()
         
         # Save plot
         plt.savefig(self.reports_dir / f'{model_name}_confusion_matrix.png', 
@@ -340,6 +354,80 @@ class ModelEvaluator:
             logger.warning(f"ROC AUC: {metrics.roc_auc:.3f} (required: {self.min_roc_auc})")
             return False
     
+    def find_optimal_threshold(self, y_true: pd.Series, y_pred_proba: np.ndarray, 
+                               metric_name: str = 'f1') -> Tuple[float, float]:
+        """
+        Find the optimal classification threshold that maximizes a specific metric.
+        
+        Args:
+            y_true (pd.Series): True labels
+            y_pred_proba (np.ndarray): Predicted probabilities
+            metric_name (str): Metric to optimize ('f1', 'f2', or 'balanced_accuracy')
+            
+        Returns:
+            Tuple[float, float]: (Optimal threshold, maximum metric value)
+        """
+        thresholds = np.linspace(0.1, 0.9, 81)
+        best_threshold = 0.5
+        best_score = -1
+        
+        for threshold in thresholds:
+            y_pred = (y_pred_proba >= threshold).astype(int)
+            
+            if metric_name == 'f1':
+                score = f1_score(y_true, y_pred, zero_division=0)
+            elif metric_name == 'f2':
+                from sklearn.metrics import fbeta_score
+                score = fbeta_score(y_true, y_pred, beta=2, zero_division=0)
+            elif metric_name == 'recall':
+                score = recall_score(y_true, y_pred, zero_division=0)
+            else:
+                score = accuracy_score(y_true, y_pred)
+            
+            if score > best_score:
+                best_score = score
+                best_threshold = threshold
+        
+        logger.info(f"Optimal threshold found: {best_threshold:.3f} for {metric_name} score: {best_score:.3f}")
+        return best_threshold, best_score
+
+    def evaluate_with_threshold(self, model: Any, X_test: pd.DataFrame, 
+                               y_test: pd.Series, threshold: float = 0.5, 
+                               model_name: str = "model") -> EvaluationMetrics:
+        """
+        Evaluate a model using a specific probability threshold.
+        
+        Args:
+            model: Trained model
+            X_test (pd.DataFrame): Test features
+            y_test (pd.Series): Test target
+            threshold (float): Classification threshold
+            model_name (str): Name of the model
+            
+        Returns:
+            EvaluationMetrics: Evaluation metrics
+        """
+        try:
+            logger.info(f"Evaluating model: {model_name} with threshold: {threshold:.3f}")
+            
+            # Get probabilities
+            y_pred_proba = model.predict_proba(X_test)[:, 1]
+            
+            # Apply threshold
+            y_pred = (y_pred_proba >= threshold).astype(int)
+            
+            # Calculate metrics
+            metrics = self._calculate_metrics(y_test, y_pred, y_pred_proba)
+            
+            # Log metrics to MLflow
+            self._log_metrics_to_mlflow(metrics, f"{model_name}_threshold_{threshold:.2f}")
+            
+            return metrics
+            
+        except Exception as e:
+            logger.error(f"Error evaluating model {model_name} with threshold: {str(e)}")
+            raise
+
     def compare_models(self, evaluation_results: Dict[str, EvaluationMetrics]) -> str:
         """
         Compare multiple models and return the best one.
