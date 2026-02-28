@@ -65,6 +65,12 @@ def main():
         help="Enable verbose logging"
     )
     
+    parser.add_argument(
+        "--tune-hparams",
+        action="store_true",
+        help="Enable hyperparameter tuning using Optuna"
+    )
+    
     args = parser.parse_args()
     
     print("Starting Unified Model Training")
@@ -82,17 +88,18 @@ def main():
         # Run training based on model type
         if args.model_type == "all":
             print("Training all supported models...")
-            results = train_all_models(args.data_path)
+            results = train_all_models(args.data_path, tune_hparams=args.tune_hparams)
             
         elif args.model_type == "auto":
             print("Auto-selecting best model...")
-            results = auto_train_best_model(args.data_path)
+            results = auto_train_best_model(args.data_path, tune_hparams=args.tune_hparams)
             
         else:
             print(f"Training {args.model_type} model...")
             result = train_single_model(
                 model_type=args.model_type,
-                data_path=args.data_path
+                data_path=args.data_path,
+                tune_hparams=args.tune_hparams
             )
             results = {args.model_type: result}
         
