@@ -17,7 +17,9 @@ import logging
 
 from ..utils.logger import get_logger
 from ..utils.config_loader import load_config
-from ..models.unified_model_interface import UnifiedModelTrainer, UnifiedModelEvaluator
+from ..models.unified_model_interface import UnifiedModelTrainer
+from ..models.model_evaluator import ModelEvaluator
+from ..models.hyperparameter_tuner import HyperparameterTuner
 from ..models.unified_model_registry_fixed import UnifiedModelRegistry
 from ..data.data_loader import DataLoader
 
@@ -56,9 +58,13 @@ class UnifiedTrainingPipeline:
             # Handle missing values
             X = X.fillna(X.median())
             
+            # Scale features (Critical for SVM and Logistic Regression)
+            scaler = StandardScaler()
+            X_scaled = pd.DataFrame(scaler.fit_transform(X), columns=X.columns, index=X.index)
+            
             # Split data
             X_train, X_test, y_train, y_test = train_test_split(
-                X, y, test_size=0.2, random_state=42, stratify=y
+                X_scaled, y, test_size=0.2, random_state=42, stratify=y
             )
             
             logger.info(f"Data split: {len(X_train)} train, {len(X_test)} test samples")
@@ -81,18 +87,43 @@ class UnifiedTrainingPipeline:
         except Exception as e:
             logger.error(f"Error training {model_type} model: {str(e)}")
             raise
-    
-    def evaluate_model(self, model: Any, X_test: pd.DataFrame, y_test: pd.Series) -> Dict[str, float]:
-        """Evaluate model performance."""
+
+    def tune_hyperparameters(self, model_type: str, X_train: pd.DataFrame, 
+                              y_train: pd.Series) -> Dict[str, Any]:
+        """Tune hyperparameters for a specific model type."""
         try:
-            evaluator = UnifiedModelEvaluator()
-            metrics = evaluator.evaluate(model, X_test, y_test)
+            logger.info(f"Starting hyperparameter tuning for {model_type}")
+            tuner = HyperparameterTuner(config_path="configs/model/unified_model_config.yaml")
+            result = tuner.tune_model(model_type, X_train, y_train)
             
-            logger.info(f"Model evaluation completed: {metrics}")
+            logger.info(f"Hyperparameter tuning completed for {model_type}")
+            return result.best_params
+            
+        except Exception as e:
+            logger.error(f"Error tuning hyperparameters for {model_type}: {str(e)}")
+            raise
+    
+    def evaluate_model(self, model: Any, X_test: pd.DataFrame, y_test: pd.Series, model_name: str = "model") -> Dict[str, float]:
+        """Evaluate model performance using ModelEvaluator for detailed artifacts."""
+        try:
+            # Use ModelEvaluator which generates JSON reports, PNG plots and MLflow artifacts
+            evaluator = ModelEvaluator(config_path="configs/model/unified_model_config.yaml")
+            metrics_obj = evaluator.evaluate_model(model, X_test, y_test, model_name=model_name)
+            
+            # Map to expected dictionary format for pipeline consistency
+            metrics = {
+                "accuracy": metrics_obj.accuracy,
+                "precision": metrics_obj.precision,
+                "recall": metrics_obj.recall,
+                "f1_score": metrics_obj.f1_score,
+                "roc_auc": metrics_obj.roc_auc
+            }
+            
+            logger.info(f"High-fidelity evaluation completed for {model_name}: {metrics}")
             return metrics
             
         except Exception as e:
-            logger.error(f"Error evaluating model: {str(e)}")
+            logger.error(f"Error evaluating model {model_name}: {str(e)}")
             raise
     
     def register_model(self, model: Any, model_type: str, metrics: Dict[str, float],
@@ -119,7 +150,8 @@ class UnifiedTrainingPipeline:
     
     def run_training(self, model_type: str, data_path: str = None, 
                     hyperparameters: Dict[str, Any] = None, 
-                    stage: str = "staging") -> Dict[str, Any]:
+                    stage: str = "staging",
+                    tune_hparams: bool = False) -> Dict[str, Any]:
         """Run complete training pipeline for a specific model type."""
         try:
             # Set up MLflow experiment
@@ -136,12 +168,21 @@ class UnifiedTrainingPipeline:
                 mlflow.log_param("model_type", model_type)
                 mlflow.log_param("data_path", data_path)
                 mlflow.log_param("stage", stage)
+                mlflow.log_param("tune_hparams", tune_hparams)
+                
+                # Hyperparameter tuning if requested
+                if tune_hparams:
+                    tuned_params = self.tune_hyperparameters(model_type, X_train, y_train)
+                    hyperparameters = tuned_params
+                    # Log tuned parameters
+                    for param_name, param_value in tuned_params.items():
+                        mlflow.log_param(f"best_{param_name}", param_value)
                 
                 # Train model
                 model = self.train_model(model_type, X_train, y_train, hyperparameters)
                 
                 # Evaluate model
-                metrics = self.evaluate_model(model, X_test, y_test)
+                metrics = self.evaluate_model(model, X_test, y_test, model_name=model_type)
                 
                 # Log metrics
                 for metric_name, metric_value in metrics.items():
@@ -178,7 +219,8 @@ class UnifiedTrainingPipeline:
             raise
     
     def train_multiple_models(self, model_types: List[str], 
-                            data_path: str = None) -> Dict[str, Dict[str, Any]]:
+                            data_path: str = None,
+                            tune_hparams: bool = False) -> Dict[str, Dict[str, Any]]:
         """Train multiple model types and compare results."""
         try:
             results = {}
@@ -186,7 +228,7 @@ class UnifiedTrainingPipeline:
             for model_type in model_types:
                 try:
                     logger.info(f"Training {model_type} model...")
-                    result = self.run_training(model_type, data_path)
+                    result = self.run_training(model_type, data_path, tune_hparams=tune_hparams)
                     results[model_type] = result
                 except Exception as e:
                     logger.error(f"Error training {model_type}: {str(e)}")
@@ -213,28 +255,29 @@ class UnifiedTrainingPipeline:
             logger.error(f"Error in multiple model training: {str(e)}")
             raise
     
-    def auto_select_best_model(self, data_path: str = None) -> Dict[str, Any]:
+    def auto_select_best_model(self, data_path: str = None, tune_hparams: bool = False) -> Dict[str, Any]:
         """Automatically select and train the best model."""
         supported_models = self.config.get("models", {}).get("supported_types", [])
-        return self.train_multiple_models(supported_models, data_path)
+        return self.train_multiple_models(supported_models, data_path, tune_hparams=tune_hparams)
 
 # Convenience functions
 def train_single_model(model_type: str, data_path: str = None, 
-                      hyperparameters: Dict[str, Any] = None) -> Dict[str, Any]:
+                      hyperparameters: Dict[str, Any] = None,
+                      tune_hparams: bool = False) -> Dict[str, Any]:
     """Train a single model type."""
     pipeline = UnifiedTrainingPipeline()
-    return pipeline.run_training(model_type, data_path, hyperparameters)
+    return pipeline.run_training(model_type, data_path, hyperparameters, tune_hparams=tune_hparams)
 
-def train_all_models(data_path: str = None) -> Dict[str, Dict[str, Any]]:
+def train_all_models(data_path: str = None, tune_hparams: bool = False) -> Dict[str, Dict[str, Any]]:
     """Train all supported model types."""
     pipeline = UnifiedTrainingPipeline()
     supported_models = pipeline.config.get("models", {}).get("supported_types", [])
-    return pipeline.train_multiple_models(supported_models, data_path)
+    return pipeline.train_multiple_models(supported_models, data_path, tune_hparams=tune_hparams)
 
-def auto_train_best_model(data_path: str = None) -> Dict[str, Any]:
+def auto_train_best_model(data_path: str = None, tune_hparams: bool = False) -> Dict[str, Any]:
     """Automatically train and select the best model."""
     pipeline = UnifiedTrainingPipeline()
-    return pipeline.auto_select_best_model(data_path)
+    return pipeline.auto_select_best_model(data_path, tune_hparams=tune_hparams)
 
 if __name__ == "__main__":
     # Example usage
