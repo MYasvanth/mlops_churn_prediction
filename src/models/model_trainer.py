@@ -14,27 +14,39 @@ mlflow.set_tracking_uri(tracking_uri)
 mlflow.set_experiment(experiment_name)
 
 class ModelTrainer:
-    def __init__(self, model_type=None):
-        self.config = load_config()
+    def __init__(self, model_type=None, config_path: str = "configs/model/unified_model_config.yaml"):
+        self.config = load_config(config_path)
         self.model_type = model_type or self.config.get("model_training", {}).get("model_type", "xgboost")
+        # Handle cases where model_type might be in a different structure in unified_model_config
+        if not self.model_type and "models" in self.config:
+            self.model_type = self.config.models.supported_types[0]
         self.model = self._get_model()
 
     def _get_model(self):
         """Get model based on configuration."""
-        model_config = self.config.get("model_training", {})
-        hyperparams = model_config.get("hyperparameters", {})
+        # Check if we're using unified_model_config structure
+        if "models" in self.config and "model_configs" in self.config.models:
+            model_configs = self.config.models.model_configs
+            if self.model_type in model_configs:
+                params = model_configs[self.model_type].get("default_params", {})
+            else:
+                params = {}
+        else:
+            model_config = self.config.get("model_training", {})
+            hyperparams = model_config.get("hyperparameters", {})
+            params = hyperparams.get(self.model_type, {})
         
         if self.model_type == "xgboost":
-            params = hyperparams.get("xgboost", {})
             return xgb.XGBClassifier(**params)
         elif self.model_type == "lightgbm":
-            params = hyperparams.get("lightgbm", {})
             return LGBMClassifier(**params)
         elif self.model_type == "random_forest":
-            params = hyperparams.get("random_forest", {})
             return RandomForestClassifier(**params)
         elif self.model_type == "logistic_regression":
-            return LogisticRegression(max_iter=1000)
+            return LogisticRegression(**params)
+        elif self.model_type == "svm":
+            from sklearn.svm import SVC
+            return SVC(**params, probability=True)
         else:
             raise ValueError(f"Unsupported model type: {self.model_type}")
 
