@@ -39,7 +39,7 @@ class HyperparameterTuner:
     Hyperparameter tuning class using Optuna optimization.
     """
     
-    def __init__(self, config_path: str = "configs/model_config.yaml"):
+    def __init__(self, config_path: str = "configs/model/unified_model_config.yaml"):
         """
         Initialize the HyperparameterTuner.
         
@@ -67,6 +67,14 @@ class HyperparameterTuner:
         # Set up scorer
         if self.scoring == 'f1_weighted':
             self.scorer = make_scorer(f1_score, average='weighted')
+        elif self.scoring == 'f1':
+            self.scorer = make_scorer(f1_score)
+        elif self.scoring == 'recall':
+            from sklearn.metrics import recall_score
+            self.scorer = make_scorer(recall_score)
+        elif self.scoring == 'f2':
+            from sklearn.metrics import fbeta_score
+            self.scorer = make_scorer(fbeta_score, beta=2)
         else:
             self.scorer = self.scoring
     
@@ -92,6 +100,7 @@ class HyperparameterTuner:
                 'min_samples_leaf': trial.suggest_int('min_samples_leaf', 1, 20),
                 'max_features': trial.suggest_categorical('max_features', ['sqrt', 'log2', None]),
                 'bootstrap': trial.suggest_categorical('bootstrap', [True, False]),
+                'class_weight': trial.suggest_categorical('class_weight', ['balanced', 'balanced_subsample', None]),
                 'random_state': self.random_state
             }
             
@@ -146,6 +155,7 @@ class HyperparameterTuner:
                 'penalty': trial.suggest_categorical('penalty', ['l1', 'l2', 'elasticnet']),
                 'solver': trial.suggest_categorical('solver', ['liblinear', 'saga']),
                 'max_iter': trial.suggest_int('max_iter', 100, 1000),
+                'class_weight': trial.suggest_categorical('class_weight', ['balanced', None]),
                 'random_state': self.random_state
             }
             
@@ -262,15 +272,16 @@ class HyperparameterTuner:
         def objective(trial):
             # Define hyperparameter search space
             params = {
-                'n_estimators': trial.suggest_int('n_estimators', 50, 300),
-                'max_depth': trial.suggest_int('max_depth', 3, 10),
-                'learning_rate': trial.suggest_float('learning_rate', 0.01, 0.3, log=True),
-                'subsample': trial.suggest_float('subsample', 0.6, 1.0),
-                'colsample_bytree': trial.suggest_float('colsample_bytree', 0.6, 1.0),
+                'n_estimators': trial.suggest_int('n_estimators', 50, 200),
+                'max_depth': trial.suggest_int('max_depth', 3, 5),
+                'learning_rate': trial.suggest_float('learning_rate', 0.01, 0.1, log=True),
+                'subsample': trial.suggest_float('subsample', 0.5, 0.8),
+                'colsample_bytree': trial.suggest_float('colsample_bytree', 0.5, 0.8),
                 'min_child_weight': trial.suggest_int('min_child_weight', 1, 10),
-                'gamma': trial.suggest_float('gamma', 0.0, 1.0),
-                'reg_alpha': trial.suggest_float('reg_alpha', 1e-8, 1.0, log=True),
-                'reg_lambda': trial.suggest_float('reg_lambda', 1e-8, 1.0, log=True),
+                'gamma': trial.suggest_float('gamma', 0.1, 5.0, log=True),
+                'reg_alpha': trial.suggest_float('reg_alpha', 0.1, 10.0, log=True),
+                'reg_lambda': trial.suggest_float('reg_lambda', 1.0, 50.0, log=True),
+                'scale_pos_weight': trial.suggest_float('scale_pos_weight', 1.0, 10.0),
                 'random_state': self.random_state
             }
 
@@ -322,15 +333,16 @@ class HyperparameterTuner:
         def objective(trial):
             # Define hyperparameter search space
             params = {
-                'n_estimators': trial.suggest_int('n_estimators', 50, 300),
-                'max_depth': trial.suggest_int('max_depth', 3, 10),
-                'learning_rate': trial.suggest_float('learning_rate', 0.01, 0.3, log=True),
-                'num_leaves': trial.suggest_int('num_leaves', 20, 100),
-                'min_child_samples': trial.suggest_int('min_child_samples', 10, 50),
-                'subsample': trial.suggest_float('subsample', 0.6, 1.0),
-                'colsample_bytree': trial.suggest_float('colsample_bytree', 0.6, 1.0),
-                'reg_alpha': trial.suggest_float('reg_alpha', 1e-8, 1.0, log=True),
-                'reg_lambda': trial.suggest_float('reg_lambda', 1e-8, 1.0, log=True),
+                'n_estimators': trial.suggest_int('n_estimators', 50, 200),
+                'max_depth': trial.suggest_int('max_depth', 3, 5),
+                'learning_rate': trial.suggest_float('learning_rate', 0.01, 0.1, log=True),
+                'num_leaves': trial.suggest_int('num_leaves', 10, 31),
+                'min_child_samples': trial.suggest_int('min_child_samples', 20, 100),
+                'subsample': trial.suggest_float('subsample', 0.5, 0.8),
+                'colsample_bytree': trial.suggest_float('colsample_bytree', 0.5, 0.8),
+                'reg_alpha': trial.suggest_float('reg_alpha', 0.1, 10.0, log=True),
+                'reg_lambda': trial.suggest_float('reg_lambda', 1.0, 50.0, log=True),
+                'scale_pos_weight': trial.suggest_float('scale_pos_weight', 1.0, 10.0),
                 'random_state': self.random_state
             }
 
@@ -379,7 +391,7 @@ class HyperparameterTuner:
         Returns:
             TuningResult: Tuning results
         """
-        model_name = model_name.lower()
+        model_name = model_name.lower().replace("_", "").replace(" ", "")
 
         if model_name == 'xgboost':
             return self.tune_xgboost(X_train, y_train)
