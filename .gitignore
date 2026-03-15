@@ -16,13 +16,49 @@ build/
 venv/
 venv_py37/
 .venv/
+env/
+.env/
 
 # Environment
 .env
+.env.local
+.env.*.local
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
 
 # Logs
 *.log
 logs/
+
+# Documentation builds
+docs/_build/
+docs/.doctrees/
+docs/_static/
+docs/_sources/
+*.doctree
+.buildinfo
+objects.inv
+searchindex.js
+
+# Sphinx
+_build/
+_static/
+_sources/
+.doctrees/
 
 # MLflow
 mlruns/
@@ -32,15 +68,26 @@ mlartifacts/
 models/staging/
 models/production/
 models/temp/
+models/archived/
 *.pkl
 *.joblib
+*.h5
+*.hdf5
+*.model
+*.bin
 
 # Data
 data/processed/
+data/raw/*.csv
+data/external/*.csv
 *.csv
+*.parquet
+*.feather
 
 # Monitoring
 *.db
+*.sqlite
+*.sqlite3
 
 # Reports
 reports/drift_reports/*.html
@@ -48,14 +95,54 @@ reports/monitoring_reports/*.html
 reports/statistical_analysis/*.html
 reports/**/*.html
 reports/performance_reports/*.png
+reports/**/*.png
+reports/**/*.jpg
+reports/**/*.jpeg
+reports/**/*.svg
 *.html
+
+# Hyperparameter tuning
+reports/hyperparameter_tuning/*.pkl
+optuna_studies.db
+*.study
 
 # Artifacts
 artifacts/
+outputs/
+results/
 
 # DVC
 .dvc/cache/
+.dvc/tmp/
+.dvc/config.local
 
 # ZenML
 .zen/
 .zenml/
+.zencoder/
+.zenflow/
+
+# Jupyter
+.ipynb_checkpoints/
+*/.ipynb_checkpoints/*
+
+# Temporary files
+*.tmp
+*.temp
+*.bak
+*.backup
+*.orig
+
+# Coverage
+.coverage
+.coverage.*
+coverage.xml
+*.cover
+.hypothesis/
+.pytest_cache/
+htmlcov/
+
+# Profiling
+*.prof
+*.lprof
+*.pstats
