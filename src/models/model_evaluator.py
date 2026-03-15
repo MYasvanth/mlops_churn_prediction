@@ -36,6 +36,8 @@ class EvaluationMetrics:
     confusion_matrix: np.ndarray
     classification_report: Dict[str, Any]
     bias_variance_analysis: Dict[str, Any] = None
+    confidence_intervals: Dict[str, Tuple[float, float]] = None
+    statistical_significance: Dict[str, Any] = None
 
 class ModelEvaluator:
     """
@@ -55,6 +57,8 @@ class ModelEvaluator:
         # Set up directories
         self.reports_dir = Path("reports/model_performance")
         self.reports_dir.mkdir(parents=True, exist_ok=True)
+        self.statistical_reports_dir = Path("reports/statistical_analysis")
+        self.statistical_reports_dir.mkdir(parents=True, exist_ok=True)
         
         # Evaluation thresholds
         self.min_accuracy = self.evaluation_config.get('min_accuracy', 0.8)
@@ -62,6 +66,11 @@ class ModelEvaluator:
         self.min_recall = self.evaluation_config.get('min_recall', 0.7)
         self.min_f1_score = self.evaluation_config.get('min_f1_score', 0.7)
         self.min_roc_auc = self.evaluation_config.get('min_roc_auc', 0.8)
+        
+        # Statistical analysis configuration
+        self.confidence_level = self.evaluation_config.get('confidence_level', 0.95)
+        self.n_bootstrap = self.evaluation_config.get('n_bootstrap', 1000)
+        self.alpha = self.evaluation_config.get('alpha', 0.05)
         
     def evaluate_model(self, model: Any, X_test: pd.DataFrame, 
                       y_test: pd.Series, model_name: str = "model") -> EvaluationMetrics:
@@ -84,8 +93,12 @@ class ModelEvaluator:
             y_pred = model.predict(X_test)
             y_pred_proba = model.predict_proba(X_test)[:, 1]
             
-            # Calculate metrics
+            # Calculate metrics with confidence intervals
             metrics = self._calculate_metrics(y_test, y_pred, y_pred_proba)
+            
+            # Calculate confidence intervals
+            confidence_intervals = self._calculate_confidence_intervals(y_test, y_pred, y_pred_proba)
+            metrics.confidence_intervals = confidence_intervals
             
             # Log metrics to MLflow
             self._log_metrics_to_mlflow(metrics, model_name)
@@ -312,9 +325,11 @@ class ModelEvaluator:
                 'f1_score': metrics.f1_score,
                 'roc_auc': metrics.roc_auc
             },
+            'confidence_intervals': metrics.confidence_intervals,
             'classification_report': metrics.classification_report,
             'confusion_matrix': metrics.confusion_matrix.tolist(),
-            'bias_variance_analysis': metrics.bias_variance_analysis
+            'bias_variance_analysis': metrics.bias_variance_analysis,
+            'statistical_significance': metrics.statistical_significance
         }
         
         import json
@@ -438,6 +453,9 @@ class ModelEvaluator:
         Returns:
             str: Name of the best model
         """
+        # Perform statistical comparison
+        statistical_comparison = self.compare_models_statistically(evaluation_results)
+        
         best_model = None
         best_score = -1
         
@@ -455,6 +473,10 @@ class ModelEvaluator:
             if composite_score > best_score:
                 best_score = composite_score
                 best_model = model_name
+        
+        # Save statistical comparison results
+        if statistical_comparison:
+            self._save_statistical_comparison(statistical_comparison)
         
         logger.info(f"Best model: {best_model} with composite score: {best_score:.3f}")
         return best_model
@@ -570,3 +592,151 @@ class ModelEvaluator:
             mlflow.log_artifact(str(self.reports_dir / f'{model_name}_learning_curves.png'))
         except Exception as e:
             logger.warning(f"Failed to log learning curves to MLflow: {str(e)}")
+    
+    def _calculate_confidence_intervals(self, y_true: pd.Series, y_pred: np.ndarray, 
+                                       y_pred_proba: np.ndarray) -> Dict[str, Tuple[float, float]]:
+        """
+        Calculate bootstrap confidence intervals for all metrics.
+        
+        Args:
+            y_true (pd.Series): True labels
+            y_pred (np.ndarray): Predicted labels
+            y_pred_proba (np.ndarray): Predicted probabilities
+            
+        Returns:
+            Dict[str, Tuple[float, float]]: Confidence intervals for each metric
+        """
+        try:
+            from ..utils.confidence_interval_utils import BootstrapCI
+            
+            ci_calculator = BootstrapCI(
+                confidence=self.confidence_level, 
+                n_bootstrap=self.n_bootstrap
+            )
+            
+            return {
+                'accuracy': ci_calculator.accuracy_ci(y_true, y_pred),
+                'precision': ci_calculator.precision_ci(y_true, y_pred),
+                'recall': ci_calculator.recall_ci(y_true, y_pred),
+                'f1_score': ci_calculator.f1_ci(y_true, y_pred),
+                'roc_auc': ci_calculator.roc_auc_ci(y_true, y_pred_proba)
+            }
+        except Exception as e:
+            logger.warning(f"Failed to calculate confidence intervals: {str(e)}")
+            return {}
+    
+    def compare_models_statistically(self, evaluation_results: Dict[str, EvaluationMetrics]) -> Dict[str, Any]:
+        """
+        Compare multiple models with statistical significance testing.
+        
+        Args:
+            evaluation_results (Dict[str, EvaluationMetrics]): Dictionary of model evaluations
+            
+        Returns:
+            Dict[str, Any]: Statistical comparison results
+        """
+        try:
+            from ..utils.statistical_utils import StatisticalAnalyzer
+            
+            analyzer = StatisticalAnalyzer(alpha=self.alpha)
+            
+            # Get cross-validation scores from MLflow for each model (1 most recent run)
+            model_scores = {}
+            for model_name in evaluation_results.keys():
+                scores = self._get_cv_scores_from_mlflow(model_name, max_runs=1)
+                if scores:
+                    model_scores[model_name] = scores
+            
+            # Perform pairwise statistical comparisons
+            comparison_results = {}
+            model_names = list(model_scores.keys())
+            
+            for i, model_a in enumerate(model_names):
+                for model_b in model_names[i+1:]:
+                    scores_a = model_scores[model_a]
+                    scores_b = model_scores[model_b]
+                    
+                    # Ensure equal length for paired tests
+                    min_len = min(len(scores_a), len(scores_b))
+                    scores_a = scores_a[:min_len]
+                    scores_b = scores_b[:min_len]
+                    
+                    comparison_key = f"{model_a}_vs_{model_b}"
+                    comparison_results[comparison_key] = {
+                        'paired_ttest': analyzer.paired_ttest(scores_a, scores_b),
+                        'wilcoxon_test': analyzer.wilcoxon_test(scores_a, scores_b),
+                        'effect_size': analyzer.cohens_d(scores_a, scores_b),
+                        'practical_significance': analyzer.practical_significance(scores_a, scores_b)
+                    }
+            
+            # Apply multiple comparison correction
+            p_values = []
+            for comparison in comparison_results.values():
+                p_values.append(comparison['paired_ttest']['p_value'])
+            
+            if p_values:
+                correction_results = analyzer.bonferroni_correction(p_values)
+                comparison_results['multiple_comparison_correction'] = correction_results
+            
+            logger.info(f"Statistical comparison completed for {len(model_names)} models")
+            return comparison_results
+            
+        except Exception as e:
+            logger.error(f"Statistical comparison failed: {str(e)}")
+            return {}
+    
+    def _get_cv_scores_from_mlflow(self, model_name: str, max_runs: int = 1) -> List[float]:
+        """
+        Get cross-validation scores from MLflow experiments.
+        
+        Args:
+            model_name (str): Name of the model
+            max_runs (int): Maximum number of recent runs to use (default: 1)
+            
+        Returns:
+            List[float]: List of accuracy scores from MLflow runs
+        """
+        try:
+            import mlflow
+            
+            # Search for runs with this model type, ordered by most recent
+            runs = mlflow.search_runs(
+                filter_string=f"params.model_type = '{model_name}'",
+                order_by=["start_time DESC"],
+                max_results=max_runs  # Limit to most recent runs
+            )
+            
+            if not runs.empty:
+                # Extract accuracy scores from most recent runs only
+                scores = runs['metrics.accuracy'].dropna().tolist()[:max_runs]
+                logger.info(f"Found {len(scores)} most recent run for {model_name}")
+                return scores
+            else:
+                logger.warning(f"No MLflow runs found for {model_name}")
+                return []
+                
+        except Exception as e:
+            logger.warning(f"Failed to get CV scores from MLflow for {model_name}: {str(e)}")
+            return []
+    
+    def _save_statistical_comparison(self, comparison_results: Dict[str, Any]):
+        """
+        Save statistical comparison results to file.
+        
+        Args:
+            comparison_results (Dict[str, Any]): Statistical comparison results
+        """
+        try:
+            import json
+            from datetime import datetime
+            
+            timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+            report_path = self.statistical_reports_dir / f"model_comparison_stats_{timestamp}.json"
+            
+            with open(report_path, 'w') as f:
+                json.dump(comparison_results, f, indent=2)
+            
+            logger.info(f"Statistical comparison report saved to {report_path}")
+            
+        except Exception as e:
+            logger.error(f"Failed to save statistical comparison: {str(e)}")
