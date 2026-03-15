@@ -44,7 +44,11 @@ data/processed/
 
 # Reports
 reports/drift_reports/*.html
+reports/monitoring_reports/*.html
+reports/statistical_analysis/*.html
+reports/**/*.html
 reports/performance_reports/*.png
+*.html
 
 # Artifacts
 artifacts/
