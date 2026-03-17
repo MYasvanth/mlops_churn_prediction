@@ -60,8 +60,11 @@ It demonstrates how data flows from ingestion to deployment while integrating ex
 Unlike traditional pipelines that deploy models based on a single accuracy score, this project implements a Statistical Validation Layer to ensure every deployment decision is mathematically sound and business-justified:
 
 Reliability with Bootstrap CIs: We calculate 95% Confidence Intervals for all metrics. This ensures we understand the model's performance range (e.g., 0.79±0.010.79 \pm 0.010.79±0.01) rather than relying on a single "lucky" test run.
+
 Hypothesis Testing (Scientific Rigor): We use Paired T-Tests and Wilcoxon tests with Bonferroni Correction to verify that performance gains are statistically significant and not due to random variation.
+
 Practical Significance Threshold: A model is only considered a "winner" if it exceeds a 1% absolute improvement threshold. This ensures that engineering resources are only spent on deployments that provide meaningful business ROI.
+
 Effect Size Analysis: By calculating Cohen's d, we quantify the magnitude of the performance difference, allowing stakeholders to distinguish between "negligible" and "substantial" improvements.
 
 Key Benefit: This framework eliminates "Analysis Paralysis" by converting complex p-values into clear, actionable deployment recommendations (e.g., "Deploy XGBoost: It shows a statistically significant and 2.4% practical improvement over the baseline").
