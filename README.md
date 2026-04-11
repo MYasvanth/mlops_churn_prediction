@@ -79,11 +79,13 @@ To ensure a deep understanding of model behavior beyond point metrics, the pipel
 - **Definition**: A plot of the **True Positive Rate (Recall)** against the **False Positive Rate** across all classification thresholds.
 - **Utility**: Measures the model's overall discriminative power. The **AUC (Area Under the Curve)** provides a single score representing the probability that a randomly chosen churner will be ranked higher than a non-churner.
 - **Project Context**: Used to compare general model performance during the experimentation phase.
+[![ROC Curve](https://raw.githubusercontent.com/MYasvanth/mlops_churn_prediction/master/reports/model_performance/xgboost_roc_curve.png)](https://github.com/MYasvanth/mlops_churn_prediction)
 
 #### **2. Precision-Recall Curve**
 - **Definition**: A plot showing the trade-off between **Precision** (exactness) and **Recall** (completeness) at various thresholds.
 - **Utility**: Superior to ROC curves for **imbalanced datasets** (common in churn prediction). It highlights how well the model identifies the minority "Churn" class without triggering excessive false alarms.
 - **Project Context**: Critical for business decisions, helping stakeholders choose an operating threshold that balances the cost of missing a churner vs. the cost of unnecessary retention efforts.
+[![PR Curve](https://raw.githubusercontent.com/MYasvanth/mlops_churn_prediction/master/reports/model_performance/xgboost_precision_recall_curve.png)](https://github.com/MYasvanth/mlops_churn_prediction)
 
 #### **3. Learning Curves**
 - **Definition**: A plot of training and validation performance against the number of **training samples**.
@@ -92,6 +94,7 @@ To ensure a deep understanding of model behavior beyond point metrics, the pipel
     - **Underfitting**: Low scores for both training and validation that converge early.
     - **Data Scalability**: Indicates if performance would realistically improve by collecting more data.
 - **Project Context**: Guides the engineering team on whether to focus on model complexity, regularization, or data acquisition.
+[![Learning Curve](https://raw.githubusercontent.com/MYasvanth/mlops_churn_prediction/master/reports/model_performance/xgboost_learning_curves.png)](https://github.com/MYasvanth/mlops_churn_prediction)
 
 ### Running the Pipeline
 
